@@ -11,7 +11,7 @@ public class HeroController : MonoBehaviour
     [TitleGroup("Cài đặt nhân vật")]
     [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
     [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
-    public float ChampID, MoveSpeed, RangeDetect;
+    public float ChampID, MoveSpeed, DetectRange, SafeRange;
 
     [TitleGroup("Cài đặt nhân vật")]
     [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
@@ -21,9 +21,12 @@ public class HeroController : MonoBehaviour
     [TitleGroup("Object cần thiết")]
     public GameObject A;
 
+    public bool IsEnemyInLeft;//Đối phương đang bên trái hoặc phải
     public bool IsViewLeft;//Hướng nhìn trái hoặc phải
-    private bool EnemyDetected;//Đã phát hiện đối phương trong tầm
+    private bool IsInRangeDetect;//Đã phát hiện đối phương trong tầm
+    private bool IsInSafeRange;//Đối phươgn trong vùng an toàn của champ
     HeroTargetDetect ChampDetect;//Sự kiện phát hiện trong vùng tấn công
+    HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
     Animator Anim;//Hoạt cảnh nhân vật
     public bool IsTeamLeft;//Team bên trái hoặc bên phải
 
@@ -37,15 +40,31 @@ public class HeroController : MonoBehaviour
         Moving,
         Attacking,
         Hiting,
-        Skilling
+        Skilling,
+        LeavingDangerRange
     }
     private ChampActions CurentAction;
+    public States ChampState;
+    public enum States
+    {
+        Normal, //Bình thường
+        Silent, //Câm lặng
+        Stun, //Choáng
+        Root, //Giữ chân
+        Ice, //Đóng băng
+        Static, //Tĩnh, không thể bị chọn làm mục tiêu
+        Blind, //Mù
+        Slow, //Làm chậm
+    }
     #endregion
 
     #region Initialize
 
     void Start()
     {
+        //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
+        //if (hit.collider != null)
+        //    print("fgfgf");
 
     }
 
@@ -60,21 +79,33 @@ public class HeroController : MonoBehaviour
         //Quét các collider con
         //0 = collider cha -> bỏ qua
         //1 = collider phát hiện đối phương trong tầm đánh
+        //2 = collider vùng an toàn
         Collider2D[] collider = GetComponentsInChildren<Collider2D>();
         if (collider[1].gameObject != gameObject)
         {
             ChampDetect = collider[1].gameObject.AddComponent<HeroTargetDetect>();
             ChampDetect.Initialize(this);
         }
+        if (collider[2].gameObject != gameObject)
+        {
+            ChampSafe = collider[2].gameObject.AddComponent<HeroSafeDetect>();
+            ChampSafe.Initialize(this);
+        }
 
         //Set layer cho champ
         this.gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.HeroTeam1 : (int)GameSettings.LayerSettings.HeroTeam2;
 
         //Set layer cho vùng detect va chạm
-        this.gameObject.transform.GetChild(0).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.RaycastTeam1 : (int)GameSettings.LayerSettings.RaycastTeam2;
+        this.gameObject.transform.GetChild(0).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.DetectEnemyTeam1 : (int)GameSettings.LayerSettings.DetectEnemyTeam2;
 
         //Set khoảng cách phát hiện va chạm của nhân vật
-        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(RangeDetect, 1);
+        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(DetectRange, 1);
+
+        //Set layer cho vùng an toàn
+        this.gameObject.transform.GetChild(1).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SafeRegionTeam1 : (int)GameSettings.LayerSettings.SafeRegionTeam2;
+
+        //Set khoảng cách vùng an toàn
+        this.gameObject.transform.GetChild(1).GetComponent<BoxCollider2D>().size = new Vector2(SafeRange, 1);
 
         //Set hướng nhìn cho nhân vật
         ChangeView(IsViewLeft);
@@ -91,6 +122,8 @@ public class HeroController : MonoBehaviour
     private void Update()
     {
         ActionController();
+        //Debug.DrawRay(transform.position, (Vector2)transform.position - new Vector2(10, 0), Color.red, .1f);
+
     }
 
     /// <summary>
@@ -98,14 +131,22 @@ public class HeroController : MonoBehaviour
     /// </summary>
     private void ActionController()
     {
-        if (!EnemyDetected && !CurentAction.Equals(ChampActions.Attacking))
-        {
-            //Anim.SetTrigger("Move");
-            this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
-        }
-        else
-        {
+        //if (!IsInRangeDetect && !CurentAction.Equals(ChampActions.Attacking))
+        //{
+        //    //Anim.SetTrigger("Move");
+        //    this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+        //}
+        //else
+        //{
 
+        //}
+
+        switch (CurentAction)
+        {
+            case ChampActions.Moving:
+                this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+                break;
+            default: break;
         }
     }
 
@@ -137,12 +178,48 @@ public class HeroController : MonoBehaviour
     /// </summary>
     public void EndAnim()
     {
-        if (EnemyDetected)
-            AnimController(ChampActions.Attacking);
-        else
+        if (!IsInSafeRange)//Nếu trong vùng an toàn
+        {
+            IsViewLeft = IsEnemyInLeft;
+            ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
+            if (IsInRangeDetect)
+            {
+                AnimController(ChampActions.Attacking);
+            }
+            else
+                AnimController(ChampActions.Moving);
+        }
+        else//Ngoài vùng an toàn
+        {
+            ChangeView(!IsViewLeft);//Set hướng nhìn cho nhân vật
             AnimController(ChampActions.Moving);
+            StartCoroutine(WaitForAction(0, .5f));
+        }
     }
 
+    /// <summary>
+    /// Chờ thực hiện
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitForAction(int type, float delayTime)
+    {
+        switch (type)
+        {
+            case 0://Hit and run
+                yield return new WaitForSeconds(delayTime);
+                //yield return new WaitUntil(() => !IsInSafeRange);//Đến dc vùng an toàn => quay lại đánh tiếp
+                IsViewLeft = !IsViewLeft;
+                ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
+                if (IsInRangeDetect)
+                    AnimController(ChampActions.Attacking);
+                else
+                    AnimController(ChampActions.Moving);
+                break;
+        }
+    }
+    /// <summary>
+    /// Nhân vật tạch
+    /// </summary>
     public void Die()
     {
         gameObject.SetActive(false);
@@ -164,9 +241,103 @@ public class HeroController : MonoBehaviour
     /// </summary>
     private void ChangeView(bool isViewLeft)
     {
+        if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
+            print(IsViewLeft ? "Trai" : "Phai");
         IsViewLeft = isViewLeft;
         this.transform.localScale = new Vector3(IsViewLeft ? 0 - Mathf.Abs(this.transform.localScale.x) : Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
     }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Do your stuff here
+    }
+
+    /// <summary>
+    /// Xử lý va chạm
+    /// </summary>
+    /// <param name="other"></param>
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        //Phát hiện đối phương trong tầm đánh
+        if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.DetectEnemyTeam1)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.DetectEnemyTeam2)))
+        {
+            //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
+            //    print("Team B detected");
+            //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
+            //    print("Team A detected");
+        }
+    }
+
+    /// <summary>
+    /// Xử lý ngoài va chạm
+    /// </summary>
+    /// <param name="other"></param>
+    public void OnTriggerExit2D(Collider2D other)
+    {
+
+    }
+
+    /// <summary>
+    /// Phát hiện đối phương trong tầm đánh
+    /// </summary>
+    public void InDetectRange(Collider2D other)
+    {
+        //Phát hiện đối phương và thực hiện hành động
+        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft))
+        {
+            IsInRangeDetect = true;
+            IsViewLeft = IsEnemyInLeft;
+            ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
+            if (!CurentAction.Equals(ChampActions.Attacking))
+                AnimController(ChampActions.Attacking);
+        }
+    }
+
+    /// <summary>
+    /// Ngoài phạm vi phát hiện đối phương
+    /// </summary>
+    /// <param name="other"></param>
+    public void OutDetectRange(Collider2D other)
+    {
+        //Ngoài tầm đánh
+        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft))
+        {
+            IsInRangeDetect = false;
+            //if(CurentAction.Equals(ChampActions.Attacking))
+            //AnimController(ChampActions.Moving);
+            //print(this.name);
+        }
+    }
+
+    /// <summary>
+    /// Đối phương nằm trong vùng an toàn của mình (không được an toàn)
+    /// </summary>
+    /// <param name="other"></param>
+    public void InSafeRange(Collider2D other)
+    {
+        //Bản thân rời khỏi vùng không an toàn
+        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampSafe.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampSafe.IsTeamLeft))
+        {
+            IsInSafeRange = true;
+        }
+    }
+
+    /// <summary>
+    /// Đã an toàn
+    /// </summary>
+    /// <param name="other"></param>
+    public void OutSafeRange(Collider2D other)
+    {
+        //Bản thân rời khỏi vùng không an toàn
+        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampSafe.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampSafe.IsTeamLeft))
+        {
+            IsInSafeRange = false;
+            //IsViewLeft = !ChampSafe.IsTeamLeft;
+        }
+    }
+    #endregion
+
+    #region Core Handle
 
     /// <summary>
     /// Gọi ở các object kế thừa, enable skill của hero
@@ -233,49 +404,6 @@ public class HeroController : MonoBehaviour
         else
             ShowSkill(a, new Vector3(col.x, col.y, col.z), quater);
         return false;
-    }
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Do your stuff here
-    }
-
-    /// <summary>
-    /// Xử lý va chạm
-    /// </summary>
-    /// <param name="other"></param>
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        //Phát hiện đối phương trong tầm đánh
-        if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.RaycastTeam1)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.RaycastTeam2)))
-        {
-            if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
-                print("Team B detected");
-            if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
-                print("Team A detected");
-        }
-
-        //Phát hiện đối phương và thực hiện hành động
-        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft))
-        {
-            EnemyDetected = true;
-            if (!CurentAction.Equals(ChampActions.Attacking))
-                AnimController(ChampActions.Attacking);
-        }
-    }
-
-    /// <summary>
-    /// Xử lý ngoài va chạm
-    /// </summary>
-    /// <param name="other"></param>
-    public void OnTriggerExit2D(Collider2D other)
-    {
-        if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft))
-        {
-            EnemyDetected = false;
-            //if(CurentAction.Equals(ChampActions.Attacking))
-            //AnimController(ChampActions.Moving);
-        }
     }
     #endregion
 }

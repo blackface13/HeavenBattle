@@ -213,7 +213,7 @@ MonoBehaviour:
       bevelSize: 0
       spriteIndex: 0
       corner: 0
-    - position: {x: 60, y: 0, z: 0}
+    - position: {x: 200, y: 0, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -272,8 +272,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300002, guid: e4af73fdbc67e494eabf23b7a45e340d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 25.012228, y: 0.0041563213, z: -0.0005}
-    m_Extent: {x: 34.987865, y: 0.7991564, z: 0.0005}
+    m_Center: {x: 95.01223, y: 0.0041564107, z: -0.0005}
+    m_Extent: {x: 104.9878, y: 0.79915637, z: 0.0005}
 --- !u!4 &518081820
 Transform:
   m_ObjectHideFlags: 0
@@ -322,7 +322,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 25.029522, y: -0.29810262}
+  m_Offset: {x: 95.02946, y: -0.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -333,7 +333,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 69.94114, y: 0.9937949}
+  m_Size: {x: 209.97893, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -389,8 +389,8 @@ MonoBehaviour:
       m_Bits: 4294967291
     Distance: 0
   Sensitivity: 1
-  Dampening: 10
-  Inertia: 0.3
+  Dampening: 30
+  Inertia: 0.6
   remainingDelta: {x: 0, y: 0, z: 0}
 --- !u!20 &519420031
 Camera:

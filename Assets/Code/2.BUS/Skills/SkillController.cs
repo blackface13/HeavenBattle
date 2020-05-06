@@ -1,5 +1,6 @@
 ﻿using Assets.Code._4.CORE;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class SkillController : MonoBehaviour
     public bool PercentHealthAtkEnable = false;//Đòn đánh này có trừ % máu hay ko
     public float PercentHealthCreated = 0;//Số % máu gây ra cho đối phương
     public float TimeMove;//Thời gian move của các Object muốn định hướng di chuyển sẵn
-   // public HeroesProperties DataValues;//Các chỉ số của nhân vật sẽ được truyền vào khi khởi tạo skill
+                          // public HeroesProperties DataValues;//Các chỉ số của nhân vật sẽ được truyền vào khi khởi tạo skill
     public int DamagePercent = 100;//Số phần trăm damage gây ra so với damage gốc (default = 100)
     public int SkillType = 0;//Kiểu sát thương, vật lý hoặc phép (default = vật lý)
     /// <summary>
@@ -114,9 +115,14 @@ public class SkillController : MonoBehaviour
         //col = new Vector3(col.x, col.y + 1.5f, col.z);//Dòng này fix vì thiết kế nhân vật position nằm dưới chân
         var a = GetObjectNonActive(objectExtension);
         if (a == null)
-            objectExtension.Add(Instantiate(objectExtension[0], new Vector3(col.x, col.y, 0), Quaternion.identity));
+        {
+           objectExtension.Add(Instantiate(objectExtension[0], new Vector3(col.x, col.y, 0), Quaternion.identity));
+        }
         else
+        {
+            a.transform.localScale = new Vector3(IsViewLeft ? 0 - Math.Abs(a.transform.localScale.x) : Math.Abs(a.transform.localScale.x), a.transform.localScale.y, a.transform.localScale.z);
             ShowSkill(a, new Vector3(col.x, col.y, 0), Quaternion.identity);
+        }
     }
 
     /// <summary>

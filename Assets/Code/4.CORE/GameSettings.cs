@@ -12,12 +12,14 @@ namespace Assets.Code._4.CORE
         {
             HeroTeam1 = 9,
             HeroTeam2 = 10,
-            RaycastTeam1 = 11,
-            RaycastTeam2 = 12,
+            DetectEnemyTeam1 = 11,
+            DetectEnemyTeam2 = 12,
             SkillTeam1ToVictim = 13,
             SkillTeam2ToVictim = 14,
             SkillTeam1ToMyTeam = 15,
-            SkillTeam2ToMyTeam = 16
+            SkillTeam2ToMyTeam = 16,
+            SafeRegionTeam1 = 17,
+            SafeRegionTeam2 = 18
         }
         #endregion
     }

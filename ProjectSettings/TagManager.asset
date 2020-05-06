@@ -16,14 +16,14 @@ TagManager:
   - Land
   - HeroTeam1
   - HeroTeam2
-  - RaycastTeam1
-  - RaycastTeam2
+  - DetectEnemyTeam1
+  - DetectEnemyTeam2
   - SkillTeam1ToVictim
   - SkillTeam2ToVictim
   - SkillTeam1ToMyTeam
   - SkillTeam2ToMyTeam
-  - 
-  - 
+  - SafeRegionTeam1
+  - SafeRegionTeam2
   - 
   - 
   - 

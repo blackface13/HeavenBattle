@@ -46,9 +46,28 @@ public class Champ2Atk : SkillController
                 //var timestatusaction = TimeStatus - (TimeStatus * victim.DataValues.vTenacity / 100f); //Tính thời gian gây ra hiệu ứng
                 //if (this.gameObject.activeSelf)
                 //    StartCoroutine(victim.ActionBuffValues("vAtkSpeed", -victim.DataValues.vAtkSpeed * 10 / 100, timestatusaction)); //Làm chậm đòn đánh của đối phương 10%
-                print("ok");
+                //print("ok");
                 if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
                    StartCoroutine(HideParticle(this.gameObject, 1f)); //Ẩn object sau khi va chạm 
+
+            }
+        }
+        catch { }
+    }
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        try
+        {
+            if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1)))
+            {
+                CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                //var victim = col.GetComponent<HeroBase>();
+                //var timestatusaction = TimeStatus - (TimeStatus * victim.DataValues.vTenacity / 100f); //Tính thời gian gây ra hiệu ứng
+                //if (this.gameObject.activeSelf)
+                //    StartCoroutine(victim.ActionBuffValues("vAtkSpeed", -victim.DataValues.vAtkSpeed * 10 / 100, timestatusaction)); //Làm chậm đòn đánh của đối phương 10%
+                //print("ok");
+                if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
+                    StartCoroutine(HideParticle(this.gameObject, 1f)); //Ẩn object sau khi va chạm 
 
             }
         }

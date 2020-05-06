@@ -94,6 +94,7 @@
     <Compile Include="Assets\Code\2.BUS\FunctionsController\ParticlesHideControl.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\Hero2.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroController.cs" />
+    <Compile Include="Assets\Code\2.BUS\Heroes\HeroSafeDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTargetDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\RankingUI.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\UnoCardRankGameEnding.cs" />
