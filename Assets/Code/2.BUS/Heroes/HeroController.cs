@@ -18,6 +18,11 @@ public class HeroController : MonoBehaviour
     [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
     public string PrefabNameAtk1, PrefabNameAtk2, PrefabNameAtk3, PrefabNameSkill;//Tên các prefabs
 
+    [TitleGroup("Cài đặt nhân vật")]
+    [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
+    [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
+    public bool IsMeleeChamp;//Là nhâm vật cận chiến
+
     [TitleGroup("Object cần thiết")]
     public GameObject A;
 
@@ -178,7 +183,27 @@ public class HeroController : MonoBehaviour
     /// </summary>
     public void EndAnim()
     {
-        if (!IsInSafeRange)//Nếu trong vùng an toàn
+        if (!IsMeleeChamp)//Nếu là nhân vật đánh xa => hit and run
+        {
+            if (!IsInSafeRange)//Nếu trong vùng an toàn
+            {
+                IsViewLeft = IsEnemyInLeft;
+                ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
+                if (IsInRangeDetect)
+                {
+                    AnimController(ChampActions.Attacking);
+                }
+                else
+                    AnimController(ChampActions.Moving);
+            }
+            else//Ngoài vùng an toàn
+            {
+                ChangeView(!IsViewLeft);//Set hướng nhìn cho nhân vật
+                AnimController(ChampActions.Moving);
+                StartCoroutine(WaitForAction(0, .5f));
+            }
+        }
+        else//Cận chiến
         {
             IsViewLeft = IsEnemyInLeft;
             ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
@@ -188,12 +213,6 @@ public class HeroController : MonoBehaviour
             }
             else
                 AnimController(ChampActions.Moving);
-        }
-        else//Ngoài vùng an toàn
-        {
-            ChangeView(!IsViewLeft);//Set hướng nhìn cho nhân vật
-            AnimController(ChampActions.Moving);
-            StartCoroutine(WaitForAction(0, .5f));
         }
     }
 

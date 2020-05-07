@@ -1489,13 +1489,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChampID: 2
-  MoveSpeed: 5
+  MoveSpeed: 2
   DetectRange: 30
   SafeRange: 25
   PrefabNameAtk1: Champ2Atk
   PrefabNameAtk2: 
   PrefabNameAtk3: 
   PrefabNameSkill: 
+  IsMeleeChamp: 0
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0

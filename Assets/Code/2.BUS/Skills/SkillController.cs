@@ -63,13 +63,18 @@ public class SkillController : MonoBehaviour
 
     public AudioClip[] SoundClip;//Âm thanh của skill
     public AudioClip[] SoundClipHited;//Âm thanh của skill
+
+    public BattleSystemController BattleSystem;
     #endregion
 
     #region Initialize
+    public virtual void Awake()
+    {
+        BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     /// <summary>

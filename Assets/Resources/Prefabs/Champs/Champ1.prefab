@@ -334,7 +334,9 @@ MonoBehaviour:
   PrefabNameAtk2: 
   PrefabNameAtk3: 
   PrefabNameSkill: 
+  IsMeleeChamp: 1
   A: {fileID: 0}
+  IsEnemyInLeft: 0
   IsViewLeft: 0
   IsTeamLeft: 0
   Atk1Object: []

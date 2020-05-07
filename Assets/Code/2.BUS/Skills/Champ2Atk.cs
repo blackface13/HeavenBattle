@@ -9,8 +9,9 @@ public class Champ2Atk : SkillController
     /// <summary>
     /// Khởi tạo và setup các thông số
     /// </summary>
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         CollisionType = 0;//
         SetupEffectExtension("Champ2AtkEffect"); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
     }
@@ -47,6 +48,7 @@ public class Champ2Atk : SkillController
                 //if (this.gameObject.activeSelf)
                 //    StartCoroutine(victim.ActionBuffValues("vAtkSpeed", -victim.DataValues.vAtkSpeed * 10 / 100, timestatusaction)); //Làm chậm đòn đánh của đối phương 10%
                 //print("ok");
+                BattleSystem.ShowDmg(Random.Range(123, 4564), col.transform.position);
                 if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
                    StartCoroutine(HideParticle(this.gameObject, 1f)); //Ẩn object sau khi va chạm 
 
@@ -66,6 +68,7 @@ public class Champ2Atk : SkillController
                 //if (this.gameObject.activeSelf)
                 //    StartCoroutine(victim.ActionBuffValues("vAtkSpeed", -victim.DataValues.vAtkSpeed * 10 / 100, timestatusaction)); //Làm chậm đòn đánh của đối phương 10%
                 //print("ok");
+                BattleSystem.ShowDmg(Random.Range(123, 4564), col.transform.position);
                 if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
                     StartCoroutine(HideParticle(this.gameObject, 1f)); //Ẩn object sau khi va chạm 
 
