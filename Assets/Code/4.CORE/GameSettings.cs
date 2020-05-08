@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Code._4.CORE
 {
@@ -21,6 +22,8 @@ namespace Assets.Code._4.CORE
             SafeRegionTeam1 = 17,
             SafeRegionTeam2 = 18
         }
+
+        public static Vector3 PositionShowEffectFix = new Vector3(0, 2f, 0);//Fix tọa độ trung tâm của tướng
         #endregion
     }
 }

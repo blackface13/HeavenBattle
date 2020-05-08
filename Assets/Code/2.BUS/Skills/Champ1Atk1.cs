@@ -1,9 +1,8 @@
-﻿using Assets.Code._4.CORE;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Champ2Atk : SkillController
+using Assets.Code._4.CORE;
+public class Champ1Atk1 : SkillController
 {
     #region Initialize
     /// <summary>
@@ -14,8 +13,8 @@ public class Champ2Atk : SkillController
         base.Awake();
     }
 
-    // Start is called before the first frame update
-   public override void Start()
+    // Start is called before the first frame upd
+    public override void Start()
     {
         base.Start();
     }
@@ -28,10 +27,10 @@ public class Champ2Atk : SkillController
 
     #region Functions
     // Update is called once per frame
-    void Update()
-    {
-        this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
-    }
+    //void Update()
+    //{
+    //    this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+    //}
 
     /// Xử lý va chạm
     private void OnTriggerEnter2D(Collider2D col)
@@ -40,9 +39,12 @@ public class Champ2Atk : SkillController
         {
             if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1)))
             {
-                var vec = this.transform.position;
-                CheckExistAndCreateEffectExtension(vec, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
-                CheckExistAndCreateEffectExtension(vec, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                if (!string.IsNullOrEmpty(NameEffectExtension1))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                if (!string.IsNullOrEmpty(NameEffectExtension2))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                if (!string.IsNullOrEmpty(NameEffectExtension3))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 //var victim = col.GetComponent<HeroBase>();
                 //var timestatusaction = TimeStatus - (TimeStatus * victim.DataValues.vTenacity / 100f); //Tính thời gian gây ra hiệu ứng
                 //if (this.gameObject.activeSelf)
@@ -58,7 +60,6 @@ public class Champ2Atk : SkillController
                     }
                     else StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
                 }
-
             }
         }
         catch { }

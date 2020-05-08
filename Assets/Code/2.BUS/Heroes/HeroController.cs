@@ -23,6 +23,11 @@ public class HeroController : MonoBehaviour
     [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
     public bool IsMeleeChamp;//Là nhâm vật cận chiến
 
+    [TitleGroup("Cài đặt nhân vật")]
+    [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
+    [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
+    public Vector2 Atk1ShowPos, Atk2ShowPos, Atk3ShowPos, SkillShowPos;//Tọa độ các hiệu ứng kỹ năng
+
     [TitleGroup("Object cần thiết")]
     public GameObject A;
 
@@ -260,8 +265,8 @@ public class HeroController : MonoBehaviour
     /// </summary>
     private void ChangeView(bool isViewLeft)
     {
-        if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
-            print(IsViewLeft ? "Trai" : "Phai");
+        //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
+        //    print(IsViewLeft ? "Trai" : "Phai");
         IsViewLeft = isViewLeft;
         this.transform.localScale = new Vector3(IsViewLeft ? 0 - Mathf.Abs(this.transform.localScale.x) : Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
     }

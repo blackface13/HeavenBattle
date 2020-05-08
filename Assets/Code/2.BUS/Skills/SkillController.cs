@@ -12,12 +12,24 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public float MoveSpeed;//Tốc độ bay của skill
+    public float MoveSpeed, DelayTimeBeforeHidden, DelayTimeBeforeDisableCollider;
+    //Tốc độ bay của skill, thời gian delay trước khi ẩn, thời gian delay trước khi hủy bỏ va chạm
 
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
     public int CollisionType = 0;//Kiểu va chạm. 0 = chạm là ẩn, 1 = xuyên đối thủ
+
+    [TitleGroup("Cài đặt Skill")]
+    [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
+    [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
+    public string NameEffectExtension1, NameEffectExtension2, NameEffectExtension3;
+
+    [TitleGroup("Cài đặt Skill")]
+    [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
+    [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
+    public bool IsDisableColliderWhenTrigger;//Có disable va chạm khi chạm đối thủ hay ko
+    //Tên các hiệu ứng mở rộng
 
     [Header("Draw Curve")]
     public AnimationCurve moveCurve;
@@ -32,8 +44,9 @@ public class SkillController : MonoBehaviour
     /// Kiểu va chạm. 0 = chạm là ẩn, 1 = xuyên đối thủ
     /// </summary>
     public float TimeDelay;//Thời gian delay trước khi cho phép va chạm
-    //public BattleSystem Battle;
+                           //public BattleSystem Battle;
 
+    public bool FirstAtk;
     public float TimeAction;//Thời gian va chạm được hoạt động trước khi bị vô hiệu hóa
     public int Team;//0: team trái, 1 team phải
     public float TimeStatus;//Thời gian của hiệu ứng, set trong hàm kế thừa
@@ -59,6 +72,8 @@ public class SkillController : MonoBehaviour
         Poison,//Trúng độc
     }
     public List<GameObject> EffectExtension;
+    public List<GameObject> EffectExtension2;
+    public List<GameObject> EffectExtension3;
     //public HeroBase Hero;
 
     public AudioClip[] SoundClip;//Âm thanh của skill
@@ -71,10 +86,27 @@ public class SkillController : MonoBehaviour
     public virtual void Awake()
     {
         BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+        if (!string.IsNullOrEmpty(NameEffectExtension1))
+            SetupEffectExtension(NameEffectExtension1); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
+        if (!string.IsNullOrEmpty(NameEffectExtension2))
+            SetupEffectExtension2(NameEffectExtension1); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
+        if (!string.IsNullOrEmpty(NameEffectExtension3))
+            SetupEffectExtension3(NameEffectExtension3); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
     }
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
+    }
+
+    public virtual void OnEnable()
+    {
+        try
+        {
+            if (IsDisableColliderWhenTrigger)
+                this.GetComponent<Collider2D>().enabled = true;
+        }
+        catch
+        { }
     }
 
     /// <summary>
@@ -84,6 +116,16 @@ public class SkillController : MonoBehaviour
     {
         EffectExtension.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + prefabname), new Vector3(-1000, -1000, 0), Quaternion.identity));
         EffectExtension[0].SetActive(false);
+    }
+    public virtual void SetupEffectExtension2(string prefabname)
+    {
+        EffectExtension2.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + prefabname), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        EffectExtension2[0].SetActive(false);
+    }
+    public virtual void SetupEffectExtension3(string prefabname)
+    {
+        EffectExtension3.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + prefabname), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        EffectExtension3[0].SetActive(false);
     }
 
     /// <summary>
@@ -121,7 +163,7 @@ public class SkillController : MonoBehaviour
         var a = GetObjectNonActive(objectExtension);
         if (a == null)
         {
-           objectExtension.Add(Instantiate(objectExtension[0], new Vector3(col.x, col.y, 0), Quaternion.identity));
+            objectExtension.Add(Instantiate(objectExtension[0], new Vector3(col.x, col.y, 0), Quaternion.identity));
         }
         else
         {
@@ -154,6 +196,14 @@ public class SkillController : MonoBehaviour
                 return obj[i];
         }
         return null;
+    }
+
+    /// <summary>
+    /// Bật tắt collider
+    /// </summary>
+    public virtual void ColliderControl(bool isEnable)
+    {
+        this.GetComponent<Collider2D>().enabled = isEnable;
     }
     #endregion
 

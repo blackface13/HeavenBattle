@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 6985326770201882853}
   - component: {fileID: 6985326770201882855}
   - component: {fileID: 6985326770201882852}
-  - component: {fileID: 6985326770201882854}
+  - component: {fileID: 7791418610089505005}
   m_Layer: 10
   m_Name: Champ1
   m_TagString: Untagged
@@ -314,7 +314,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
---- !u!114 &6985326770201882854
+--- !u!114 &7791418610089505005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,18 +323,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6985326770201882872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e11a4e5fe56564da618d6a5b646a64, type: 3}
+  m_Script: {fileID: 11500000, guid: d0c86581f1ab0c9478d9b523409c8fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ChampID: 1
   MoveSpeed: 2.5
   DetectRange: 6
   SafeRange: 6
-  PrefabNameAtk1: 
+  PrefabNameAtk1: Champ1Atk1
   PrefabNameAtk2: 
   PrefabNameAtk3: 
   PrefabNameSkill: 
   IsMeleeChamp: 1
+  Atk1ShowPos: {x: 0, y: 1.5}
+  Atk2ShowPos: {x: 0, y: 0}
+  Atk3ShowPos: {x: 0, y: 0}
+  SkillShowPos: {x: 0, y: 0}
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0

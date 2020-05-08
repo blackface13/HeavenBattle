@@ -1,9 +1,8 @@
-﻿using Assets.Code._4.CORE;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero2 : HeroController
+public class Hero1 : HeroController
 {
     /// <summary>
     /// Khởi tạo thông số cho nhân vật
@@ -18,11 +17,8 @@ public class Hero2 : HeroController
         {
             Atk1Object = new List<GameObject>();
             Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            //var skill = Atk1Object[0].GetComponent<SkillController>();
-            //skill.IsViewLeft = IsViewLeft;
             Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
             Atk1Object[0].SetActive(false);
-            //Atk1Object[0].gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
         }
     }
 

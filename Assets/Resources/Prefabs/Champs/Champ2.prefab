@@ -1497,6 +1497,10 @@ MonoBehaviour:
   PrefabNameAtk3: 
   PrefabNameSkill: 
   IsMeleeChamp: 0
+  Atk1ShowPos: {x: 2.8, y: 2.5}
+  Atk2ShowPos: {x: 0, y: 0}
+  Atk3ShowPos: {x: 0, y: 0}
+  SkillShowPos: {x: 0, y: 0}
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0

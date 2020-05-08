@@ -1,9 +1,8 @@
-﻿using Assets.Code._4.CORE;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero2 : HeroController
+public class HeroTemplate : HeroController
 {
     /// <summary>
     /// Khởi tạo thông số cho nhân vật
@@ -36,7 +35,7 @@ public class Hero2 : HeroController
             case 0://Skill
                 break;
             case 1://Đánh thường 1
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, Quaternion.identity);
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -2.8f : 2.8f), this.transform.position.y + 2.5f, 0), Atk1Object, Quaternion.identity);
                 break;
             case 2:
                 break;
