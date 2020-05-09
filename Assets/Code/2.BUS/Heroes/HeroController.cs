@@ -33,7 +33,7 @@ public class HeroController : MonoBehaviour
 
     public bool IsEnemyInLeft;//Đối phương đang bên trái hoặc phải
     public bool IsViewLeft;//Hướng nhìn trái hoặc phải
-    private bool IsInRangeDetect;//Đã phát hiện đối phương trong tầm
+    public bool IsInRangeDetect;//Đã phát hiện đối phương trong tầm
     private bool IsInSafeRange;//Đối phươgn trong vùng an toàn của champ
     HeroTargetDetect ChampDetect;//Sự kiện phát hiện trong vùng tấn công
     HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
@@ -70,8 +70,29 @@ public class HeroController : MonoBehaviour
 
     #region Initialize
 
-    void Start()
+    public virtual void Start()
     {
+        if (!string.IsNullOrEmpty(PrefabNameAtk1))
+        {
+            Atk1Object = new List<GameObject>();
+            Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk1Object[0].SetActive(false);
+        }
+        if (!string.IsNullOrEmpty(PrefabNameAtk2))
+        {
+            Atk2Object = new List<GameObject>();
+            Atk2Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk2), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk2Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk2Object[0].SetActive(false);
+        }
+        if (!string.IsNullOrEmpty(PrefabNameAtk3))
+        {
+            Atk3Object = new List<GameObject>();
+            Atk3Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk3), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk3Object[0].SetActive(false);
+        }
         //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
         //if (hit.collider != null)
         //    print("fgfgf");
@@ -217,7 +238,11 @@ public class HeroController : MonoBehaviour
                 AnimController(ChampActions.Attacking);
             }
             else
+            {
+                IsViewLeft = !IsTeamLeft;
+                ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
                 AnimController(ChampActions.Moving);
+            }
         }
     }
 
@@ -232,7 +257,7 @@ public class HeroController : MonoBehaviour
             case 0://Hit and run
                 yield return new WaitForSeconds(delayTime);
                 //yield return new WaitUntil(() => !IsInSafeRange);//Đến dc vùng an toàn => quay lại đánh tiếp
-                IsViewLeft = !IsViewLeft;
+                IsViewLeft = IsEnemyInLeft;
                 ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
                 if (IsInRangeDetect)
                     AnimController(ChampActions.Attacking);
@@ -257,7 +282,20 @@ public class HeroController : MonoBehaviour
     /// </summary>
     public virtual void ActionSkill(int type)
     {
-
+        switch (type)
+        {
+            case 0://Skill
+                break;
+            case 1://Đánh thường 1
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, Quaternion.identity);
+                break;
+            case 2:
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk2ShowPos.x : Atk2ShowPos.x), this.transform.position.y + Atk2ShowPos.y, 0), Atk2Object, Quaternion.identity);
+                break;
+            case 3:
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk3ShowPos.x : Atk3ShowPos.x), this.transform.position.y + Atk3ShowPos.y, 0), Atk3Object, Quaternion.identity);
+                break;
+        }
     }
 
     /// <summary>

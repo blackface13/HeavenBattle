@@ -12,37 +12,16 @@ public class Hero2 : HeroController
     {
     }
 
-    private void Start()
+    public override void Start()
     {
-        if (!string.IsNullOrEmpty(PrefabNameAtk1))
-        {
-            Atk1Object = new List<GameObject>();
-            Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            //var skill = Atk1Object[0].GetComponent<SkillController>();
-            //skill.IsViewLeft = IsViewLeft;
-            Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
-            Atk1Object[0].SetActive(false);
-            //Atk1Object[0].gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
-        }
+        base.Start();
     }
 
     #region Functions
     //Thực hiện tung skil, hàm kế thừa
     public override void ActionSkill(int type)
     {
-        //base.ActionSkill(type);
-        switch (type)
-        {
-            case 0://Skill
-                break;
-            case 1://Đánh thường 1
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, Quaternion.identity);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
+        base.ActionSkill(type);
     }
     #endregion
 

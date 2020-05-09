@@ -103,6 +103,8 @@
     <Compile Include="Assets\Code\2.BUS\Misc\UnoCardRankGameEnding.cs" />
     <Compile Include="Assets\Code\2.BUS\SceneController\BattleSystemController.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ1Atk1.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Champ1Atk2.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Champ1Atk3.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Atk.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillController.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillTemplate.cs" />

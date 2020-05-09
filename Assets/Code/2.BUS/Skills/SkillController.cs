@@ -12,7 +12,7 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public float MoveSpeed, DelayTimeBeforeHidden, DelayTimeBeforeDisableCollider;
+    public float MoveSpeed, DelayTimeBeforeHidden, DelayTimeBeforeEnalbleCollider, DelayTimeBeforeDisableCollider;
     //Tốc độ bay của skill, thời gian delay trước khi ẩn, thời gian delay trước khi hủy bỏ va chạm
 
     [TitleGroup("Cài đặt Skill")]
@@ -28,7 +28,7 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public bool IsDisableColliderWhenTrigger;//Có disable va chạm khi chạm đối thủ hay ko
+    public bool IsEnableColliderWhenStart, IsDisableColliderWhenTrigger;//Có disable va chạm khi chạm đối thủ hay ko
     //Tên các hiệu ứng mở rộng
 
     [Header("Draw Curve")]
@@ -53,6 +53,7 @@ public class SkillController : MonoBehaviour
     public float PercentDamageFireBurn = 30;//Số % dame gây ra hiệu ứng thiêu đốt cho đối phương, mặc định 30%
     public float RatioStatus;//Tỉ lệ gây ra hiệu ứng, set trong hàm kế thừa
     public status Status;
+    public Collider2D ThisCollider;
     public enum status
     {
         Normal,//Bình thường
@@ -85,11 +86,16 @@ public class SkillController : MonoBehaviour
     #region Initialize
     public virtual void Awake()
     {
+        ThisCollider = this.GetComponent<Collider2D>();
+        if (IsEnableColliderWhenStart)
+            ThisCollider.enabled = true;
+        else
+            ThisCollider.enabled = false;
         BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
         if (!string.IsNullOrEmpty(NameEffectExtension1))
             SetupEffectExtension(NameEffectExtension1); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
         if (!string.IsNullOrEmpty(NameEffectExtension2))
-            SetupEffectExtension2(NameEffectExtension1); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
+            SetupEffectExtension2(NameEffectExtension2); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
         if (!string.IsNullOrEmpty(NameEffectExtension3))
             SetupEffectExtension3(NameEffectExtension3); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
     }
@@ -102,8 +108,20 @@ public class SkillController : MonoBehaviour
     {
         try
         {
-            if (IsDisableColliderWhenTrigger)
-                this.GetComponent<Collider2D>().enabled = true;
+            //Bật tắt va chạm khi enable
+            if (IsEnableColliderWhenStart)
+                ThisCollider.enabled = true;
+            else
+                ThisCollider.enabled = false;
+
+            //Tự enable va chạm sau 1 khoảng time
+            if (DelayTimeBeforeEnalbleCollider != 0)
+                StartCoroutine(AutoEnableCol(DelayTimeBeforeEnalbleCollider, gameObject));
+
+            //Tự disable va chạm sau 1 khoảng time
+            if (DelayTimeBeforeDisableCollider != 0)
+                StartCoroutine(AutoDisCol(DelayTimeBeforeDisableCollider, gameObject));
+            ChangeView(IsViewLeft);
         }
         catch
         { }
@@ -205,6 +223,11 @@ public class SkillController : MonoBehaviour
     {
         this.GetComponent<Collider2D>().enabled = isEnable;
     }
+
+    public virtual void CreateDamage(int dmg, Vector3 pos)
+    {
+        BattleSystem.ShowDmg(UnityEngine.Random.Range(123, 4564), pos);
+    }    
     #endregion
 
     #region Ẩn hoặc tự động ẩn skill 
@@ -252,6 +275,34 @@ public class SkillController : MonoBehaviour
 
     #region Điều khiển va chạm 
 
+    public virtual void OnTriggerEnter2D(Collider2D col)
+    {
+        try
+        {
+            if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1)))
+            {
+                if (!string.IsNullOrEmpty(NameEffectExtension1))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                if (!string.IsNullOrEmpty(NameEffectExtension2))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                if (!string.IsNullOrEmpty(NameEffectExtension3))
+                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
+
+                CreateDamage(0, col.transform.position);
+                if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
+                {
+                    if (!FirstAtk)
+                    {
+                        Hide(gameObject);
+                        FirstAtk = true;
+                    }
+                    else StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+                }
+            }
+        }
+        catch { }
+    }
+
     /// <summary>
     /// Tự động vô hiệu hóa va chạm sau 1 khoảng thời gian
     /// </summary>
@@ -260,7 +311,10 @@ public class SkillController : MonoBehaviour
         yield return new WaitForSeconds(time);
         try
         {
-            obj.GetComponent<Collider2D>().enabled = false;
+            if (obj != null)
+                obj.GetComponent<Collider2D>().enabled = false;
+            else
+                ThisCollider.enabled = false;
         }
         catch { }
     }
@@ -273,7 +327,10 @@ public class SkillController : MonoBehaviour
         yield return new WaitForSeconds(time);
         try
         {
-            obj.GetComponent<Collider2D>().enabled = true;
+            if (obj != null)
+                obj.GetComponent<Collider2D>().enabled = true;
+            else
+                ThisCollider.enabled = true;
         }
         catch { }
     }

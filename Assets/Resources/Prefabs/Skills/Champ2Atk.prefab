@@ -4821,14 +4821,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc783e65da38320448315e9cc1db25ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10
-  ShowPosX: 0
-  ShowPosY: 0
+  MoveSpeed: 15
   DelayTimeBeforeHidden: 0
+  DelayTimeBeforeEnalbleCollider: 0
+  DelayTimeBeforeDisableCollider: 0
   CollisionType: 0
   NameEffectExtension1: Champ2AtkEffect
   NameEffectExtension2: Champ2AtkHitEffect
   NameEffectExtension3: 
+  IsEnableColliderWhenStart: 1
+  IsDisableColliderWhenTrigger: 1
   moveCurve:
     serializedVersion: 2
     m_Curve: []
@@ -4849,6 +4851,7 @@ MonoBehaviour:
   PercentDamageFireBurn: 30
   RatioStatus: 0
   Status: 0
+  ThisCollider: {fileID: 0}
   Eff: 0
   EffectExtension: []
   EffectExtension2: []

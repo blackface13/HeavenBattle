@@ -41,11 +41,15 @@ public class BattleSystemController : MonoBehaviour
 
     private void CreateTeam()
     {
-        ChampTeam1 = new GameObject[1];
-        ChampTeam2 = new GameObject[1];
+        ChampTeam1 = new GameObject[2];
         ChampTeam1[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 0, 0), Quaternion.identity);
-        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 0, 0), Quaternion.identity);
+        ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, 0, 0), Quaternion.identity);
         ChampTeam1[0].GetComponent<HeroController>().SetupChamp(true);
+        ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
+
+
+        ChampTeam2 = new GameObject[2];
+        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 0, 0), Quaternion.identity);
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
     }
     public void aaaaa()

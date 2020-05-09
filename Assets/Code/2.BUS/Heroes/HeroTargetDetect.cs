@@ -31,5 +31,6 @@ public class HeroTargetDetect : MonoBehaviour
         if (other.transform.position.x <= _listener.transform.position.x)
             _listener.IsEnemyInLeft = true;
         else _listener.IsEnemyInLeft = false;
+        _listener.IsInRangeDetect = true;
     }
 }

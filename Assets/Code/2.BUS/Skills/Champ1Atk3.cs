@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Champ2Atk : SkillController
+public class Champ1Atk3 : SkillController
 {
     #region Initialize
     /// <summary>
@@ -14,8 +14,8 @@ public class Champ2Atk : SkillController
         base.Awake();
     }
 
-    // Start is called before the first frame update
-   public override void Start()
+    // Start is called before the first frame upd
+    public override void Start()
     {
         base.Start();
     }
@@ -28,15 +28,13 @@ public class Champ2Atk : SkillController
 
     #region Functions
     // Update is called once per frame
-    void Update()
-    {
-        this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
-    }
+    //void Update()
+    //{
+    //    this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+    //}
 
-    /// <summary>
     /// Xử lý va chạm
-    /// </summary>
-    public override void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         try
         {
@@ -49,7 +47,7 @@ public class Champ2Atk : SkillController
                 if (!string.IsNullOrEmpty(NameEffectExtension3))
                     CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
 
-                CreateDamage(0, col.transform.position);
+                BattleSystem.ShowDmg(Random.Range(123, 4564), col.transform.position);
                 if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
                 {
                     if (!FirstAtk)
@@ -63,7 +61,6 @@ public class Champ2Atk : SkillController
         }
         catch { }
     }
-
     private void OnCollisionStay2D(Collision2D col)
     {
         try

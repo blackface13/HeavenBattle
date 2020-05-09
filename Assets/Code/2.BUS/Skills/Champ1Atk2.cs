@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Assets.Code._4.CORE;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Code._4.CORE;
-public class Champ1Atk1 : SkillController
+
+public class Champ1Atk2 : SkillController
 {
     #region Initialize
     /// <summary>
@@ -26,10 +27,13 @@ public class Champ1Atk1 : SkillController
     #endregion
 
     #region Functions
+    // Update is called once per frame
+    //void Update()
+    //{
+    //    this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+    //}
 
-    /// <summary>
     /// Xử lý va chạm
-    /// </summary>
     public override void OnTriggerEnter2D(Collider2D col)
     {
         base.OnTriggerEnter2D(col);

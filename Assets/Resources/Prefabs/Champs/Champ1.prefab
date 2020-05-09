@@ -331,13 +331,13 @@ MonoBehaviour:
   DetectRange: 6
   SafeRange: 6
   PrefabNameAtk1: Champ1Atk1
-  PrefabNameAtk2: 
-  PrefabNameAtk3: 
+  PrefabNameAtk2: Champ1Atk2
+  PrefabNameAtk3: Champ1Atk3
   PrefabNameSkill: 
   IsMeleeChamp: 1
   Atk1ShowPos: {x: 0, y: 1.5}
   Atk2ShowPos: {x: 0, y: 0}
-  Atk3ShowPos: {x: 0, y: 0}
+  Atk3ShowPos: {x: 3.5, y: 0}
   SkillShowPos: {x: 0, y: 0}
   A: {fileID: 0}
   IsEnemyInLeft: 0
