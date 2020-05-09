@@ -1495,15 +1495,16 @@ MonoBehaviour:
   PrefabNameAtk1: Champ2Atk
   PrefabNameAtk2: 
   PrefabNameAtk3: 
-  PrefabNameSkill: 
+  PrefabNameSkill: Champ2Skill
   IsMeleeChamp: 0
   Atk1ShowPos: {x: 2.8, y: 2.5}
   Atk2ShowPos: {x: 0, y: 0}
   Atk3ShowPos: {x: 0, y: 0}
-  SkillShowPos: {x: 0, y: 0}
+  SkillShowPos: {x: 2, y: 2.4}
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0
+  IsInRangeDetect: 0
   IsTeamLeft: 0
   Atk1Object: []
   Atk2Object: []

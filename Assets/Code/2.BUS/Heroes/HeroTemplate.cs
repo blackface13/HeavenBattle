@@ -29,19 +29,7 @@ public class HeroTemplate : HeroController
     //Thực hiện tung skil, hàm kế thừa
     public override void ActionSkill(int type)
     {
-        //base.ActionSkill(type);
-        switch (type)
-        {
-            case 0://Skill
-                break;
-            case 1://Đánh thường 1
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -2.8f : 2.8f), this.transform.position.y + 2.5f, 0), Atk1Object, Quaternion.identity);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
+        base.ActionSkill(type);
     }
     #endregion
 

@@ -93,6 +93,13 @@ public class HeroController : MonoBehaviour
             Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
             Atk3Object[0].SetActive(false);
         }
+        if(!string.IsNullOrEmpty(PrefabNameSkill))
+        {
+            SkillObject = new List<GameObject>();
+            SkillObject.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameSkill), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            SkillObject[0].SetActive(false);
+        }
         //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
         //if (hit.collider != null)
         //    print("fgfgf");
@@ -191,6 +198,9 @@ public class HeroController : MonoBehaviour
         switch (input)
         {
             case ChampActions.Attacking:
+                if(ChampID.Equals(2))
+                Anim.SetTrigger("Atk" + UnityEngine.Random.Range(0, 4).ToString());
+                else
                 Anim.SetTrigger("Atk" + UnityEngine.Random.Range(1, 4).ToString());
                 break;
             case ChampActions.Moving:
@@ -285,6 +295,7 @@ public class HeroController : MonoBehaviour
         switch (type)
         {
             case 0://Skill
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -SkillShowPos.x : SkillShowPos.x), this.transform.position.y + SkillShowPos.y, 0), SkillObject, Quaternion.identity);
                 break;
             case 1://Đánh thường 1
                 CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, Quaternion.identity);
