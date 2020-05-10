@@ -39,11 +39,14 @@ public class HeroController : MonoBehaviour
     HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
     Animator Anim;//Hoạt cảnh nhân vật
     public bool IsTeamLeft;//Team bên trái hoặc bên phải
+    public BattleSystemController BattleSystem;
 
     public List<GameObject> Atk1Object;
     public List<GameObject> Atk2Object;
     public List<GameObject> Atk3Object;
     public List<GameObject> SkillObject;
+
+    public ChampModel DataValues;
     private enum ChampActions
     {
         Standing,
@@ -51,7 +54,8 @@ public class HeroController : MonoBehaviour
         Attacking,
         Hiting,
         Skilling,
-        LeavingDangerRange
+        LeavingDangerRange,
+        Dieing,
     }
     private ChampActions CurentAction;
     public States ChampState;
@@ -69,6 +73,18 @@ public class HeroController : MonoBehaviour
     #endregion
 
     #region Initialize
+    public virtual void Awake()
+    {
+        BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+        try
+        {
+            DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1));
+        }
+        catch
+        {
+            DataValues = new ChampModel();
+        }
+    }
 
     public virtual void Start()
     {
@@ -76,28 +92,28 @@ public class HeroController : MonoBehaviour
         {
             Atk1Object = new List<GameObject>();
             Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk1Object[0].SetActive(false);
         }
         if (!string.IsNullOrEmpty(PrefabNameAtk2))
         {
             Atk2Object = new List<GameObject>();
             Atk2Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk2), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            Atk2Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk2Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk2Object[0].SetActive(false);
         }
         if (!string.IsNullOrEmpty(PrefabNameAtk3))
         {
             Atk3Object = new List<GameObject>();
             Atk3Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk3), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk3Object[0].SetActive(false);
         }
-        if(!string.IsNullOrEmpty(PrefabNameSkill))
+        if (!string.IsNullOrEmpty(PrefabNameSkill))
         {
             SkillObject = new List<GameObject>();
             SkillObject.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameSkill), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
+            SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             SkillObject[0].SetActive(false);
         }
         //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
@@ -182,7 +198,7 @@ public class HeroController : MonoBehaviour
         switch (CurentAction)
         {
             case ChampActions.Moving:
-                this.transform.Translate(IsViewLeft ? -MoveSpeed * Time.deltaTime : MoveSpeed * Time.deltaTime, 0, 0);
+                this.transform.Translate(IsViewLeft ? -DataValues.vMoveSpeed * Time.deltaTime : DataValues.vMoveSpeed * Time.deltaTime, 0, 0);
                 break;
             default: break;
         }
@@ -198,16 +214,24 @@ public class HeroController : MonoBehaviour
         switch (input)
         {
             case ChampActions.Attacking:
-                if(ChampID.Equals(2))
-                Anim.SetTrigger("Atk" + UnityEngine.Random.Range(0, 4).ToString());
-                else
+                Anim.speed = DataValues.vAtkSpeed;
                 Anim.SetTrigger("Atk" + UnityEngine.Random.Range(1, 4).ToString());
                 break;
             case ChampActions.Moving:
+                Anim.speed = DataValues.vMoveSpeed;
                 Anim.SetTrigger("Move");
                 break;
             case ChampActions.Standing:
+                Anim.speed = 1f;
                 Anim.SetTrigger("Stand");
+                break;
+            case ChampActions.Skilling:
+                Anim.speed = 1f;
+                Anim.SetTrigger("Atk0");
+                break;
+            case ChampActions.Dieing:
+                Anim.speed = 1f;
+                Anim.SetTrigger("Die");
                 break;
             default:
                 break;
@@ -276,6 +300,7 @@ public class HeroController : MonoBehaviour
                 break;
         }
     }
+
     /// <summary>
     /// Nhân vật tạch
     /// </summary>
@@ -332,12 +357,15 @@ public class HeroController : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other)
     {
         //Phát hiện đối phương trong tầm đánh
-        if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.DetectEnemyTeam1)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.DetectEnemyTeam2)))
+        if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim)))
         {
+            var victimSkill = other.GetComponent<SkillController>();
             //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
-            //    print("Team B detected");
+            //    print("2 Bi danh");
             //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
-            //    print("Team A detected");
+            //    print("1 Bi danh");
+
+            BattleSystem.ShowDmg((int)BattleCore.Damage(victimSkill.DataValues, DataValues, victimSkill.DamagePercent, victimSkill.SkillType), this.transform.position);
         }
     }
 

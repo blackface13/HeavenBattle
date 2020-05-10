@@ -7,22 +7,15 @@ public class HeroTemplate : HeroController
     /// <summary>
     /// Khởi tạo thông số cho nhân vật
     /// </summary>
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
     }
 
-    private void Start()
+
+    public override void Start()
     {
-        if (!string.IsNullOrEmpty(PrefabNameAtk1))
-        {
-            Atk1Object = new List<GameObject>();
-            Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
-            //var skill = Atk1Object[0].GetComponent<SkillController>();
-            //skill.IsViewLeft = IsViewLeft;
-            Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft);
-            Atk1Object[0].SetActive(false);
-            //Atk1Object[0].gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
-        }
+        base.Start();
     }
 
     #region Functions

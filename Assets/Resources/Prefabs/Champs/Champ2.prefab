@@ -1506,10 +1506,57 @@ MonoBehaviour:
   IsViewLeft: 0
   IsInRangeDetect: 0
   IsTeamLeft: 0
+  BattleSystem: {fileID: 0}
   Atk1Object: []
   Atk2Object: []
   Atk3Object: []
   SkillObject: []
+  DataValues:
+    ID: 0
+    Name: 
+    Description: 
+    Intrinsic: 
+    SkillDescription: 
+    Level: 0
+    EXP: 0
+    vHealth: 0
+    vHealthCurrent: 0
+    vAtk: 0
+    vMagic: 0
+    vArmor: 0
+    vMagicResist: 0
+    vHealthRegen: 0
+    vDamageEarth: 0
+    vDamageWater: 0
+    vDamageFire: 0
+    vDefenseEarth: 0
+    vDefenseWater: 0
+    vDefenseFire: 0
+    vAtkSpeed: 0
+    vLifeStealPhysic: 0
+    vLifeStealMagic: 0
+    vLethality: 0
+    vMagicPenetration: 0
+    vCritical: 0
+    vTenacity: 0
+    vCooldownReduction: 0
+    vDamageExcellent: 0
+    vDefenseExcellent: 0
+    vDoubleDamage: 0
+    vTripleDamage: 0
+    vDamageReflect: 0
+    vRewardPlus: 0
+    vSkillCooldown: 0
+    vHealthPerLevel: 0
+    vAtkPerLevel: 0
+    vMagicPerLevel: 0
+    vArmorPerLevel: 0
+    vMagicResistPerLevel: 0
+    vHealthRegenPerLevel: 0
+    vCooldownReductionPerLevel: 0
+    vMoveSpeed: 0
+    HType: 0
+    Type: 0
   ChampState: 0
 --- !u!1 &391187555285729092
 GameObject:

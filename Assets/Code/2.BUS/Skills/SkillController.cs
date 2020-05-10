@@ -18,7 +18,9 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public int CollisionType = 0;//Kiểu va chạm. 0 = chạm là ẩn, 1 = xuyên đối thủ
+    public int SkillType = 0, DamagePercent = 100;
+    //Kiểu sát thương, vật lý hoặc phép (default = vật lý)
+    //Số phần trăm damage gây ra so với damage gốc (default = 100)
 
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
@@ -38,8 +40,6 @@ public class SkillController : MonoBehaviour
     public float PercentHealthCreated = 0;//Số % máu gây ra cho đối phương
     public float TimeMove;//Thời gian move của các Object muốn định hướng di chuyển sẵn
                           // public HeroesProperties DataValues;//Các chỉ số của nhân vật sẽ được truyền vào khi khởi tạo skill
-    public int DamagePercent = 100;//Số phần trăm damage gây ra so với damage gốc (default = 100)
-    public int SkillType = 0;//Kiểu sát thương, vật lý hoặc phép (default = vật lý)
     /// <summary>
     /// Kiểu va chạm. 0 = chạm là ẩn, 1 = xuyên đối thủ
     /// </summary>
@@ -54,6 +54,7 @@ public class SkillController : MonoBehaviour
     public float RatioStatus;//Tỉ lệ gây ra hiệu ứng, set trong hàm kế thừa
     public status Status;
     public Collider2D ThisCollider;
+    public ChampModel DataValues;
     public enum status
     {
         Normal,//Bình thường
@@ -80,7 +81,7 @@ public class SkillController : MonoBehaviour
     public AudioClip[] SoundClip;//Âm thanh của skill
     public AudioClip[] SoundClipHited;//Âm thanh của skill
 
-    public BattleSystemController BattleSystem;
+    //public BattleSystemController BattleSystem;
     #endregion
 
     #region Initialize
@@ -91,7 +92,7 @@ public class SkillController : MonoBehaviour
             ThisCollider.enabled = true;
         else
             ThisCollider.enabled = false;
-        BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+        //BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
         if (!string.IsNullOrEmpty(NameEffectExtension1))
             SetupEffectExtension(NameEffectExtension1); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
         if (!string.IsNullOrEmpty(NameEffectExtension2))
@@ -149,9 +150,10 @@ public class SkillController : MonoBehaviour
     /// <summary>
     /// Khởi tạo cài đặt skill
     /// </summary>
-    public virtual void SetupSkill(bool isTeamLeft)
+    public virtual void SetupSkill(bool isTeamLeft, ChampModel dataValue)
     {
         this.gameObject.layer = isTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
+        DataValues = dataValue;
     }
     #endregion
 
@@ -226,7 +228,7 @@ public class SkillController : MonoBehaviour
 
     public virtual void CreateDamage(int dmg, Vector3 pos)
     {
-        BattleSystem.ShowDmg(UnityEngine.Random.Range(123, 4564), pos);
+        //BattleSystem.ShowDmg(UnityEngine.Random.Range(123, 4564), pos);
     }    
     #endregion
 
@@ -288,8 +290,7 @@ public class SkillController : MonoBehaviour
                 if (!string.IsNullOrEmpty(NameEffectExtension3))
                     CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
 
-                CreateDamage(0, col.transform.position);
-                if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
+                if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
                 {
                     if (!FirstAtk)
                     {

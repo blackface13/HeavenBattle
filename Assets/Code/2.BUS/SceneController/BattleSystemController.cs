@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Assets.Code._4.CORE;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +19,11 @@ public class BattleSystemController : MonoBehaviour
 
     public List<GameObject> DamageText;
     public List<DamageTextController> DamageTextControl;
+
+    public GameObject[] test;
     void Start()
     {
+        GameSettings.CreateChampDefault();
         CreateTeam();
         CreateDmgText();
     }
@@ -43,9 +47,9 @@ public class BattleSystemController : MonoBehaviour
     {
         ChampTeam1 = new GameObject[2];
         ChampTeam1[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 0, 0), Quaternion.identity);
-        ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, 0, 0), Quaternion.identity);
+        //ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, 0, 0), Quaternion.identity);
         ChampTeam1[0].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
+        //ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
 
 
         ChampTeam2 = new GameObject[2];
@@ -109,4 +113,9 @@ public class BattleSystemController : MonoBehaviour
         }    
     }
     #endregion
+
+    public void ButtonHide(int type)
+    {
+        test[type].SetActive(!test[type].activeSelf);
+    }
 }

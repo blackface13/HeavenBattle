@@ -29,7 +29,7 @@ public class DamageTextController : MonoBehaviour
         if (Rigid == null)
             Rigid = this.GetComponent<Rigidbody2D>();
         Text.text = DamageNumber.ToString();
-        Rigid.AddForce(transform.up * 9f, ForceMode2D.Impulse);
+        Rigid.AddForce(transform.up * Random.Range(450f, 500f) * Time.deltaTime, ForceMode2D.Impulse);
         StartCoroutine(AutoHide(AutoHideDelayTime));
     }
 

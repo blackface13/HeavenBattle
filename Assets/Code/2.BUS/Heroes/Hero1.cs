@@ -7,8 +7,9 @@ public class Hero1 : HeroController
     /// <summary>
     /// Khởi tạo thông số cho nhân vật
     /// </summary>
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
     }
 
     public override void Start()

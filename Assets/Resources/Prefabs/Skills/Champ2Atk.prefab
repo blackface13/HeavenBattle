@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4674405465024934}
+  - component: {fileID: 5235418296511298389}
   - component: {fileID: 198204361347863578}
   - component: {fileID: 199869266727611920}
   - component: {fileID: 50763953697720362}
   - component: {fileID: 61410306415664366}
-  - component: {fileID: 5235418296511298389}
   - component: {fileID: 6938946700853507282}
   m_Layer: 11
   m_Name: Champ2Atk
@@ -38,6 +38,100 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5235418296511298389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240995078224644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc783e65da38320448315e9cc1db25ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 15
+  DelayTimeBeforeHidden: 1
+  DelayTimeBeforeEnalbleCollider: 0
+  DelayTimeBeforeDisableCollider: 0
+  SkillType: 1
+  DamagePercent: 100
+  NameEffectExtension1: Champ2AtkEffect
+  NameEffectExtension2: Champ2AtkHitEffect
+  NameEffectExtension3: 
+  IsEnableColliderWhenStart: 1
+  IsDisableColliderWhenTrigger: 1
+  moveCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  IsViewLeft: 0
+  PercentHealthAtkEnable: 0
+  PercentHealthCreated: 0
+  TimeMove: 0
+  TimeDelay: 0
+  FirstAtk: 0
+  TimeAction: 0
+  Team: 0
+  TimeStatus: 0
+  PercentDamageFireBurn: 30
+  RatioStatus: 0
+  Status: 0
+  ThisCollider: {fileID: 0}
+  DataValues:
+    ID: 0
+    Name: 
+    Description: 
+    Intrinsic: 
+    SkillDescription: 
+    Level: 0
+    EXP: 0
+    vHealth: 0
+    vHealthCurrent: 0
+    vAtk: 0
+    vMagic: 0
+    vArmor: 0
+    vMagicResist: 0
+    vHealthRegen: 0
+    vDamageEarth: 0
+    vDamageWater: 0
+    vDamageFire: 0
+    vDefenseEarth: 0
+    vDefenseWater: 0
+    vDefenseFire: 0
+    vAtkSpeed: 0
+    vLifeStealPhysic: 0
+    vLifeStealMagic: 0
+    vLethality: 0
+    vMagicPenetration: 0
+    vCritical: 0
+    vTenacity: 0
+    vCooldownReduction: 0
+    vDamageExcellent: 0
+    vDefenseExcellent: 0
+    vDoubleDamage: 0
+    vTripleDamage: 0
+    vDamageReflect: 0
+    vRewardPlus: 0
+    vSkillCooldown: 0
+    vHealthPerLevel: 0
+    vAtkPerLevel: 0
+    vMagicPerLevel: 0
+    vArmorPerLevel: 0
+    vMagicResistPerLevel: 0
+    vHealthRegenPerLevel: 0
+    vCooldownReductionPerLevel: 0
+    vMoveSpeed: 0
+    HType: 0
+    Type: 0
+  Eff: 0
+  EffectExtension: []
+  EffectExtension2: []
+  EffectExtension3: []
+  SoundClip: []
+  SoundClipHited: []
 --- !u!198 &198204361347863578
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4809,56 +4903,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.145214, y: 2.0425525}
   m_EdgeRadius: 0
---- !u!114 &5235418296511298389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240995078224644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc783e65da38320448315e9cc1db25ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 15
-  DelayTimeBeforeHidden: 0
-  DelayTimeBeforeEnalbleCollider: 0
-  DelayTimeBeforeDisableCollider: 0
-  CollisionType: 0
-  NameEffectExtension1: Champ2AtkEffect
-  NameEffectExtension2: Champ2AtkHitEffect
-  NameEffectExtension3: 
-  IsEnableColliderWhenStart: 1
-  IsDisableColliderWhenTrigger: 1
-  moveCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  IsViewLeft: 0
-  PercentHealthAtkEnable: 0
-  PercentHealthCreated: 0
-  TimeMove: 0
-  DamagePercent: 100
-  SkillType: 0
-  TimeDelay: 0
-  FirstAtk: 0
-  TimeAction: 0
-  Team: 0
-  TimeStatus: 0
-  PercentDamageFireBurn: 30
-  RatioStatus: 0
-  Status: 0
-  ThisCollider: {fileID: 0}
-  Eff: 0
-  EffectExtension: []
-  EffectExtension2: []
-  EffectExtension3: []
-  SoundClip: []
-  SoundClipHited: []
-  BattleSystem: {fileID: 0}
 --- !u!210 &6938946700853507282
 SortingGroup:
   m_ObjectHideFlags: 0

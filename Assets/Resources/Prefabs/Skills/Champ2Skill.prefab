@@ -58,7 +58,8 @@ MonoBehaviour:
   DelayTimeBeforeHidden: 0
   DelayTimeBeforeEnalbleCollider: 0.4
   DelayTimeBeforeDisableCollider: 0.7
-  CollisionType: 1
+  SkillType: 1
+  DamagePercent: 150
   NameEffectExtension1: 
   NameEffectExtension2: 
   NameEffectExtension3: 
@@ -74,8 +75,6 @@ MonoBehaviour:
   PercentHealthAtkEnable: 0
   PercentHealthCreated: 0
   TimeMove: 0
-  DamagePercent: 100
-  SkillType: 0
   TimeDelay: 0
   FirstAtk: 0
   TimeAction: 0
@@ -85,13 +84,58 @@ MonoBehaviour:
   RatioStatus: 0
   Status: 0
   ThisCollider: {fileID: 0}
+  DataValues:
+    ID: 0
+    Name: 
+    Description: 
+    Intrinsic: 
+    SkillDescription: 
+    Level: 0
+    EXP: 0
+    vHealth: 0
+    vHealthCurrent: 0
+    vAtk: 0
+    vMagic: 0
+    vArmor: 0
+    vMagicResist: 0
+    vHealthRegen: 0
+    vDamageEarth: 0
+    vDamageWater: 0
+    vDamageFire: 0
+    vDefenseEarth: 0
+    vDefenseWater: 0
+    vDefenseFire: 0
+    vAtkSpeed: 0
+    vLifeStealPhysic: 0
+    vLifeStealMagic: 0
+    vLethality: 0
+    vMagicPenetration: 0
+    vCritical: 0
+    vTenacity: 0
+    vCooldownReduction: 0
+    vDamageExcellent: 0
+    vDefenseExcellent: 0
+    vDoubleDamage: 0
+    vTripleDamage: 0
+    vDamageReflect: 0
+    vRewardPlus: 0
+    vSkillCooldown: 0
+    vHealthPerLevel: 0
+    vAtkPerLevel: 0
+    vMagicPerLevel: 0
+    vArmorPerLevel: 0
+    vMagicResistPerLevel: 0
+    vHealthRegenPerLevel: 0
+    vCooldownReductionPerLevel: 0
+    vMoveSpeed: 0
+    HType: 0
+    Type: 0
   Eff: 0
   EffectExtension: []
   EffectExtension2: []
   EffectExtension3: []
   SoundClip: []
   SoundClipHited: []
-  BattleSystem: {fileID: 0}
   ScaleColliderSpeed: 50
   MaxScale: 15
 --- !u!198 &8972193529849514868
@@ -399,7 +443,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -452,7 +496,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5152,8 +5196,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.2
+      scalar: 1
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9908,8 +9952,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14664,8 +14708,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19420,8 +19464,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.2
+      scalar: 1
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -21707,7 +21751,7 @@ ParticleSystem:
     inWorldSpace: 0
     multiplyDragByParticleSize: 1
     multiplyDragByParticleVelocity: 1
-    dampen: 0.3
+    dampen: 0.1
     drag:
       serializedVersion: 2
       minMaxState: 3
@@ -24176,8 +24220,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -28932,8 +28976,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:

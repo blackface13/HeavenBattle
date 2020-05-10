@@ -49,8 +49,7 @@ public class Champ2Atk : SkillController
                 if (!string.IsNullOrEmpty(NameEffectExtension3))
                     CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
 
-                CreateDamage(0, col.transform.position);
-                if (CollisionType.Equals(0)) //Nếu kiểu va chạm rồi ẩn
+                if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
                 {
                     if (!FirstAtk)
                     {

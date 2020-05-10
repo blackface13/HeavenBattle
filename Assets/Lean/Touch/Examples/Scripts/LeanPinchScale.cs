@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Lean.Touch
 {
@@ -67,7 +67,7 @@ namespace Lean.Touch
 		protected virtual void Update()
 		{
 			// Store
-			var oldScale = transform.localPosition;
+			//var oldScale = transform.localPosition;
 
 			// Get the fingers we want to use
 			var fingers = Use.GetFingers();
@@ -94,22 +94,26 @@ namespace Lean.Touch
 					}
 				}
 
-				transform.localScale *= pinchScale;
-
-				remainingScale += transform.localPosition - oldScale;
+				//transform.localScale *= pinchScale;
+				if(pinchScale < 1)
+				transform.localPosition += new Vector3(0, 0, pinchScale);//Thay đổi thành zoom cam
+				else
+				transform.localPosition -= new Vector3(0, 0, pinchScale);//Thay đổi thành zoom cam
+				//print(pinchScale);
+				//remainingScale += transform.localPosition - oldScale;
 			}
 
 			// Get t value
-			var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
+			//var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
 
 			// Dampen remainingDelta
-			var newRemainingScale = Vector3.Lerp(remainingScale, Vector3.zero, factor);
+			//var newRemainingScale = Vector3.Lerp(remainingScale, Vector3.zero, factor);
 
 			// Shift this transform by the change in delta
-			transform.localPosition = oldScale + remainingScale - newRemainingScale;
+			//transform.localPosition = oldScale + remainingScale - newRemainingScale;
 
 			// Update remainingDelta with the dampened value
-			remainingScale = newRemainingScale;
+			//remainingScale = newRemainingScale;
 		}
 
 		protected virtual void TranslateUI(float pinchScale, Vector2 pinchScreenCenter)
@@ -127,42 +131,42 @@ namespace Lean.Touch
 			}
 
 			// Screen position of the transform
-			var screenPoint = RectTransformUtility.WorldToScreenPoint(camera, transform.position);
+			//var screenPoint = RectTransformUtility.WorldToScreenPoint(camera, transform.position);
 
-			// Push the screen position away from the reference point based on the scale
-			screenPoint.x = pinchScreenCenter.x + (screenPoint.x - pinchScreenCenter.x) * pinchScale;
-			screenPoint.y = pinchScreenCenter.y + (screenPoint.y - pinchScreenCenter.y) * pinchScale;
+			//// Push the screen position away from the reference point based on the scale
+			//screenPoint.x = pinchScreenCenter.x + (screenPoint.x - pinchScreenCenter.x) * pinchScale;
+			//screenPoint.y = pinchScreenCenter.y + (screenPoint.y - pinchScreenCenter.y) * pinchScale;
 
-			// Convert back to world space
-			var worldPoint = default(Vector3);
+			//// Convert back to world space
+			//var worldPoint = default(Vector3);
 
-			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(transform.parent as RectTransform, screenPoint, camera, out worldPoint) == true)
-			{
-				transform.position = worldPoint;
-			}
+			//if (RectTransformUtility.ScreenPointToWorldPointInRectangle(transform.parent as RectTransform, screenPoint, camera, out worldPoint) == true)
+			//{
+			//	transform.position = worldPoint;
+			//}
 		}
 
 		protected virtual void Translate(float pinchScale, Vector2 screenCenter)
 		{
 			// Make sure the camera exists
-			var camera = LeanTouch.GetCamera(Camera, gameObject);
+			//var camera = LeanTouch.GetCamera(Camera, gameObject);
 
-			if (camera != null)
-			{
-				// Screen position of the transform
-				var screenPosition = camera.WorldToScreenPoint(transform.position);
+			//if (camera != null)
+			//{
+			//	// Screen position of the transform
+			//	var screenPosition = camera.WorldToScreenPoint(transform.position);
 
-				// Push the screen position away from the reference point based on the scale
-				screenPosition.x = screenCenter.x + (screenPosition.x - screenCenter.x) * pinchScale;
-				screenPosition.y = screenCenter.y + (screenPosition.y - screenCenter.y) * pinchScale;
+			//	// Push the screen position away from the reference point based on the scale
+			//	screenPosition.x = screenCenter.x + (screenPosition.x - screenCenter.x) * pinchScale;
+			//	screenPosition.y = screenCenter.y + (screenPosition.y - screenCenter.y) * pinchScale;
 
-				// Convert back to world space
-				transform.position = camera.ScreenToWorldPoint(screenPosition);
-			}
-			else
-			{
-				Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
-			}
+			//	// Convert back to world space
+			//	transform.position = camera.ScreenToWorldPoint(screenPosition);
+			//}
+			//else
+			//{
+			//	Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
+			//}
 		}
 	}
 }
