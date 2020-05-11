@@ -26,7 +26,7 @@ public class HeroController : MonoBehaviour
     [TitleGroup("Cài đặt nhân vật")]
     [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
     [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
-    public Vector2 Atk1ShowPos, Atk2ShowPos, Atk3ShowPos, SkillShowPos;//Tọa độ các hiệu ứng kỹ năng
+    public Vector2 Atk1ShowPos, Atk2ShowPos, Atk3ShowPos, SkillShowPos, HPBarPos;//Tọa độ các hiệu ứng kỹ năng
 
     [TitleGroup("Object cần thiết")]
     public GameObject A;
@@ -39,6 +39,7 @@ public class HeroController : MonoBehaviour
     HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
     Animator Anim;//Hoạt cảnh nhân vật
     public bool IsTeamLeft;//Team bên trái hoặc bên phải
+    private GameObject HPBarObject;//Scale của thanh máu
     public BattleSystemController BattleSystem;
 
     public List<GameObject> Atk1Object;
@@ -76,9 +77,14 @@ public class HeroController : MonoBehaviour
     public virtual void Awake()
     {
         BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+        var hpBar = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/ChampHPBar"), Vector3.zero, Quaternion.identity);
+        hpBar.transform.SetParent(this.transform, false);
+        hpBar.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
+        HPBarObject = hpBar.transform.GetChild(0).gameObject;
         try
         {
             DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1));
+            DataValues.vHealthCurrent = DataValues.vHealth;
         }
         catch
         {
@@ -116,6 +122,8 @@ public class HeroController : MonoBehaviour
             SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             SkillObject[0].SetActive(false);
         }
+
+        StartCoroutine(RegenHealth());
         //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
         //if (hit.collider != null)
         //    print("fgfgf");
@@ -177,7 +185,28 @@ public class HeroController : MonoBehaviour
     {
         ActionController();
         //Debug.DrawRay(transform.position, (Vector2)transform.position - new Vector2(10, 0), Color.red, .1f);
+        if (DataValues.vHealthCurrent <= 0)
+        {
+            DataValues.vHealthCurrent = 0;
+        }
+        else
+        {
+            HPBarObject.transform.localScale = new Vector3(Math.Abs(DataValues.vHealthCurrent / DataValues.vHealth), HPBarObject.transform.localScale.y, HPBarObject.transform.localScale.z);
+            //print(HPBarObject.transform.localScale.x);
+        }
+    }
 
+    /// <summary>
+    /// Hồi máu mỗi giây
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RegenHealth()
+    {
+        yield return new WaitForSeconds(1f);
+        if (DataValues.vHealthCurrent > DataValues.vHealth)
+            DataValues.vHealthCurrent = DataValues.vHealth;
+        else
+            DataValues.vHealthCurrent += DataValues.vHealthRegen;
     }
 
     /// <summary>
@@ -365,7 +394,10 @@ public class HeroController : MonoBehaviour
             //if (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
             //    print("1 Bi danh");
 
-            BattleSystem.ShowDmg((int)BattleCore.Damage(victimSkill.DataValues, DataValues, victimSkill.DamagePercent, victimSkill.SkillType), this.transform.position);
+            //Tính toán sát thương gây ra
+            var dmg = (int)BattleCore.Damage(victimSkill.DataValues, DataValues, victimSkill.DamagePercent, victimSkill.SkillType);
+            BattleSystem.ShowDmg(dmg, this.transform.position);
+            DataValues.vHealthCurrent -= dmg;
         }
     }
 

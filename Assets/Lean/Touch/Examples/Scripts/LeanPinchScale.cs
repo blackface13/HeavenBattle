@@ -95,7 +95,7 @@ namespace Lean.Touch
 				}
 
 				//transform.localScale *= pinchScale;
-				if(pinchScale < 1)
+				if(pinchScale > 1)
 				transform.localPosition += new Vector3(0, 0, pinchScale);//Thay đổi thành zoom cam
 				else
 				transform.localPosition -= new Vector3(0, 0, pinchScale);//Thay đổi thành zoom cam

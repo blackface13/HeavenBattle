@@ -116,6 +116,8 @@
     <Compile Include="Assets\Code\2.BUS\Systems\Languages.cs" />
     <Compile Include="Assets\Code\2.BUS\Systems\SceneLoad.cs" />
     <Compile Include="Assets\Code\3.DAO\ResponseModel.cs" />
+    <Compile Include="Assets\Code\3.DAO\ServerConnection.cs" />
+    <Compile Include="Assets\Code\3.DAO\SmartFoxConnection.cs" />
     <Compile Include="Assets\Code\3.DAO\SyncData.cs" />
     <Compile Include="Assets\Code\4.CORE\BattleCore.cs" />
     <Compile Include="Assets\Code\4.CORE\ControlFunctions.cs" />
@@ -231,84 +233,6 @@
     <Compile Include="Assets\Lean\Touch\Scripts\LeanGesture.cs" />
     <Compile Include="Assets\Lean\Touch\Scripts\LeanSnapshot.cs" />
     <Compile Include="Assets\Lean\Touch\Scripts\LeanTouch.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\Ack.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\Decoder.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\Encoder.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\EnginePacketType.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\Packet.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\Parser.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\SocketIOComponent.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\SocketIOEvent.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\SocketIOException.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\SocketIO\SocketPacketType.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\Test\TestSocketIO.cs" />
-    <Compile Include="Assets\SocketIO\Scripts\User.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\AssemblyInfo.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\ByteOrder.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\CloseEventArgs.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\CloseStatusCode.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\CompressionMethod.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\ErrorEventArgs.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Ext.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Fin.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\HandshakeBase.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\HandshakeRequest.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\HandshakeResponse.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\LogData.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Logger.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\LogLevel.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Mask.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\MessageEventArgs.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\AuthenticationBase.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\AuthenticationChallenge.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\AuthenticationResponse.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\AuthenticationSchemes.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\Chunk.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ChunkedRequestStream.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ChunkStream.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\Cookie.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\CookieCollection.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\CookieException.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\EndPointListener.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\EndPointManager.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpBasicIdentity.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpConnection.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpDigestIdentity.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpHeaderInfo.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpHeaderType.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListener.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListenerContext.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListenerException.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListenerPrefixCollection.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListenerRequest.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpListenerResponse.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpStatusCode.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpStreamAsyncResult.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpUtility.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\HttpVersion.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\InputChunkState.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\InputState.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\LineState.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ListenerAsyncResult.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ListenerPrefix.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\NetworkCredential.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\QueryStringCollection.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ReadBufferState.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\RequestStream.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\ResponseStream.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\Security\SslStream.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\WebHeaderCollection.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\WebSockets\HttpListenerWebSocketContext.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\WebSockets\TcpListenerWebSocketContext.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Net\WebSockets\WebSocketContext.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Opcode.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\PayloadData.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\Rsv.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\WebSocket.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\WebSocketException.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\WebSocketFrame.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\WebSocketState.cs" />
-    <Compile Include="Assets\SocketIO\WebsocketSharp\WebSocketStream.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Lean\Common\Examples\Shaders\Alpha.shader" />
@@ -320,7 +244,6 @@
     <None Include="Assets\Code\5.PLUGINS\Blur3.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\SocketIO\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Lean\Common\Examples\Fonts\OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
@@ -359,11 +282,17 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
@@ -382,12 +311,6 @@
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>H:/Unity/2018.4.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -619,6 +542,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartFox2X">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/Plugins/SmartFox2X.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>H:/Unity/2018.4.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>

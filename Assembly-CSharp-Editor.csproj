@@ -223,11 +223,17 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
@@ -246,12 +252,6 @@
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>H:/Unity/2018.4.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -549,6 +549,9 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartFox2X">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/Plugins/SmartFox2X.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>H:/Unity/2018.4.20f1/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>
