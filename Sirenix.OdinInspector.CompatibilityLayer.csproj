@@ -321,6 +321,9 @@
     <Reference Include="Google.VersionHandlerImpl_v1.2.136.0">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.136.0.dll</HintPath>
     </Reference>
+    <Reference Include="SmartFox2X">
+      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/Plugins/SmartFox2X.dll</HintPath>
+    </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
     </Reference>
@@ -356,9 +359,6 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>H:/Projects/GameDevelop/HeavenBattle/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="SmartFox2X">
-      <HintPath>H:/Projects/GameDevelop/HeavenBattle/Assets/Plugins/SmartFox2X.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>H:/Unity/2018.4.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>

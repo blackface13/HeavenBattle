@@ -229,7 +229,7 @@ public class SkillController : MonoBehaviour
     public virtual void CreateDamage(int dmg, Vector3 pos)
     {
         //BattleSystem.ShowDmg(UnityEngine.Random.Range(123, 4564), pos);
-    }    
+    }
     #endregion
 
     #region Ẩn hoặc tự động ẩn skill 
@@ -259,7 +259,7 @@ public class SkillController : MonoBehaviour
         obj.transform.position = new Vector3(-1000, -1000, 0);
         obj.transform.localEulerAngles = new Vector3();
         yield return new WaitForSeconds(delayTime);
-        obj.SetActive(false);
+            obj.SetActive(false);
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7b1bfa9399d605d4b949a597ce1c4ec1
+guid: 8e0bc21e04e937e45a1ca168beddb9b7
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -82,7 +82,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 47
     textureCompression: 1
@@ -97,12 +97,12 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c65b493182a5ee748afd4bb27d145e98
+    spriteID: 74d96a3bc29f39341b5564f48dc52e62
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: PalmOrigins
+  spritePackingTag: GameUI
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 

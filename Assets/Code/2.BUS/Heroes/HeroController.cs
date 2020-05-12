@@ -83,7 +83,7 @@ public class HeroController : MonoBehaviour
         HPBarObject = hpBar.transform.GetChild(0).gameObject;
         try
         {
-            DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1));
+            DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1)).Clone();
             DataValues.vHealthCurrent = DataValues.vHealth;
         }
         catch

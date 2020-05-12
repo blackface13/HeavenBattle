@@ -15,7 +15,7 @@ public class Champ2Atk : SkillController
     }
 
     // Start is called before the first frame update
-   public override void Start()
+    public override void Start()
     {
         base.Start();
     }
@@ -56,7 +56,11 @@ public class Champ2Atk : SkillController
                         Hide(gameObject);
                         FirstAtk = true;
                     }
-                    else StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+                    else
+                    {
+                        if (gameObject.activeSelf)
+                            StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+                    }
                 }
             }
         }

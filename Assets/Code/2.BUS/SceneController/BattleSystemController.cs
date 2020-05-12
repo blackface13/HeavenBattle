@@ -1,9 +1,12 @@
-﻿using Assets.Code._3.DAO;
+﻿using Anima2D;
+using Assets.Code._3.DAO;
 using Assets.Code._4.CORE;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 public class BattleSystemController : MonoBehaviour
 {
@@ -11,6 +14,11 @@ public class BattleSystemController : MonoBehaviour
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
     public int NumberObjectDmgTextCreate;
+
+    [TitleGroup("Cài đặt hệ thống battle")]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
+    public GameObject BoxControl, BtnExpand;
 
 
     public GameObject ObjectTest;
@@ -20,14 +28,22 @@ public class BattleSystemController : MonoBehaviour
 
     public List<GameObject> DamageText;
     public List<DamageTextController> DamageTextControl;
-
+    private bool IsBoxControlExpand;
+    private float BoxControlPosXOrigin;
+    private float BoxControlRangeMove = 917;
     public GameObject[] test;
+    public AnimationCurve CurverTest;
     void Start()
     {
         GameSettings.CreateChampDefault();
         CreateTeam();
         CreateDmgText();
+        BoxControlPosXOrigin = BoxControl.transform.localPosition.x;
     }
+
+    private void AddHandleExtensions()
+    {
+    }    
 
     /// <summary>
     /// Khởi tạo các object dmg text
@@ -47,22 +63,22 @@ public class BattleSystemController : MonoBehaviour
     private void CreateTeam()
     {
         ChampTeam1 = new GameObject[4];
-        ChampTeam1[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 0, 0), Quaternion.identity);
+        ChampTeam1[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, -2, 0), Quaternion.identity);
         ChampTeam1[0].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, 0, 0), Quaternion.identity);
+        ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, -2, 0), Quaternion.identity);
         ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 6, 0), Quaternion.identity);
+        ChampTeam1[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 5, 0), Quaternion.identity);
         ChampTeam1[2].GetComponent<HeroController>().SetupChamp(true);
         ChampTeam1[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, -10, 0), Quaternion.identity);
         ChampTeam1[3].GetComponent<HeroController>().SetupChamp(true);
 
 
         ChampTeam2 = new GameObject[4];
-        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 0, 0), Quaternion.identity);
+        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -2, 0), Quaternion.identity);
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 0, 0), Quaternion.identity);
+        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -2, 0), Quaternion.identity);
         ChampTeam2[1].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 6, 0), Quaternion.identity);
+        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 5, 0), Quaternion.identity);
         ChampTeam2[2].GetComponent<HeroController>().SetupChamp(false);
         ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -10, 0), Quaternion.identity);
         ChampTeam2[3].GetComponent<HeroController>().SetupChamp(false);
@@ -134,5 +150,15 @@ public class BattleSystemController : MonoBehaviour
     {
         ServerConnection a = new ServerConnection();
         a.OnLoginButtonClick();
+    }
+
+    /// <summary>
+    /// Ẩn hiện box control
+    /// </summary>
+    public void ButtonShowBoxControl()
+    {
+        StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, CurverTest));
+        IsBoxControlExpand = !IsBoxControlExpand;
+        BtnExpand.transform.localScale = new Vector3(IsBoxControlExpand ? 0 - BtnExpand.transform.localScale.x : Math.Abs(BtnExpand.transform.localScale.x), BtnExpand.transform.localScale.y, BtnExpand.transform.localScale.z);
     }
 }
