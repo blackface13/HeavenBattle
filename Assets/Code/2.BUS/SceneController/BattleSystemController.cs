@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
+using UnityEngine.EventSystems;
 
 public class BattleSystemController : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class BattleSystemController : MonoBehaviour
 
     private void AddHandleExtensions()
     {
-    }    
+    }
 
     /// <summary>
     /// Khởi tạo các object dmg text
@@ -96,10 +96,10 @@ public class BattleSystemController : MonoBehaviour
     /// <param name="obj">Skill object</param>
     /// <param name="vec">Tọa độ xuât hiện</param>
     /// <param name="quater">Độ nghiêng, xoay tròn</param>
-    public void ShowDmg(int numberDmg, Vector3 vec)
+    public void ShowDmg(int numberDmg, Vector3 vec, int dmgType)
     {
         vec += new Vector3(0, 2f, 0);
-        CheckExistAndCreateEffectExtension(vec, DamageText, numberDmg);
+        CheckExistAndCreateEffectExtension(vec, DamageText, numberDmg, dmgType);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    GameObject GetObjectNonActive(List<GameObject> obj, int numberDmg)
+    GameObject GetObjectNonActive(List<GameObject> obj, int numberDmg, int dmgType)
     {
         int count = obj.Count;
         for (int i = 0; i < count; i++)
@@ -115,6 +115,7 @@ public class BattleSystemController : MonoBehaviour
             if (!obj[i].activeSelf)
             {
                 DamageTextControl[i].DamageNumber = numberDmg;
+                DamageTextControl[i].DmgType = dmgType;
                 return obj[i];
             }
         }
@@ -125,13 +126,15 @@ public class BattleSystemController : MonoBehaviour
     /// Check khởi tạo và hiển thị hiệu ứng trúng đòn lên đối phương
     /// </summary>
     /// <param name="col"></param>
-    private void CheckExistAndCreateEffectExtension(Vector3 col, List<GameObject> gobject, int numberDmg)
+    private void CheckExistAndCreateEffectExtension(Vector3 col, List<GameObject> gobject, int numberDmg, int dmgType)
     {
-        var a = GetObjectNonActive(gobject, numberDmg);
+        var a = GetObjectNonActive(gobject, numberDmg, dmgType);
         if (a == null)
         {
             gobject.Add(Instantiate(gobject[0], new Vector3(col.x, col.y, col.z), Quaternion.identity));
-            DamageTextControl.Add(gobject[gobject.Count - 1].GetComponent<DamageTextController>());
+            var tmp = gobject[gobject.Count - 1].GetComponent<DamageTextController>();
+            tmp.DmgType = dmgType;
+            DamageTextControl.Add(tmp);
         }
         else
         {

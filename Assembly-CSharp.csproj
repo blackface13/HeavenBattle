@@ -101,6 +101,7 @@
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTargetDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTemplate.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\DamageTextController.cs" />
+    <Compile Include="Assets\Code\2.BUS\Misc\MouseDragBehaviour.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\ObjectMapController.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\RankingUI.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\UnoCardRankGameEnding.cs" />

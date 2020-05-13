@@ -1501,7 +1501,7 @@ MonoBehaviour:
   Atk2ShowPos: {x: 0, y: 0}
   Atk3ShowPos: {x: 0, y: 0}
   SkillShowPos: {x: 2, y: 2.4}
-  HPBarPos: {x: 0, y: 3.6}
+  HPBarPos: {x: 0, y: 4}
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0

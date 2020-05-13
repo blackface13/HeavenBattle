@@ -39,7 +39,7 @@ public class HeroController : MonoBehaviour
     HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
     Animator Anim;//Hoạt cảnh nhân vật
     public bool IsTeamLeft;//Team bên trái hoặc bên phải
-    private GameObject HPBarObject;//Scale của thanh máu
+    private GameObject HPBarObject, HPBarParentObject;//Scale của thanh máu
     public BattleSystemController BattleSystem;
 
     public List<GameObject> Atk1Object;
@@ -77,10 +77,10 @@ public class HeroController : MonoBehaviour
     public virtual void Awake()
     {
         BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
-        var hpBar = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/ChampHPBar"), Vector3.zero, Quaternion.identity);
-        hpBar.transform.SetParent(this.transform, false);
-        hpBar.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
-        HPBarObject = hpBar.transform.GetChild(0).gameObject;
+        HPBarParentObject = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/ChampHPBar"), Vector3.zero, Quaternion.identity);
+        HPBarParentObject.transform.SetParent(this.transform, false);
+        HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
+        HPBarObject = HPBarParentObject.transform.GetChild(2).gameObject;
         try
         {
             DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1)).Clone();
@@ -191,7 +191,7 @@ public class HeroController : MonoBehaviour
         }
         else
         {
-            HPBarObject.transform.localScale = new Vector3(Math.Abs(DataValues.vHealthCurrent / DataValues.vHealth), HPBarObject.transform.localScale.y, HPBarObject.transform.localScale.z);
+            HPBarObject.transform.localScale = new Vector3(Math.Abs(DataValues.vHealthCurrent / DataValues.vHealth) * 2, HPBarObject.transform.localScale.y, HPBarObject.transform.localScale.z);
             //print(HPBarObject.transform.localScale.x);
         }
     }
@@ -372,6 +372,8 @@ public class HeroController : MonoBehaviour
         //    print(IsViewLeft ? "Trai" : "Phai");
         IsViewLeft = isViewLeft;
         this.transform.localScale = new Vector3(IsViewLeft ? 0 - Mathf.Abs(this.transform.localScale.x) : Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+
+        HPBarParentObject.transform.localScale = new Vector3(isViewLeft ? 0 - Math.Abs(HPBarParentObject.transform.localScale.x) : Math.Abs(HPBarParentObject.transform.localScale.x), HPBarParentObject.transform.localScale.y, HPBarParentObject.transform.localScale.z);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -396,7 +398,7 @@ public class HeroController : MonoBehaviour
 
             //Tính toán sát thương gây ra
             var dmg = (int)BattleCore.Damage(victimSkill.DataValues, DataValues, victimSkill.DamagePercent, victimSkill.SkillType);
-            BattleSystem.ShowDmg(dmg, this.transform.position);
+            BattleSystem.ShowDmg(dmg, this.transform.position, victimSkill.SkillType);
             DataValues.vHealthCurrent -= dmg;
         }
     }
