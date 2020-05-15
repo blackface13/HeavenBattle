@@ -12,7 +12,7 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public float MoveSpeed, DelayTimeBeforeHidden, DelayTimeBeforeEnalbleCollider, DelayTimeBeforeDisableCollider;
+    public float MoveSpeed, DelayTimeBeforeHidden, DelayTimeBeforeEnalbleCollider, DelayTimeBeforeDisableCollider, DelayTimeToHideAfterShow;
     //Tốc độ bay của skill, thời gian delay trước khi ẩn, thời gian delay trước khi hủy bỏ va chạm
 
     [TitleGroup("Cài đặt Skill")]
@@ -109,6 +109,10 @@ public class SkillController : MonoBehaviour
     {
         try
         {
+            //Tự động ẩn skill sau 1 khoảng thời gian
+            if (DelayTimeToHideAfterShow > 0)
+                StartCoroutine(AutoHiden(DelayTimeToHideAfterShow, this.gameObject));
+
             //Bật tắt va chạm khi enable
             if (IsEnableColliderWhenStart)
                 ThisCollider.enabled = true;

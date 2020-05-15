@@ -559,7 +559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000010079908, y: -0.0000038146973}
+  m_AnchoredPosition: {x: -0.000010079908, y: 0.0000013373467}
   m_SizeDelta: {x: 0, y: 893.9}
   m_Pivot: {x: 0, y: 1}
 --- !u!4 &213177227 stripped
@@ -11324,6 +11324,7 @@ GameObject:
   - component: {fileID: 1830326685}
   - component: {fileID: 1830326684}
   - component: {fileID: 1830326687}
+  - component: {fileID: 1830326688}
   m_Layer: 5
   m_Name: BtnSetting (4)
   m_TagString: Untagged
@@ -11438,6 +11439,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816be623d087caf4ab55b4e6d531ae11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1830326688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830326682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!1 &1867434970
 GameObject:
   m_ObjectHideFlags: 0

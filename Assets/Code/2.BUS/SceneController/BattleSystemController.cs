@@ -74,13 +74,13 @@ public class BattleSystemController : MonoBehaviour
 
 
         ChampTeam2 = new GameObject[4];
-        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -2, 0), Quaternion.identity);
+        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(11, -2, 0), Quaternion.identity);
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -2, 0), Quaternion.identity);
+        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(12, -2, 0), Quaternion.identity);
         ChampTeam2[1].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, 5, 0), Quaternion.identity);
+        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(13, 5, 0), Quaternion.identity);
         ChampTeam2[2].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(10, -10, 0), Quaternion.identity);
+        ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(14, -10, 0), Quaternion.identity);
         ChampTeam2[3].GetComponent<HeroController>().SetupChamp(false);
     }
     public void aaaaa()
