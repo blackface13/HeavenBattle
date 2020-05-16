@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 
 public class BattleSystemController : MonoBehaviour
 {
+    #region Variables
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
@@ -25,6 +26,8 @@ public class BattleSystemController : MonoBehaviour
 
     public GameObject[] ChampTeam1;
     public GameObject[] ChampTeam2;
+    private List<GameObject> SoldierTeam1;
+    private List<GameObject> SoldierTeam2;
 
     public List<GameObject> DamageText;
     public List<DamageTextController> DamageTextControl;
@@ -33,16 +36,17 @@ public class BattleSystemController : MonoBehaviour
     private float BoxControlRangeMove = 917;
     public GameObject[] test;
     public AnimationCurve CurverTest;
+    #endregion
+
+    #region Initialize
     void Start()
     {
         GameSettings.CreateChampDefault();
+        GameSettings.CreateSoldierDefault();
         CreateTeam();
         CreateDmgText();
+        CreateSoldier();
         BoxControlPosXOrigin = BoxControl.transform.localPosition.x;
-    }
-
-    private void AddHandleExtensions()
-    {
     }
 
     /// <summary>
@@ -52,7 +56,7 @@ public class BattleSystemController : MonoBehaviour
     {
         DamageText = new List<GameObject>();
         DamageTextControl = new List<DamageTextController>();
-        for(int i = 0;i< NumberObjectDmgTextCreate; i++)
+        for (int i = 0; i < NumberObjectDmgTextCreate; i++)
         {
             DamageText.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/UI/DamageText"), new Vector3(-1000, -1000, 0), Quaternion.identity));
             DamageTextControl.Add(DamageText[i].GetComponent<DamageTextController>());
@@ -60,6 +64,9 @@ public class BattleSystemController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Khởi tạo tướng của 2 đội
+    /// </summary>
     private void CreateTeam()
     {
         ChampTeam1 = new GameObject[4];
@@ -74,21 +81,52 @@ public class BattleSystemController : MonoBehaviour
 
 
         ChampTeam2 = new GameObject[4];
-        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(11, -2, 0), Quaternion.identity);
+        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(190, -2, 0), Quaternion.identity);
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(12, -2, 0), Quaternion.identity);
+        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(180, -2, 0), Quaternion.identity);
         ChampTeam2[1].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(13, 5, 0), Quaternion.identity);
+        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(200, 5, 0), Quaternion.identity);
         ChampTeam2[2].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(14, -10, 0), Quaternion.identity);
+        ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(185, -10, 0), Quaternion.identity);
         ChampTeam2[3].GetComponent<HeroController>().SetupChamp(false);
     }
+
+    /// <summary>
+    /// Khởi tạo lính của 2 đội
+    /// </summary>
+    private void CreateSoldier()
+    {
+        SoldierTeam1  = new List<GameObject>();
+        SoldierTeam2 = new List<GameObject>();
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -2, 0), Quaternion.identity));
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -2, 0), Quaternion.identity));
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, 5, 0), Quaternion.identity));
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, 5, 0), Quaternion.identity));
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -10, 0), Quaternion.identity));
+        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -10, 0), Quaternion.identity));
+
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -2, 0), Quaternion.identity));
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -2, 0), Quaternion.identity));
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, 5, 0), Quaternion.identity));
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, 5, 0), Quaternion.identity));
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -10, 0), Quaternion.identity));
+        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -10, 0), Quaternion.identity));
+
+        var count = SoldierTeam1.Count;
+        for (int i = 0;i< count; i++)
+        {
+            SoldierTeam1[i].GetComponent<SoldierController>().SetupChamp(true);
+            SoldierTeam2[i].GetComponent<SoldierController>().SetupChamp(false);
+        }
+    }
+    #endregion
+
     public void aaaaa()
     {
         ObjectTest.GetComponent<Rigidbody2D>().AddForce(transform.up * 25f, ForceMode2D.Impulse);
     }
 
-    #region Core Handle
+    #region Functions
 
     /// <summary>
     /// Gọi ở các object kế thừa, enable skill của hero
@@ -140,10 +178,11 @@ public class BattleSystemController : MonoBehaviour
         {
             a.transform.position = col;
             a.SetActive(true);
-        }    
+        }
     }
     #endregion
 
+    #region Events
     public void ButtonHide(int type)
     {
         test[type].SetActive(!test[type].activeSelf);
@@ -160,8 +199,9 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     public void ButtonShowBoxControl()
     {
-        StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, CurverTest));
+        StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand ? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, CurverTest));
         IsBoxControlExpand = !IsBoxControlExpand;
         BtnExpand.transform.localScale = new Vector3(IsBoxControlExpand ? 0 - BtnExpand.transform.localScale.x : Math.Abs(BtnExpand.transform.localScale.x), BtnExpand.transform.localScale.y, BtnExpand.transform.localScale.z);
     }
+    #endregion
 }

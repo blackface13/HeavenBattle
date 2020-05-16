@@ -113,6 +113,12 @@
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Skill.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillController.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillTemplate.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Sol1Atk.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Sol2Atk.cs" />
+    <Compile Include="Assets\Code\2.BUS\Soldiers\Soldier1.cs" />
+    <Compile Include="Assets\Code\2.BUS\Soldiers\Soldier2.cs" />
+    <Compile Include="Assets\Code\2.BUS\Soldiers\SoldierController.cs" />
+    <Compile Include="Assets\Code\2.BUS\Soldiers\SoldierTargetDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Systems\GlobalVariables.cs" />
     <Compile Include="Assets\Code\2.BUS\Systems\Languages.cs" />
     <Compile Include="Assets\Code\2.BUS\Systems\SceneLoad.cs" />

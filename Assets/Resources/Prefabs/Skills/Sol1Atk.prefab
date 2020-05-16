@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5918437111117417031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5924046361903093989}
+  - component: {fileID: 5918437111117417030}
+  - component: {fileID: 5979874060675231149}
+  - component: {fileID: 3632994075761132945}
+  m_Layer: 11
+  m_Name: Sol1Atk
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5924046361903093989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918437111117417031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5918437111117417030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918437111117417031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976149f7b2621174b9aa661e1b8358f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 0
+  DelayTimeBeforeHidden: 0
+  DelayTimeBeforeEnalbleCollider: 0
+  DelayTimeBeforeDisableCollider: 0
+  DelayTimeToHideAfterShow: 0
+  SkillType: 0
+  DamagePercent: 100
+  NameEffectExtension1: 
+  NameEffectExtension2: 
+  NameEffectExtension3: 
+  IsEnableColliderWhenStart: 1
+  IsDisableColliderWhenTrigger: 1
+  moveCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  IsViewLeft: 0
+  PercentHealthAtkEnable: 0
+  PercentHealthCreated: 0
+  TimeMove: 0
+  TimeDelay: 0
+  FirstAtk: 0
+  TimeAction: 0
+  Team: 0
+  TimeStatus: 0
+  PercentDamageFireBurn: 30
+  RatioStatus: 0
+  Status: 0
+  ThisCollider: {fileID: 0}
+  DataValues:
+    ID: 0
+    Name: 
+    Description: 
+    Intrinsic: 
+    SkillDescription: 
+    Level: 0
+    EXP: 0
+    vHealth: 0
+    vHealthCurrent: 0
+    vAtk: 0
+    vMagic: 0
+    vArmor: 0
+    vMagicResist: 0
+    vHealthRegen: 0
+    vDamageEarth: 0
+    vDamageWater: 0
+    vDamageFire: 0
+    vDefenseEarth: 0
+    vDefenseWater: 0
+    vDefenseFire: 0
+    vAtkSpeed: 0
+    vLifeStealPhysic: 0
+    vLifeStealMagic: 0
+    vLethality: 0
+    vMagicPenetration: 0
+    vCritical: 0
+    vTenacity: 0
+    vCooldownReduction: 0
+    vDamageExcellent: 0
+    vDefenseExcellent: 0
+    vDoubleDamage: 0
+    vTripleDamage: 0
+    vDamageReflect: 0
+    vRewardPlus: 0
+    vSkillCooldown: 0
+    vHealthPerLevel: 0
+    vAtkPerLevel: 0
+    vMagicPerLevel: 0
+    vArmorPerLevel: 0
+    vMagicResistPerLevel: 0
+    vHealthRegenPerLevel: 0
+    vCooldownReductionPerLevel: 0
+    vMoveSpeed: 0
+    HType: 0
+    Type: 0
+  Eff: 0
+  EffectExtension: []
+  EffectExtension2: []
+  EffectExtension3: []
+  SoundClip: []
+  SoundClipHited: []
+--- !u!61 &5979874060675231149
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918437111117417031}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
+--- !u!210 &3632994075761132945
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918437111117417031}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 450
