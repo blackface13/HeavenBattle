@@ -87,6 +87,7 @@ public class HeroController : MonoBehaviour
         HPBarParentObject.transform.SetParent(this.transform, false);
         HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
         HPBarObject = HPBarParentObject.transform.GetChild(2).gameObject;
+        Anim = this.GetComponent<Animator>();
         try
         {
             DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1)).Clone();
@@ -153,7 +154,6 @@ public class HeroController : MonoBehaviour
     {
         IsTeamLeft = isTeamLeft;
         IsViewLeft = !IsTeamLeft;
-        Anim = this.GetComponent<Animator>();
         //Quét các collider con
         //0 = collider cha -> bỏ qua
         //1 = collider phát hiện đối phương trong tầm đánh
@@ -413,6 +413,7 @@ public class HeroController : MonoBehaviour
         ThisRigid.constraints = RigidbodyConstraints2D.FreezePositionX;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         DataValues.vHealthCurrent = DataValues.vHealth;
+        IsInSafeRange = true;
         StartCoroutine(WaitForEvents(0));//Chờ nhân vật die
         StartCoroutine(RegenHealth());
         ChangeView(!IsTeamLeft);

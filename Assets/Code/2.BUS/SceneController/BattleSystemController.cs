@@ -19,6 +19,11 @@ public class BattleSystemController : MonoBehaviour
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
+    public float DelayTimeBetween2Soldier, DelayTimeBetween2GroupSoldier;
+
+    [TitleGroup("Cài đặt hệ thống battle")]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
     public GameObject BoxControl, BtnExpand;
 
 
@@ -36,6 +41,10 @@ public class BattleSystemController : MonoBehaviour
     private float BoxControlRangeMove = 917;
     public GameObject[] test;
     public AnimationCurve CurverTest;
+    private List<GameObject> SoldierTeam1Type1;//lính cận chiến team 1
+    private List<GameObject> SoldierTeam1Type2;//lính đánh xa team 1
+    private List<GameObject> SoldierTeam2Type1;//lính cận chiến team 2
+    private List<GameObject> SoldierTeam2Type2;//lính đánh xa team 2
     #endregion
 
     #region Initialize
@@ -47,6 +56,7 @@ public class BattleSystemController : MonoBehaviour
         CreateDmgText();
         CreateSoldier();
         BoxControlPosXOrigin = BoxControl.transform.localPosition.x;
+        StartCoroutine(AutoCreateSoldier(2, 2));
     }
 
     /// <summary>
@@ -96,28 +106,49 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     private void CreateSoldier()
     {
-        SoldierTeam1  = new List<GameObject>();
-        SoldierTeam2 = new List<GameObject>();
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -2, 0), Quaternion.identity));
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -2, 0), Quaternion.identity));
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, 5, 0), Quaternion.identity));
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, 5, 0), Quaternion.identity));
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -10, 0), Quaternion.identity));
-        SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -10, 0), Quaternion.identity));
+        SoldierTeam1Type1 = new List<GameObject>();//lính cận chiến team 1
+        SoldierTeam1Type2 = new List<GameObject>(); //lính đánh xa team 1
+        SoldierTeam2Type1 = new List<GameObject>();//lính cận chiến team 2
+        SoldierTeam2Type2 = new List<GameObject>();//lính đánh xa team 2
 
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -2, 0), Quaternion.identity));
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -2, 0), Quaternion.identity));
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, 5, 0), Quaternion.identity));
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, 5, 0), Quaternion.identity));
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -10, 0), Quaternion.identity));
-        SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -10, 0), Quaternion.identity));
+        //Tạo lính cận chiến cho 2 team
+        SoldierTeam1Type1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        SoldierTeam1Type1[0].GetComponent<SoldierController>().SetupChamp(true);
+        SoldierTeam1Type1[0].SetActive(false);
+        SoldierTeam2Type1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        SoldierTeam2Type1[0].GetComponent<SoldierController>().SetupChamp(false);
+        SoldierTeam2Type1[0].SetActive(false);
 
-        var count = SoldierTeam1.Count;
-        for (int i = 0;i< count; i++)
-        {
-            SoldierTeam1[i].GetComponent<SoldierController>().SetupChamp(true);
-            SoldierTeam2[i].GetComponent<SoldierController>().SetupChamp(false);
-        }
+        //Tạo lính đánh xa cho 2 team
+        SoldierTeam1Type2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        SoldierTeam1Type2[0].GetComponent<SoldierController>().SetupChamp(true);
+        SoldierTeam1Type2[0].SetActive(false);
+        SoldierTeam2Type2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(-1000, -1000, 0), Quaternion.identity));
+        SoldierTeam2Type2[0].GetComponent<SoldierController>().SetupChamp(false);
+        SoldierTeam2Type2[0].SetActive(false);
+
+        //SoldierTeam1 = new List<GameObject>();
+        //SoldierTeam2 = new List<GameObject>();
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -2, 0), Quaternion.identity));
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -2, 0), Quaternion.identity));
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, 5, 0), Quaternion.identity));
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, 5, 0), Quaternion.identity));
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(5, -10, 0), Quaternion.identity));
+        //SoldierTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(0, -10, 0), Quaternion.identity));
+
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -2, 0), Quaternion.identity));
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -2, 0), Quaternion.identity));
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, 5, 0), Quaternion.identity));
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, 5, 0), Quaternion.identity));
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier1"), new Vector3(180, -10, 0), Quaternion.identity));
+        //SoldierTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Soldiers/Soldier2"), new Vector3(175, -10, 0), Quaternion.identity));
+
+        //var count = SoldierTeam1.Count;
+        //for (int i = 0; i < count; i++)
+        //{
+        //    SoldierTeam1[i].GetComponent<SoldierController>().SetupChamp(true);
+        //    SoldierTeam2[i].GetComponent<SoldierController>().SetupChamp(false);
+        //}
     }
     #endregion
 
@@ -128,6 +159,8 @@ public class BattleSystemController : MonoBehaviour
 
     #region Functions
 
+    #region Show Damage Controller
+
     /// <summary>
     /// Gọi ở các object kế thừa, enable skill của hero
     /// </summary>
@@ -137,7 +170,7 @@ public class BattleSystemController : MonoBehaviour
     public void ShowDmg(int numberDmg, Vector3 vec, int dmgType)
     {
         vec += new Vector3(0, 2f, 0);
-        CheckExistAndCreateEffectExtension(vec, DamageText, numberDmg, dmgType);
+        CheckExistAndCreateDmgText(vec, DamageText, numberDmg, dmgType);
     }
 
     /// <summary>
@@ -164,7 +197,7 @@ public class BattleSystemController : MonoBehaviour
     /// Check khởi tạo và hiển thị hiệu ứng trúng đòn lên đối phương
     /// </summary>
     /// <param name="col"></param>
-    private void CheckExistAndCreateEffectExtension(Vector3 col, List<GameObject> gobject, int numberDmg, int dmgType)
+    private void CheckExistAndCreateDmgText(Vector3 col, List<GameObject> gobject, int numberDmg, int dmgType)
     {
         var a = GetObjectNonActive(gobject, numberDmg, dmgType);
         if (a == null)
@@ -180,6 +213,101 @@ public class BattleSystemController : MonoBehaviour
             a.SetActive(true);
         }
     }
+    #endregion
+
+    #region Auto create soldier controller
+    /// <summary>
+    /// Gọi ở các object kế thừa, enable skill của hero
+    /// </summary>
+    /// <param name="obj">Skill object</param>
+    /// <param name="vec">Tọa độ xuât hiện</param>
+    /// <param name="quater">Độ nghiêng, xoay tròn</param>
+    private IEnumerator AutoCreateSoldier(int meleeSoldier, int archerSoldier)
+    {
+        var count1 = 0;
+        var count2 = 0;
+        Begin:
+
+        if (meleeSoldier <= 0)
+            goto CreateArcherSoldier;
+        CreateMeleeSoldier:
+        yield return new WaitForSeconds(DelayTimeBetween2Soldier);//Chờ đợi sinh 
+        count1++;
+        if (count1 < meleeSoldier)
+            goto CreateMeleeSoldier;
+        else
+        {
+            CheckExistAndCreateSoldier(new Vector3(-20, 5, 0), SoldierTeam1Type1, true);
+            CheckExistAndCreateSoldier(new Vector3(-20, -2, 0), SoldierTeam1Type1, true);
+            CheckExistAndCreateSoldier(new Vector3(-20, -10, 0), SoldierTeam1Type1, true);
+
+            CheckExistAndCreateSoldier(new Vector3(220, 5, 0), SoldierTeam2Type1, false);
+            CheckExistAndCreateSoldier(new Vector3(220, -2, 0), SoldierTeam2Type1, false);
+            CheckExistAndCreateSoldier(new Vector3(220, -10, 0), SoldierTeam2Type1, false);
+        }
+
+        if (archerSoldier <= 0)
+            goto Begin;
+        CreateArcherSoldier:
+        yield return new WaitForSeconds(DelayTimeBetween2Soldier);//Chờ đợi sinh 
+        count2++;
+        if (count2 < archerSoldier)
+            goto CreateArcherSoldier;
+        else
+        {
+            CheckExistAndCreateSoldier(new Vector3(-20, 5, 0), SoldierTeam1Type2, true);
+            CheckExistAndCreateSoldier(new Vector3(-20, -2, 0), SoldierTeam1Type2, true);
+            CheckExistAndCreateSoldier(new Vector3(-20, -10, 0), SoldierTeam1Type2, true);
+
+            CheckExistAndCreateSoldier(new Vector3(220, 5, 0), SoldierTeam2Type2, false);
+            CheckExistAndCreateSoldier(new Vector3(220, -2, 0), SoldierTeam2Type2, false);
+            CheckExistAndCreateSoldier(new Vector3(220, -10, 0), SoldierTeam2Type2, false);
+        }
+        yield return new WaitForSeconds(DelayTimeBetween2GroupSoldier);//Chờ đợi sinh 
+        count1 = 0;
+        count2 = 0;
+        goto Begin;
+    }
+
+    /// <summary>
+    /// Trả về object đang ko hoạt động để xuất hiện
+    /// </summary>
+    /// <param name="obj">List object soldier</param>
+    /// <returns></returns>
+    GameObject GetSoldierNonActive(List<GameObject> obj)
+    {
+        int count = obj.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (!obj[i].activeSelf)
+            {
+                return obj[i];
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Check khởi tạo và hiển thị soldier
+    /// </summary>
+    /// <param name="col">Tọa độ hiển thị</param>
+    /// <param name="gobject">List object soldier</param>
+    private void CheckExistAndCreateSoldier(Vector3 col, List<GameObject> gobject, bool isTeamLeft)
+    {
+        var a = GetSoldierNonActive(gobject);
+        if (a == null)
+        {
+            gobject.Add(Instantiate(gobject[0], new Vector3(col.x, col.y, col.z), Quaternion.identity));
+            //gobject[gobject.Count - 1].GetComponent<SoldierController>().SetupChamp(isTeamLeft);
+        }
+        else
+        {
+            a.transform.position = col;
+            a.SetActive(true);
+        }
+    }
+    #endregion
+
     #endregion
 
     #region Events

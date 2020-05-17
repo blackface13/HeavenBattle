@@ -263,7 +263,7 @@ public class SkillController : MonoBehaviour
         obj.transform.position = new Vector3(-1000, -1000, 0);
         obj.transform.localEulerAngles = new Vector3();
         yield return new WaitForSeconds(delayTime);
-            obj.SetActive(false);
+        obj.SetActive(false);
     }
 
     /// <summary>
@@ -304,7 +304,11 @@ public class SkillController : MonoBehaviour
                         Hide(gameObject);
                         FirstAtk = true;
                     }
-                    else StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+                    else
+                    {
+                        if (gameObject.activeSelf)
+                            StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+                    }
                 }
             }
         }

@@ -83,6 +83,30 @@ public class SoldierController : MonoBehaviour
         HPBarParentObject.transform.SetParent(this.transform, false);
         HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
         HPBarObject = HPBarParentObject.transform.GetChild(0).gameObject;
+        Anim = this.GetComponent<Animator>();
+
+        //Quét các collider con
+        //0 = collider cha -> bỏ qua
+        //1 = collider phát hiện đối phương trong tầm đánh
+        //2 = collider vùng an toàn
+        Collider2D[] collider = GetComponentsInChildren<Collider2D>();
+        if (collider[1].gameObject != gameObject)
+        {
+            try
+            {
+                ChampDetect = collider[1].gameObject.GetComponent<SoldierTargetDetect>();
+            ChampDetect.Initialize(this);
+            }
+            catch
+            {
+                ChampDetect = collider[1].gameObject.AddComponent<SoldierTargetDetect>();
+            ChampDetect.Initialize(this);
+            }
+        }
+
+        //Set khoảng cách phát hiện va chạm của nhân vật
+        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(DetectRange, 1);
+
         try
         {
             DataValues = GameSettings.SoldierDefault.Find(x => x.ID == (SoldierID - 1)).Clone();
@@ -129,16 +153,28 @@ public class SoldierController : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
         //if (hit.collider != null)
         //    print("fgfgf");
+        AnimController(ChampActions.Moving);
 
     }
 
     public virtual void OnEnable()
     {
         IsAlive = true;
+        IsDieing = false;
         ThisCollider.enabled = true;
         ThisRigid.constraints = RigidbodyConstraints2D.None;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezePositionX;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+        DataValues.vHealthCurrent = DataValues.vHealth;
+        ChangeView(!IsTeamLeft);
+        try
+        {
+            AnimController(ChampActions.Moving);
+        }
+        catch
+        {
+
+        }
         StartCoroutine(WaitForEvents(0));//Chờ nhân vật die
     }
 
@@ -149,17 +185,6 @@ public class SoldierController : MonoBehaviour
     {
         IsTeamLeft = isTeamLeft;
         IsViewLeft = !IsTeamLeft;
-        Anim = this.GetComponent<Animator>();
-        //Quét các collider con
-        //0 = collider cha -> bỏ qua
-        //1 = collider phát hiện đối phương trong tầm đánh
-        //2 = collider vùng an toàn
-        Collider2D[] collider = GetComponentsInChildren<Collider2D>();
-        if (collider[1].gameObject != gameObject)
-        {
-            ChampDetect = collider[1].gameObject.AddComponent<SoldierTargetDetect>();
-            ChampDetect.Initialize(this);
-        }
 
         //Set layer cho champ
         this.gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SoldierTeam1 : (int)GameSettings.LayerSettings.SoldierTeam2;
@@ -167,13 +192,8 @@ public class SoldierController : MonoBehaviour
         //Set layer cho vùng detect va chạm
         this.gameObject.transform.GetChild(0).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SoldierDetectTeam1 : (int)GameSettings.LayerSettings.SoldierDetectTeam2;
 
-        //Set khoảng cách phát hiện va chạm của nhân vật
-        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(DetectRange, 1);
-
         //Set hướng nhìn cho nhân vật
         ChangeView(IsViewLeft);
-
-        AnimController(ChampActions.Moving);
     }
     #endregion
 
@@ -354,9 +374,9 @@ public class SoldierController : MonoBehaviour
     /// </summary>
     public void Die()
     {
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
         gameObject.transform.position = new Vector3(-1000, gameObject.transform.position.y, 0);
-        StartCoroutine(Reboot(.5f));
+        //StartCoroutine(Reboot(.5f));
     }
 
     /// <summary>
@@ -366,7 +386,7 @@ public class SoldierController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
         //gameObject.SetActive(true);
-        gameObject.transform.position = new Vector3(IsTeamLeft ? -25 : 220, gameObject.transform.position.y, 0);
+        //gameObject.transform.position = new Vector3(IsTeamLeft ? -25 : 220, gameObject.transform.position.y, 0);
         IsAlive = true;
         IsDieing = false;
         ThisCollider.enabled = true;
