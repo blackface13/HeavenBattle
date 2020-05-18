@@ -192,6 +192,8 @@ public class SoldierController : MonoBehaviour
         //Set layer cho vùng detect va chạm
         this.gameObject.transform.GetChild(0).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SoldierDetectTeam1 : (int)GameSettings.LayerSettings.SoldierDetectTeam2;
 
+        ChampDetect.Initialize(this);
+
         //Set hướng nhìn cho nhân vật
         ChangeView(IsViewLeft);
     }

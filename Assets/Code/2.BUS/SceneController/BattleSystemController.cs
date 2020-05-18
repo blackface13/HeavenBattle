@@ -224,6 +224,8 @@ public class BattleSystemController : MonoBehaviour
     /// <param name="quater">Độ nghiêng, xoay tròn</param>
     private IEnumerator AutoCreateSoldier(int meleeSoldier, int archerSoldier)
     {
+        meleeSoldier = meleeSoldier * 2;
+        archerSoldier = archerSoldier * 2;
         var count1 = 0;
         var count2 = 0;
         Begin:

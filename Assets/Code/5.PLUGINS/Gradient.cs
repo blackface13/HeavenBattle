@@ -7,6 +7,7 @@ public class Gradient : BaseMeshEffect
 {
     public Color32 topColor = Color.white;
     public Color32 bottomColor = Color.black;
+    public bool IsLeftToRight;
 
     public override void ModifyMesh(VertexHelper helper)
     {
@@ -16,12 +17,12 @@ public class Gradient : BaseMeshEffect
         List<UIVertex> vertices = new List<UIVertex>();
         helper.GetUIVertexStream(vertices);
 
-        float bottomY = vertices[0].position.y;
-        float topY = vertices[0].position.y;
+        float bottomY = IsLeftToRight ? vertices[0].position.x : vertices[0].position.y;
+        float topY = IsLeftToRight ? vertices[0].position.x : vertices[0].position.y;
 
         for (int i = 1; i < vertices.Count; i++)
         {
-            float y = vertices[i].position.y;
+            float y = IsLeftToRight ? vertices[0].position.x : vertices[i].position.y;
             if (y > topY)
             {
                 topY = y;
@@ -39,7 +40,7 @@ public class Gradient : BaseMeshEffect
         for (int i = 0; i < helper.currentVertCount; i++)
         {
             helper.PopulateUIVertex(ref v, i);
-            v.color = Color32.Lerp(bottomColor, topColor, (v.position.y - bottomY) / uiElementHeight);
+            v.color = Color32.Lerp(bottomColor, topColor, (IsLeftToRight ? v.position.x : v.position.y - bottomY) / uiElementHeight);
             helper.SetUIVertex(v, i);
         }
     }

@@ -413,7 +413,7 @@ public class HeroController : MonoBehaviour
         ThisRigid.constraints = RigidbodyConstraints2D.FreezePositionX;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         DataValues.vHealthCurrent = DataValues.vHealth;
-        IsInSafeRange = true;
+        IsInSafeRange = false;
         StartCoroutine(WaitForEvents(0));//Chờ nhân vật die
         StartCoroutine(RegenHealth());
         ChangeView(!IsTeamLeft);
