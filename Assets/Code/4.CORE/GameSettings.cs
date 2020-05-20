@@ -32,6 +32,9 @@ namespace Assets.Code._4.CORE
         public static List<ChampModel> ChampDefault;
         public static List<ChampModel> SoldierDefault;
 
+        //Battle
+        public static float SpeedFillImgWaitingHoldTap = 1.5f;
+
         #endregion
 
         #region Functions

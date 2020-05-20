@@ -7,6 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.UI;
 
 public class BattleSystemController : MonoBehaviour
 {
@@ -24,7 +26,12 @@ public class BattleSystemController : MonoBehaviour
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
-    public GameObject BoxControl, BtnExpand;
+    public GameObject BoxControl, BtnExpand, PopupChampSelected, BlackBGUI1, BlackBGUI2, ObjectArrowIntro;
+
+    [TitleGroup("Cài đặt hệ thống battle")]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
+    public GameObject[] ObjectButton3Lane;
 
 
     public GameObject ObjectTest;
@@ -57,7 +64,20 @@ public class BattleSystemController : MonoBehaviour
         CreateSoldier();
         BoxControlPosXOrigin = BoxControl.transform.localPosition.x;
         StartCoroutine(AutoCreateSoldier(2, 2));
+        SetupUI();
     }
+
+    /// <summary>
+    /// Khởi tạo các thành phần giao diện control
+    /// </summary>
+    private void SetupUI()
+    {
+        GlobalVariables.PopupChampSelectedInBattle = PopupChampSelected;
+        GlobalVariables.BlackBGUI1InBattle = BlackBGUI1;
+        GlobalVariables.BlackBGUI2InBattle = BlackBGUI2;
+        GlobalVariables.ObjectArrowIntroInBattle = ObjectArrowIntro;
+        GlobalVariables.ObjectButton3LaneInBattle = ObjectButton3Lane;
+    }    
 
     /// <summary>
     /// Khởi tạo các object dmg text
@@ -332,6 +352,33 @@ public class BattleSystemController : MonoBehaviour
         StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand ? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, CurverTest));
         IsBoxControlExpand = !IsBoxControlExpand;
         BtnExpand.transform.localScale = new Vector3(IsBoxControlExpand ? 0 - BtnExpand.transform.localScale.x : Math.Abs(BtnExpand.transform.localScale.x), BtnExpand.transform.localScale.y, BtnExpand.transform.localScale.z);
+    }
+
+    /// <summary>
+    /// Ẩn tất cả các UI khi click vào nền tối
+    /// </summary>
+    public void HideAllUI()
+    {
+        GlobalVariables.PopupChampSelectedInBattle.SetActive(false);
+        GlobalVariables.BlackBGUI1InBattle.SetActive(false);
+        GlobalVariables.BlackBGUI2InBattle.SetActive(false);
+        GlobalVariables.ObjectArrowIntroInBattle.SetActive(false);
+        for (int i = 0; i < GlobalVariables.ObjectButton3LaneInBattle.Length; i++)
+        {
+            GlobalVariables.ObjectButton3LaneInBattle[i].SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Chọn đường xuất tướng
+    /// </summary>
+    public void ChooseLane(int lane)
+    {
+        for(int i = 0;i< GlobalVariables.ObjectButton3LaneInBattle.Length;i++)
+        {
+            GlobalVariables.ObjectButton3LaneInBattle[i].SetActive(false);
+        }
+        HideAllUI();
     }
     #endregion
 }

@@ -100,9 +100,11 @@
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroSafeDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTargetDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTemplate.cs" />
+    <Compile Include="Assets\Code\2.BUS\Misc\BattleDragDropChamp.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\DamageTextController.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\MouseDragBehaviour.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\ObjectMapController.cs" />
+    <Compile Include="Assets\Code\2.BUS\Misc\PopupChampSelectedController.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\RankingUI.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\UnoCardRankGameEnding.cs" />
     <Compile Include="Assets\Code\2.BUS\SceneController\BattleSystemController.cs" />
@@ -131,7 +133,6 @@
     <Compile Include="Assets\Code\4.CORE\CreateDataDefault.cs" />
     <Compile Include="Assets\Code\4.CORE\GameSettings.cs" />
     <Compile Include="Assets\Code\4.CORE\GameSystem.cs" />
-    <Compile Include="Assets\Code\4.CORE\GlobalVariables.cs" />
     <Compile Include="Assets\Code\4.CORE\Securitys.cs" />
     <Compile Include="Assets\Code\5.PLUGINS\Gradient.cs" />
     <Compile Include="Assets\Code\5.PLUGINS\GradientMid.cs" />
