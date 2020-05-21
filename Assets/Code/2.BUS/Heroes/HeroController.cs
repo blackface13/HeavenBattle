@@ -88,6 +88,47 @@ public class HeroController : MonoBehaviour
         HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
         HPBarObject = HPBarParentObject.transform.GetChild(2).gameObject;
         Anim = this.GetComponent<Animator>();
+
+        //Quét các collider con
+        //0 = collider cha -> bỏ qua
+        //1 = collider phát hiện đối phương trong tầm đánh
+        //2 = collider vùng an toàn
+        Collider2D[] collider = GetComponentsInChildren<Collider2D>();
+        if (collider[1].gameObject != gameObject)
+        {
+            try
+            {
+                ChampDetect = collider[1].gameObject.GetComponent<HeroTargetDetect>();
+                ChampDetect.Initialize(this);
+            }
+            catch
+            {
+                ChampDetect = collider[1].gameObject.AddComponent<HeroTargetDetect>();
+                ChampDetect.Initialize(this);
+            }
+        }
+        if (collider[2].gameObject != gameObject)
+        {
+            try
+            {
+                ChampSafe = collider[2].gameObject.GetComponent<HeroSafeDetect>();
+                ChampSafe.Initialize(this);
+            }
+            catch
+            {
+                ChampSafe = collider[2].gameObject.AddComponent<HeroSafeDetect>();
+                ChampSafe.Initialize(this);
+            }
+
+        }
+
+        //Set khoảng cách phát hiện va chạm của nhân vật
+        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(DetectRange, 1);
+
+        //Set khoảng cách vùng an toàn
+        this.gameObject.transform.GetChild(1).GetComponent<BoxCollider2D>().size = new Vector2(SafeRange, 1);
+
+        AnimController(ChampActions.Moving);
         try
         {
             DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1)).Clone();
@@ -140,11 +181,23 @@ public class HeroController : MonoBehaviour
     public virtual void OnEnable()
     {
         IsAlive = true;
+        IsDieing = false;
         ThisCollider.enabled = true;
         ThisRigid.constraints = RigidbodyConstraints2D.None;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezePositionX;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+        DataValues.vHealthCurrent = DataValues.vHealth;
+        ChangeView(!IsTeamLeft);
+        try
+        {
+            AnimController(ChampActions.Moving);
+        }
+        catch
+        {
+
+        }
         StartCoroutine(WaitForEvents(0));//Chờ nhân vật die
+        StartCoroutine(RegenHealth());
     }
 
     /// <summary>
@@ -154,21 +207,6 @@ public class HeroController : MonoBehaviour
     {
         IsTeamLeft = isTeamLeft;
         IsViewLeft = !IsTeamLeft;
-        //Quét các collider con
-        //0 = collider cha -> bỏ qua
-        //1 = collider phát hiện đối phương trong tầm đánh
-        //2 = collider vùng an toàn
-        Collider2D[] collider = GetComponentsInChildren<Collider2D>();
-        if (collider[1].gameObject != gameObject)
-        {
-            ChampDetect = collider[1].gameObject.AddComponent<HeroTargetDetect>();
-            ChampDetect.Initialize(this);
-        }
-        if (collider[2].gameObject != gameObject)
-        {
-            ChampSafe = collider[2].gameObject.AddComponent<HeroSafeDetect>();
-            ChampSafe.Initialize(this);
-        }
 
         //Set layer cho champ
         this.gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.HeroTeam1 : (int)GameSettings.LayerSettings.HeroTeam2;
@@ -176,19 +214,15 @@ public class HeroController : MonoBehaviour
         //Set layer cho vùng detect va chạm
         this.gameObject.transform.GetChild(0).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.DetectEnemyTeam1 : (int)GameSettings.LayerSettings.DetectEnemyTeam2;
 
-        //Set khoảng cách phát hiện va chạm của nhân vật
-        this.gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().size = new Vector2(DetectRange, 1);
-
         //Set layer cho vùng an toàn
         this.gameObject.transform.GetChild(1).gameObject.layer = IsTeamLeft ? (int)GameSettings.LayerSettings.SafeRegionTeam1 : (int)GameSettings.LayerSettings.SafeRegionTeam2;
 
-        //Set khoảng cách vùng an toàn
-        this.gameObject.transform.GetChild(1).GetComponent<BoxCollider2D>().size = new Vector2(SafeRange, 1);
+        ChampDetect.Initialize(this);
+        ChampSafe.Initialize(this);
 
         //Set hướng nhìn cho nhân vật
         ChangeView(IsViewLeft);
 
-        AnimController(ChampActions.Moving);
     }
     #endregion
 
@@ -395,7 +429,10 @@ public class HeroController : MonoBehaviour
     {
         //gameObject.SetActive(false);
         gameObject.transform.position = new Vector3(-1000, gameObject.transform.position.y, 0);
-        StartCoroutine(Reboot(.5f));
+        if (!IsTeamLeft)
+            StartCoroutine(Reboot(.5f));
+        else
+            gameObject.SetActive(false);
     }
 
     /// <summary>

@@ -100,8 +100,8 @@
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroSafeDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTargetDetect.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroTemplate.cs" />
-    <Compile Include="Assets\Code\2.BUS\Misc\BattleDragDropChamp.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\DamageTextController.cs" />
+    <Compile Include="Assets\Code\2.BUS\Misc\LayoutChampController.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\MouseDragBehaviour.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\ObjectMapController.cs" />
     <Compile Include="Assets\Code\2.BUS\Misc\PopupChampSelectedController.cs" />

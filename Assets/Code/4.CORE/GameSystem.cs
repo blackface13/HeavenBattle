@@ -538,6 +538,7 @@ public static class GameSystem
     /// <returns></returns>
     public static IEnumerator ScaleUI(int type, GameObject obj, Vector3 targetScale, float duration)
     {
+        GlobalVariables.IsMoving = true;
         float time = 0;
         float rate = 1 / duration;
         Vector2 startPos = type == 0 ? obj.GetComponent<RectTransform>().localScale : obj.GetComponent<Transform>().localScale;
@@ -548,6 +549,7 @@ public static class GameSystem
             rect.localScale = Vector3.Lerp(startPos, targetScale, time);
             yield return 0;
         }
+        GlobalVariables.IsMoving = false;
     }
 
     /// <summary>
@@ -561,6 +563,7 @@ public static class GameSystem
     /// <returns></returns>
     public static IEnumerator ScaleUI(int type, GameObject obj, Vector3 startScale, Vector3 targetScale, float duration)
     {
+        GlobalVariables.IsMoving = true;
         if (type.Equals(0))
             obj.GetComponent<RectTransform>().localScale = startScale;
         else
@@ -575,6 +578,34 @@ public static class GameSystem
             rect.localScale = Vector3.Lerp(startPos, targetScale, time);
             yield return 0;
         }
+        GlobalVariables.IsMoving = false;
+    }
+
+    /// <summary>
+    /// Thay đổi kích thước image của UI theo thời gian
+    /// </summary>
+    /// <param name="img">Hình ảnh</param>
+    /// <param name="isStartSizeOrigin">start size là kích thước nguyên gốc của img truyền vào hay ko</param>
+    /// <param name="startSize">Kích thước ban đầu</param>
+    /// <param name="targetSize">Kích thước resize</param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public static IEnumerator ChangeSizeRect(GameObject obj, bool isStartSizeOrigin, Vector2 startSize, Vector2 targetSize, float duration)
+    {
+        GlobalVariables.IsMoving = true;
+        if (!isStartSizeOrigin)
+            obj.GetComponent<RectTransform>().sizeDelta = startSize;
+        float time = 0;
+        float rate = 1 / duration;
+        Vector2 startPos = obj.GetComponent<RectTransform>().sizeDelta;
+        var rect = obj.GetComponent<RectTransform>();
+        while (time < 1)
+        {
+            time += rate * Time.deltaTime;
+            rect.sizeDelta = Vector2.Lerp(startPos, targetSize, time);
+            yield return 0;
+        }
+        GlobalVariables.IsMoving = false;
     }
 
     /// <summary>
@@ -600,8 +631,9 @@ public static class GameSystem
     /// <param name="duration">thời gian move</param>
     /// <param name="animCurve">đường cong move</param>
     /// <returns></returns>
-    public static IEnumerator MoveObjectCurve(bool isRect, GameObject obj, Vector2 startPos, Vector2 targetPos, float duration, AnimationCurve animCurve)
+    public static IEnumerator MoveObjectCurve(bool isRect, GameObject obj, Vector3 startPos, Vector3 targetPos, float duration, AnimationCurve animCurve)
     {
+        GlobalVariables.IsMoving = true;
         var rect = isRect ? obj.GetComponent<RectTransform>() : null;
         var rect2 = isRect ? null : obj.GetComponent<Transform>();
         float time = 0;
@@ -610,9 +642,9 @@ public static class GameSystem
         {
             time += rate * Time.deltaTime;
             if (isRect)
-                rect.localPosition = Vector2.Lerp(startPos, targetPos, animCurve.Evaluate(time));
+                rect.localPosition = Vector3.Lerp(startPos, targetPos, animCurve.Evaluate(time));
             else
-                rect2.position = Vector2.Lerp(startPos, targetPos, animCurve.Evaluate(time));
+                rect2.position = Vector3.Lerp(startPos, targetPos, animCurve.Evaluate(time));
             yield return null;
         }
         //Gán lại tọa độ sau khi move xong
@@ -620,6 +652,8 @@ public static class GameSystem
             rect.localPosition = targetPos;
         else
             rect2.position = targetPos;
+
+        GlobalVariables.IsMoving = false;
     }
 
     /// <summary>
@@ -633,6 +667,7 @@ public static class GameSystem
     /// <returns></returns>
     public static IEnumerator RotationObject(bool isRect, GameObject obj, Vector3 startPos, Vector3 targetPos, float duration)
     {
+        GlobalVariables.IsMoving = true;
         var rect = isRect ? obj.GetComponent<RectTransform>() : null;
         var rect2 = isRect ? null : obj.GetComponent<Transform>();
         float time = 0;
@@ -651,6 +686,7 @@ public static class GameSystem
             rect.eulerAngles = targetPos;
         else
             rect2.eulerAngles = targetPos;
+        GlobalVariables.IsMoving = false;
     }
 
     /// <summary>

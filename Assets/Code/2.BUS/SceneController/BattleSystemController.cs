@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class BattleSystemController : MonoBehaviour
 {
@@ -31,13 +32,14 @@ public class BattleSystemController : MonoBehaviour
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
-    public GameObject[] ObjectButton3Lane;
+    public GameObject[] ObjectButton3Lane, ObjectContent4Lane;
 
 
     public GameObject ObjectTest;
 
-    public GameObject[] ChampTeam1;
-    public GameObject[] ChampTeam2;
+    public List<GameObject> ChampTeam1;
+    public List<GameObject> LayoutChampTeam1;
+    public List<GameObject> ChampTeam2;
     private List<GameObject> SoldierTeam1;
     private List<GameObject> SoldierTeam2;
 
@@ -47,11 +49,12 @@ public class BattleSystemController : MonoBehaviour
     private float BoxControlPosXOrigin;
     private float BoxControlRangeMove = 917;
     public GameObject[] test;
-    public AnimationCurve CurverTest;
     private List<GameObject> SoldierTeam1Type1;//lính cận chiến team 1
     private List<GameObject> SoldierTeam1Type2;//lính đánh xa team 1
     private List<GameObject> SoldierTeam2Type1;//lính cận chiến team 2
     private List<GameObject> SoldierTeam2Type2;//lính đánh xa team 2
+    public AnimationCurve Curve;
+    private int SlotSelected;
     #endregion
 
     #region Initialize
@@ -77,7 +80,7 @@ public class BattleSystemController : MonoBehaviour
         GlobalVariables.BlackBGUI2InBattle = BlackBGUI2;
         GlobalVariables.ObjectArrowIntroInBattle = ObjectArrowIntro;
         GlobalVariables.ObjectButton3LaneInBattle = ObjectButton3Lane;
-    }    
+    }
 
     /// <summary>
     /// Khởi tạo các object dmg text
@@ -99,25 +102,41 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     private void CreateTeam()
     {
-        ChampTeam1 = new GameObject[4];
-        ChampTeam1[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, -2, 0), Quaternion.identity);
+        ChampTeam1 = new List<GameObject>();
+        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -2, 0), Quaternion.identity));
         ChampTeam1[0].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-10, -2, 0), Quaternion.identity);
+        ChampTeam1[0].SetActive(false);
+        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-1000, -2, 0), Quaternion.identity));
         ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, 5, 0), Quaternion.identity);
+        ChampTeam1[1].SetActive(false);
+        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, 5, 0), Quaternion.identity));
         ChampTeam1[2].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-10, -10, 0), Quaternion.identity);
+        ChampTeam1[2].SetActive(false);
+        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -10, 0), Quaternion.identity));
         ChampTeam1[3].GetComponent<HeroController>().SetupChamp(true);
+        ChampTeam1[3].SetActive(false);
 
 
-        ChampTeam2 = new GameObject[4];
-        ChampTeam2[0] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(190, -2, 0), Quaternion.identity);
+        LayoutChampTeam1 = new List<GameObject>();
+        var count = ChampTeam1.Count;
+        ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta = new Vector2((120 * 2) + (215 * (count - 1)), ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta.y);
+        for (int i = 0; i < count; i++)
+        {
+            LayoutChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/UI/LayoutChamp"), new Vector3(0, 0, 0), Quaternion.identity));
+            LayoutChampTeam1[i].transform.SetParent(ObjectContent4Lane[0].transform, false);
+            LayoutChampTeam1[i].transform.localPosition = new Vector3(120 + (215 * i), 2f, 0);
+            LayoutChampTeam1[i].GetComponent<LayoutChampController>().ButtonSelect.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChampAvt/" + ChampTeam1[i].GetComponent<HeroController>().ChampID);
+            LayoutChampTeam1[i].GetComponent<LayoutChampController>().AddEventHandle(i);
+        }
+
+        ChampTeam2 = new List<GameObject>();
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(190, -2, 0), Quaternion.identity));
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[1] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(180, -2, 0), Quaternion.identity);
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(180, -2, 0), Quaternion.identity));
         ChampTeam2[1].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[2] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(200, 5, 0), Quaternion.identity);
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(200, 5, 0), Quaternion.identity));
         ChampTeam2[2].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2[3] = Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(185, -10, 0), Quaternion.identity);
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(185, -10, 0), Quaternion.identity));
         ChampTeam2[3].GetComponent<HeroController>().SetupChamp(false);
     }
 
@@ -349,7 +368,7 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     public void ButtonShowBoxControl()
     {
-        StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand ? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, CurverTest));
+        StartCoroutine(GameSystem.MoveObjectCurve(true, BoxControl, BoxControl.transform.localPosition, new Vector2(IsBoxControlExpand ? BoxControlPosXOrigin : BoxControlPosXOrigin + BoxControlRangeMove, BoxControl.transform.localPosition.y), .5f, Curve));
         IsBoxControlExpand = !IsBoxControlExpand;
         BtnExpand.transform.localScale = new Vector3(IsBoxControlExpand ? 0 - BtnExpand.transform.localScale.x : Math.Abs(BtnExpand.transform.localScale.x), BtnExpand.transform.localScale.y, BtnExpand.transform.localScale.z);
     }
@@ -374,11 +393,68 @@ public class BattleSystemController : MonoBehaviour
     /// </summary>
     public void ChooseLane(int lane)
     {
-        for(int i = 0;i< GlobalVariables.ObjectButton3LaneInBattle.Length;i++)
+        for (int i = 0; i < GlobalVariables.ObjectButton3LaneInBattle.Length; i++)
         {
             GlobalVariables.ObjectButton3LaneInBattle[i].SetActive(false);
         }
         HideAllUI();
+        SlotSelected = lane;
+        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(BoxControl.transform, false);
+
+        ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].SetActive(false);
+        ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.position = new Vector3(-10, lane.Equals(0) ? 5 : lane.Equals(1) ? -2 : -10, 0);
+        ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].SetActive(true);
+
+        //GlobalVariables.ObjectImgChampTempInBattle.SetActive(true);//Hình ảnh tạm của tướng
+        //StartCoroutine(GameSystem.MoveObjectCurve(false, LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle], LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.position, ObjectButton3Lane[lane].transform.position, GameSettings.TimeMoveImgTempInBattle, Curve));
+        //StartCoroutine(GameSystem.ChangeSizeRect(LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle], true, Vector2.zero, new Vector2(130, 130), GameSettings.TimeMoveImgTempInBattle));
+        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].GetComponent<RectTransform>().sizeDelta = new Vector2(130, 130);
+        //StartCoroutine(WaitForAction(0));//Chờ move xong img temp
+        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(ObjectContent4Lane[SlotSelected + 1].transform, false);
+        UpdatePosChampInLaneUI();
+    }
+
+    /// <summary>
+    /// Chờ thao tác
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private IEnumerator WaitForAction(int type)
+    {
+        switch (type)
+        {
+            case 0://Chờ move xong img temp
+                yield return new WaitUntil(() => !GlobalVariables.IsMoving);
+                LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(ObjectContent4Lane[SlotSelected + 1].transform, false);
+                UpdatePosChampInLaneUI();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Sắp xếp lại tọa độ các UI của champ
+    /// </summary>
+    private void UpdatePosChampInLaneUI()
+    {
+        //Sắp xếp lại tọa độ
+        var count = 0;
+        foreach (Transform child in ObjectContent4Lane[1].transform)
+        {
+            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            count++;
+        }
+        count = 0;
+        foreach (Transform child in ObjectContent4Lane[2].transform)
+        {
+            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            count++;
+        }
+        count = 0;
+        foreach (Transform child in ObjectContent4Lane[3].transform)
+        {
+            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            count++;
+        }
     }
     #endregion
 }

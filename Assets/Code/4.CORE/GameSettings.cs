@@ -34,7 +34,7 @@ namespace Assets.Code._4.CORE
 
         //Battle
         public static float SpeedFillImgWaitingHoldTap = 1.5f;
-
+        public static float TimeMoveImgTempInBattle = 0f;
         #endregion
 
         #region Functions
