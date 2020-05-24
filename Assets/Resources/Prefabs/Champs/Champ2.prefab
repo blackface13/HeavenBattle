@@ -1508,6 +1508,8 @@ MonoBehaviour:
   IsInRangeDetect: 0
   IsTeamLeft: 0
   BattleSystem: {fileID: 0}
+  ThisCollider: {fileID: 0}
+  ThisRigid: {fileID: 0}
   Atk1Object: []
   Atk2Object: []
   Atk3Object: []
@@ -1558,6 +1560,7 @@ MonoBehaviour:
     vMoveSpeed: 0
     HType: 0
     Type: 0
+  IsAlive: 0
   ChampState: 0
 --- !u!1 &391187555285729092
 GameObject:

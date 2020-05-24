@@ -531,18 +531,18 @@ public static class GameSystem
     /// <summary>
     /// Thay đổi scale của 1 object UI theo thời gian
     /// </summary>
-    /// <param name="type">0 = rectransform, 1 = transform</param>
+    /// <param name="isRect">true = rectransform, false = transform</param>
     /// <param name="obj">Objec truyền vào</param>
     /// <param name="targetScale">Scalse sẽ thay đổi</param>
     /// <param name="duration">Thời gian thay đổi là bao lâu</param>
     /// <returns></returns>
-    public static IEnumerator ScaleUI(int type, GameObject obj, Vector3 targetScale, float duration)
+    public static IEnumerator ScaleUI(bool isRect, GameObject obj, Vector3 targetScale, float duration)
     {
         GlobalVariables.IsMoving = true;
         float time = 0;
         float rate = 1 / duration;
-        Vector2 startPos = type == 0 ? obj.GetComponent<RectTransform>().localScale : obj.GetComponent<Transform>().localScale;
-        var rect = type == 0 ? obj.GetComponent<RectTransform>() : obj.GetComponent<Transform>();
+        Vector2 startPos = isRect ? obj.GetComponent<RectTransform>().localScale : obj.GetComponent<Transform>().localScale;
+        var rect = isRect ? obj.GetComponent<RectTransform>() : obj.GetComponent<Transform>();
         while (time < 1)
         {
             time += rate * Time.deltaTime;

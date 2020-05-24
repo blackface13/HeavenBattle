@@ -27,7 +27,7 @@ public class BattleSystemController : MonoBehaviour
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
-    public GameObject BoxControl, BtnExpand, PopupChampSelected, BlackBGUI1, BlackBGUI2, ObjectArrowIntro;
+    public GameObject BoxControl, BtnExpand, PopupChampSelected, BlackBGUI1, BlackBGUI2, ObjectArrowIntro, ObjectImgWatingHoldChamp;
 
     [TitleGroup("Cài đặt hệ thống battle")]
     [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
@@ -80,6 +80,7 @@ public class BattleSystemController : MonoBehaviour
         GlobalVariables.BlackBGUI2InBattle = BlackBGUI2;
         GlobalVariables.ObjectArrowIntroInBattle = ObjectArrowIntro;
         GlobalVariables.ObjectButton3LaneInBattle = ObjectButton3Lane;
+        GlobalVariables.ImgWaitingHoldChamp = ObjectImgWatingHoldChamp.GetComponent<Image>();
     }
 
     /// <summary>
@@ -103,18 +104,18 @@ public class BattleSystemController : MonoBehaviour
     private void CreateTeam()
     {
         ChampTeam1 = new List<GameObject>();
-        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -2, 0), Quaternion.identity));
-        ChampTeam1[0].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[0].SetActive(false);
-        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-1000, -2, 0), Quaternion.identity));
-        ChampTeam1[1].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[1].SetActive(false);
-        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, 5, 0), Quaternion.identity));
-        ChampTeam1[2].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[2].SetActive(false);
-        ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -10, 0), Quaternion.identity));
-        ChampTeam1[3].GetComponent<HeroController>().SetupChamp(true);
-        ChampTeam1[3].SetActive(false);
+        for(int i = 0;i<4;i++)
+        {
+            ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -2, 0), Quaternion.identity));
+            ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
+            ChampTeam1[i].SetActive(false);
+        }
+        for (int i = 4; i < 10; i++)
+        {
+            ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-1000, -2, 0), Quaternion.identity));
+            ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
+            ChampTeam1[i].SetActive(false);
+        }
 
 
         LayoutChampTeam1 = new List<GameObject>();
@@ -125,7 +126,7 @@ public class BattleSystemController : MonoBehaviour
             LayoutChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/UI/LayoutChamp"), new Vector3(0, 0, 0), Quaternion.identity));
             LayoutChampTeam1[i].transform.SetParent(ObjectContent4Lane[0].transform, false);
             LayoutChampTeam1[i].transform.localPosition = new Vector3(120 + (215 * i), 2f, 0);
-            LayoutChampTeam1[i].GetComponent<LayoutChampController>().ButtonSelect.GetComponent<Image>().sprite = Resources.Load<Sprite>("ChampAvt/" + ChampTeam1[i].GetComponent<HeroController>().ChampID);
+            LayoutChampTeam1[i].GetComponent<LayoutChampController>().ImgChamp.sprite = Resources.Load<Sprite>("ChampAvt/" + ChampTeam1[i].GetComponent<HeroController>().ChampID);
             LayoutChampTeam1[i].GetComponent<LayoutChampController>().AddEventHandle(i);
         }
 

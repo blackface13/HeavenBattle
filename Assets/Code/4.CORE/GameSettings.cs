@@ -33,7 +33,7 @@ namespace Assets.Code._4.CORE
         public static List<ChampModel> SoldierDefault;
 
         //Battle
-        public static float SpeedFillImgWaitingHoldTap = 1.5f;
+        public static float SpeedFillImgWaitingHoldTap = 2f;
         public static float TimeMoveImgTempInBattle = 0f;
         #endregion
 

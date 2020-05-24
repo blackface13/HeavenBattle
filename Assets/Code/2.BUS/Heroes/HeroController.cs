@@ -35,11 +35,12 @@ public class HeroController : MonoBehaviour
     public bool IsViewLeft;//Hướng nhìn trái hoặc phải
     public bool IsInRangeDetect;//Đã phát hiện đối phương trong tầm
     private bool IsInSafeRange;//Đối phươgn trong vùng an toàn của champ
+    private bool SkillIsReady;//Skill đã hồi hay chưa
     HeroTargetDetect ChampDetect;//Sự kiện phát hiện trong vùng tấn công
     HeroSafeDetect ChampSafe;//Sự kiện phát hiện trong vùng an toàn
     Animator Anim;//Hoạt cảnh nhân vật
     public bool IsTeamLeft;//Team bên trái hoặc bên phải
-    private GameObject HPBarObject, HPBarParentObject;//Scale của thanh máu
+    private GameObject HPBarObject, HPBarParentObject, SkillCooldownBarObject;//Scale của thanh máu
     public BattleSystemController BattleSystem;
     public Collider2D ThisCollider;
     public Rigidbody2D ThisRigid;
@@ -87,8 +88,9 @@ public class HeroController : MonoBehaviour
         HPBarParentObject.transform.SetParent(this.transform, false);
         HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
         HPBarObject = HPBarParentObject.transform.GetChild(2).gameObject;
+        SkillCooldownBarObject = HPBarParentObject.transform.GetChild(3).gameObject;
         Anim = this.GetComponent<Animator>();
-
+        SkillIsReady = true;
         //Quét các collider con
         //0 = collider cha -> bỏ qua
         //1 = collider phát hiện đối phương trong tầm đánh
@@ -187,6 +189,7 @@ public class HeroController : MonoBehaviour
         ThisRigid.constraints = RigidbodyConstraints2D.FreezePositionX;
         ThisRigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         DataValues.vHealthCurrent = DataValues.vHealth;
+        SkillIsReady = true;
         ChangeView(!IsTeamLeft);
         try
         {
@@ -328,8 +331,12 @@ public class HeroController : MonoBehaviour
                 Anim.SetTrigger("Stand");
                 break;
             case ChampActions.Skilling:
+                SkillCooldownBarObject.transform.localScale = new Vector3(0, 2, 2);
                 Anim.speed = 1f;
                 Anim.SetTrigger("Atk0");
+                SkillIsReady = false;
+                StartCoroutine(GameSystem.ScaleUI(false, SkillCooldownBarObject, new Vector3(2, 2, 2), DataValues.vSkillCooldown));
+                StartCoroutine(WaitForAction(1, DataValues.vSkillCooldown));
                 break;
             case ChampActions.Dieing:
                 //Anim.Rebind();
@@ -356,7 +363,7 @@ public class HeroController : MonoBehaviour
                     ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
                     if (IsInRangeDetect)
                     {
-                        AnimController(ChampActions.Attacking);
+                        AnimController(SkillIsReady ? ChampActions.Skilling : ChampActions.Attacking);
                     }
                     else
                         AnimController(ChampActions.Moving);
@@ -413,11 +420,16 @@ public class HeroController : MonoBehaviour
                     IsViewLeft = IsEnemyInLeft;
                     ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
                     if (IsInRangeDetect)
-                        AnimController(ChampActions.Attacking);
+                        AnimController(SkillIsReady ? ChampActions.Skilling : ChampActions.Attacking);
+                    //AnimController(ChampActions.Attacking);
                     else
                         AnimController(ChampActions.Moving);
                 }
                 else break;
+                break;
+            case 1://Chờ hồi chiêu
+                yield return new WaitForSeconds(delayTime);
+                SkillIsReady = true;
                 break;
         }
     }
@@ -548,7 +560,11 @@ public class HeroController : MonoBehaviour
                 IsViewLeft = IsEnemyInLeft;
                 ChangeView(IsViewLeft);//Set hướng nhìn cho nhân vật
                 if (!CurentAction.Equals(ChampActions.Attacking))
-                    AnimController(ChampActions.Attacking);
+                    if (!IsMeleeChamp)//Nếu đánh xa (set tạm)
+                        AnimController(SkillIsReady ? ChampActions.Skilling : ChampActions.Attacking);
+                    //AnimController(ChampActions.Attacking);
+                    else
+                        AnimController(ChampActions.Attacking);
             }
         }
     }
