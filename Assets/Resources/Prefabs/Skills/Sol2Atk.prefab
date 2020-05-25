@@ -109,7 +109,7 @@ MonoBehaviour:
   DelayTimeBeforeHidden: 0
   DelayTimeBeforeEnalbleCollider: 0
   DelayTimeBeforeDisableCollider: 0
-  DelayTimeToHideAfterShow: 3
+  DelayTimeToHideAfterShow: 21
   SkillType: 1
   DamagePercent: 100
   NameEffectExtension1: Sol2AtkHitEffect

@@ -1,4 +1,5 @@
 ﻿using Assets.Code._4.CORE;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,11 +10,31 @@ using UnityEngine.UI;
 
 public class LayoutChampController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    #region Variables
+    [TitleGroup("Cài đặt thông số")]
+    [HorizontalGroup("Cài đặt thông số/Split", Width = 1f)]
+    [TabGroup("Cài đặt thông số/Split/Tab1", "Cấu hình thông số")]
     public Image ImgChamp;
+
+    [TitleGroup("Cài đặt thông số")]
+    [HorizontalGroup("Cài đặt thông số/Split", Width = 1f)]
+    [TabGroup("Cài đặt thông số/Split/Tab1", "Cấu hình thông số")]
+    public GameObject ImgHP;
+
     private Button ButtonSelect;
+    public HeroController HeroControl;
     private bool IsTapHold;//Đang giữ chuột hay ko
     private string TapKey;//Mỗi lần tap, tạo 1 mã GUID khác nhau để xác định lần tap đó
-    private bool IsWaitingShowPopup;//Đang trong thời gian chờ đợi show popup
+    private bool IsWaitingShowPopup;//Đang trong thời gian chờ đợi show popup 
+    private int ThisSlot;//Slot của tướng
+    public BattleSystemController BattleSystem;
+    private bool IsInLane;//Có đang dc chọn ra trận hay chưa
+    #endregion
+
+    private void Awake()
+    {
+        BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
+    }
 
     //private void Start()
     //{
@@ -22,27 +43,34 @@ public class LayoutChampController : MonoBehaviour, IPointerDownHandler, IPointe
     /// <summary>
     /// Thêm sự kiện cho button
     /// </summary>
-    public void AddEventHandle(int slot)
+    public void AddEventHandle(int slot, HeroController heroControl)
     {
+        ThisSlot = slot;
+        HeroControl = heroControl;
         ButtonSelect = this.GetComponent<Button>();
         ButtonSelect.onClick.AddListener(() =>
-        {//Nhấn chọn tướng
-            //GlobalVariables.PopupChampSelectedInBattle.SetActive(true);
-            //GlobalVariables.BlackBGUI2InBattle.SetActive(true);
-            //GlobalVariables.PopupChampSelectedInBattle.transform.position = this.transform.position;//Set tọa độ popup
-            if (!IsWaitingShowPopup)
+        {
+            //Nếu chưa ra trận
+            if (!IsInLane)
             {
-                GlobalVariables.SlotChampSelectedInBattle = slot;
-                GlobalVariables.BlackBGUI2InBattle.SetActive(false);
-                GlobalVariables.BlackBGUI1InBattle.SetActive(true);
-                GlobalVariables.ObjectArrowIntroInBattle.SetActive(true);
-
-                for (int i = 0; i < GlobalVariables.ObjectButton3LaneInBattle.Length; i++)
+                if (!IsWaitingShowPopup)
                 {
-                    GlobalVariables.ObjectButton3LaneInBattle[i].SetActive(true);
+                    GlobalVariables.SlotChampSelectedInBattle = slot;
+                    GlobalVariables.BlackBGUI2InBattle.SetActive(false);
+                    GlobalVariables.BlackBGUI1InBattle.SetActive(true);
+                    GlobalVariables.ObjectArrowIntroInBattle.SetActive(true);
+
+                    for (int i = 0; i < GlobalVariables.ObjectButton3LaneInBattle.Length; i++)
+                    {
+                        GlobalVariables.ObjectButton3LaneInBattle[i].SetActive(true);
+                    }
                 }
+                IsWaitingShowPopup = false;
+                IsInLane = true;//Ra trận
             }
-            IsWaitingShowPopup = false;
+            else
+            //Nếu đã ra trận => chuyển vị trí camera tới đó
+            BattleSystem.ViewLocationHero(ThisSlot);
         });
     }
 
@@ -99,6 +127,21 @@ public class LayoutChampController : MonoBehaviour, IPointerDownHandler, IPointe
                 GlobalVariables.PopupChampSelectedInBattle.SetActive(true);//Popup
                 GlobalVariables.BlackBGUI2InBattle.SetActive(true);//Nền tối
                 GlobalVariables.PopupChampSelectedInBattle.transform.position = this.transform.position;//Set tọa độ popup
+            }
+        }
+
+        //Cập nhật thanh máu trong UI
+        if (HeroControl.IsAlive)
+        {
+            ImgHP.transform.localScale = new Vector3(Math.Abs(HeroControl.DataValues.vHealthCurrent / HeroControl.DataValues.vHealth), ImgHP.transform.localScale.y, ImgHP.transform.localScale.z);
+        }
+        else
+        {
+            if (IsInLane)//Nếu đang ra trận
+            {
+                BattleSystem.PushToScrollViewTotal(ThisSlot);//Đẩy lên scroll view tổng
+                ImgHP.transform.localScale = new Vector3(0, ImgHP.transform.localScale.y, ImgHP.transform.localScale.z);
+                IsInLane = false;//Chưa xuất trận
             }
         }
     }

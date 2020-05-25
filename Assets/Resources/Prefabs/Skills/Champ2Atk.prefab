@@ -54,7 +54,7 @@ MonoBehaviour:
   DelayTimeBeforeHidden: 1
   DelayTimeBeforeEnalbleCollider: 0
   DelayTimeBeforeDisableCollider: 0
-  DelayTimeToHideAfterShow: 3
+  DelayTimeToHideAfterShow: 2
   SkillType: 1
   DamagePercent: 100
   NameEffectExtension1: Champ2AtkEffect

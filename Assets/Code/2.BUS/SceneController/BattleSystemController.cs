@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Experimental.UIElements;
@@ -15,24 +16,29 @@ public class BattleSystemController : MonoBehaviour
 {
     #region Variables
     [TitleGroup("Cài đặt hệ thống battle")]
-    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
     public int NumberObjectDmgTextCreate;
 
     [TitleGroup("Cài đặt hệ thống battle")]
-    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
     public float DelayTimeBetween2Soldier, DelayTimeBetween2GroupSoldier;
 
     [TitleGroup("Cài đặt hệ thống battle")]
-    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
-    public GameObject BoxControl, BtnExpand, PopupChampSelected, BlackBGUI1, BlackBGUI2, ObjectArrowIntro, ObjectImgWatingHoldChamp;
+    public GameObject BoxControl, BtnExpand, BtnChangeSpeed, PopupChampSelected, BlackBGUI1, BlackBGUI2, ObjectArrowIntro, ObjectImgWatingHoldChamp;
 
     [TitleGroup("Cài đặt hệ thống battle")]
-    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = 1f)]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab1", "Cấu hình thông số")]
     public GameObject[] ObjectButton3Lane, ObjectContent4Lane;
+
+    [TitleGroup("Cài đặt hệ thống battle")]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
+    [TabGroup("Cài đặt hệ thống battle/Split/Tab2", "Cấu hình thông số")]
+    public Text BattleSpeedText;
 
 
     public GameObject ObjectTest;
@@ -68,6 +74,7 @@ public class BattleSystemController : MonoBehaviour
         BoxControlPosXOrigin = BoxControl.transform.localPosition.x;
         StartCoroutine(AutoCreateSoldier(2, 2));
         SetupUI();
+        AddEventHandle();
     }
 
     /// <summary>
@@ -81,6 +88,10 @@ public class BattleSystemController : MonoBehaviour
         GlobalVariables.ObjectArrowIntroInBattle = ObjectArrowIntro;
         GlobalVariables.ObjectButton3LaneInBattle = ObjectButton3Lane;
         GlobalVariables.ImgWaitingHoldChamp = ObjectImgWatingHoldChamp.GetComponent<Image>();
+
+        //Ngôn ngữ & text
+        BattleSpeedText.text = "Speed: X" + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
+        Time.timeScale = GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
     }
 
     /// <summary>
@@ -117,19 +128,20 @@ public class BattleSystemController : MonoBehaviour
             ChampTeam1[i].SetActive(false);
         }
 
-
+        //Khởi tạo các object UI
         LayoutChampTeam1 = new List<GameObject>();
         var count = ChampTeam1.Count;
-        ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta = new Vector2((120 * 2) + (215 * (count - 1)), ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta.y);
+        ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta = new Vector2((120 * 2) + (GameSettings.ObjectSizeScollViewTotalInBattle * (count - 1)), ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta.y);
         for (int i = 0; i < count; i++)
         {
             LayoutChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/UI/LayoutChamp"), new Vector3(0, 0, 0), Quaternion.identity));
             LayoutChampTeam1[i].transform.SetParent(ObjectContent4Lane[0].transform, false);
-            LayoutChampTeam1[i].transform.localPosition = new Vector3(120 + (215 * i), 2f, 0);
+            LayoutChampTeam1[i].transform.localPosition = new Vector3(120 + (GameSettings.ObjectSizeScollViewTotalInBattle * i), 0, 0);
             LayoutChampTeam1[i].GetComponent<LayoutChampController>().ImgChamp.sprite = Resources.Load<Sprite>("ChampAvt/" + ChampTeam1[i].GetComponent<HeroController>().ChampID);
-            LayoutChampTeam1[i].GetComponent<LayoutChampController>().AddEventHandle(i);
+            LayoutChampTeam1[i].GetComponent<LayoutChampController>().AddEventHandle(i, ChampTeam1[i].GetComponent<HeroController>());
         }
 
+        //Khởi tạo team địch
         ChampTeam2 = new List<GameObject>();
         ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(190, -2, 0), Quaternion.identity));
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
@@ -189,6 +201,14 @@ public class BattleSystemController : MonoBehaviour
         //    SoldierTeam1[i].GetComponent<SoldierController>().SetupChamp(true);
         //    SoldierTeam2[i].GetComponent<SoldierController>().SetupChamp(false);
         //}
+    }
+
+    /// <summary>
+    /// Thêm sự kiện cho các button
+    /// </summary>
+    private void AddEventHandle()
+    {
+        BtnChangeSpeed.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => ChangeBattleSpeed());
     }
     #endregion
 
@@ -409,10 +429,29 @@ public class BattleSystemController : MonoBehaviour
         //GlobalVariables.ObjectImgChampTempInBattle.SetActive(true);//Hình ảnh tạm của tướng
         //StartCoroutine(GameSystem.MoveObjectCurve(false, LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle], LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.position, ObjectButton3Lane[lane].transform.position, GameSettings.TimeMoveImgTempInBattle, Curve));
         //StartCoroutine(GameSystem.ChangeSizeRect(LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle], true, Vector2.zero, new Vector2(130, 130), GameSettings.TimeMoveImgTempInBattle));
-        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].GetComponent<RectTransform>().sizeDelta = new Vector2(130, 130);
+        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].GetComponent<RectTransform>().sizeDelta = new Vector2(GameSettings.ObjectSizeScollViewLaneInBattle, GameSettings.ObjectSizeScollViewLaneInBattle);
         //StartCoroutine(WaitForAction(0));//Chờ move xong img temp
         LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(ObjectContent4Lane[SlotSelected + 1].transform, false);
         UpdatePosChampInLaneUI();
+    }
+
+    /// <summary>
+    /// Đẩy nhân vật sau khi chết lên scroll view tổng
+    /// </summary>
+    public void PushToScrollViewTotal(int slot)
+    {
+        LayoutChampTeam1[slot].transform.SetParent(ObjectContent4Lane[0].transform, false);//Set parent
+        LayoutChampTeam1[slot].GetComponent<RectTransform>().sizeDelta = new Vector2(GameSettings.ObjectSizeScollViewTotalInBattle, GameSettings.ObjectSizeScollViewTotalInBattle);//Change size
+        UpdatePosChampInLaneUI();//update lại các scroll view
+    }
+
+    /// <summary>
+    /// Xem nhân vật đang ở vị trí nào
+    /// </summary>
+    /// <param name="slot"></param>
+    public void ViewLocationHero(int slot)
+    {
+        StartCoroutine(GameSystem.MoveObjectCurve(false, Camera.main.gameObject, Camera.main.transform.position, new Vector3(ChampTeam1[slot].transform.position.x, ChampTeam1[slot].transform.position.y, Camera.main.transform.position.z), .5f, Curve));
     }
 
     /// <summary>
@@ -433,29 +472,50 @@ public class BattleSystemController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sắp xếp lại tọa độ các UI của champ
+    /// Sắp xếp lại tọa độ các Scroll view
     /// </summary>
     private void UpdatePosChampInLaneUI()
     {
         //Sắp xếp lại tọa độ
         var count = 0;
-        foreach (Transform child in ObjectContent4Lane[1].transform)
+        foreach (Transform child in ObjectContent4Lane[0].transform)//Sắp xếp lại scrollview tổng
         {
-            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            child.transform.localPosition = new Vector3(120 + (count * GameSettings.ObjectSizeScollViewTotalInBattle), -120, 0);
+            count++;
+        }
+        //Thay đổi size content của scrollview Tổng
+        ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta = new Vector2((120 * 2) + (GameSettings.ObjectSizeScollViewTotalInBattle * (count - 1)), ObjectContent4Lane[0].GetComponent<RectTransform>().sizeDelta.y);
+
+        count = 0;
+        foreach (Transform child in ObjectContent4Lane[1].transform)//Sắp xếp lại scrollview đường trên
+        {
+            child.transform.localPosition = new Vector3(75 + (count * GameSettings.ObjectSizeScollViewLaneInBattle), -75f, 0);
             count++;
         }
         count = 0;
-        foreach (Transform child in ObjectContent4Lane[2].transform)
+        foreach (Transform child in ObjectContent4Lane[2].transform)//Sắp xếp lại scrollview đường giữa
         {
-            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            child.transform.localPosition = new Vector3(75 + (count * GameSettings.ObjectSizeScollViewLaneInBattle), -75f, 0);
             count++;
         }
         count = 0;
-        foreach (Transform child in ObjectContent4Lane[3].transform)
+        foreach (Transform child in ObjectContent4Lane[3].transform)//Sắp xếp lại scrollview đường dưới
         {
-            child.transform.localPosition = new Vector3(75 + (count * 130), -75f, 0);
+            child.transform.localPosition = new Vector3(75 + (count * GameSettings.ObjectSizeScollViewLaneInBattle), -75f, 0);
             count++;
         }
+    }
+    
+    /// <summary>
+    /// Thay đổi tốc độ trận đấu
+    /// </summary>
+    public void ChangeBattleSpeed()
+    {
+        GlobalVariables.SlotBattleSpeed++;
+        if (GlobalVariables.SlotBattleSpeed >= GameSettings.BattleSpeed.Length)
+            GlobalVariables.SlotBattleSpeed = 0;
+        Time.timeScale = GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
+        BattleSpeedText.text = "Speed: X" + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
     }
     #endregion
 }

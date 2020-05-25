@@ -16,5 +16,6 @@ public static class GlobalVariables {
     public static Image ImgWaitingHoldChamp;
     public static bool IsMoving;
     public static int SlotChampSelectedInBattle;
+    public static int SlotBattleSpeed;
     #endregion
 }

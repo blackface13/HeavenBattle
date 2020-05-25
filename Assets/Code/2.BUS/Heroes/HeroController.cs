@@ -134,7 +134,7 @@ public class HeroController : MonoBehaviour
         try
         {
             DataValues = GameSettings.ChampDefault.Find(x => x.ID == (ChampID - 1)).Clone();
-            DataValues.vHealthCurrent = DataValues.vHealth;
+           // DataValues.vHealthCurrent = DataValues.vHealth;
         }
         catch
         {

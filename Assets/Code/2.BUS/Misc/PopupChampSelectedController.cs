@@ -26,7 +26,7 @@ public class PopupChampSelectedController : MonoBehaviour
     /// </summary>
     private void AddButtonHandle()
     {
-        BtnSelect.onClick.AddListener(() => { });
+        //BtnSelect.onClick.AddListener(() => { });
         BtnEquip.onClick.AddListener(() => { });
         BtnInfor.onClick.AddListener(() => { });
         BtnCombatStyle.onClick.AddListener(() => { });
