@@ -24,7 +24,9 @@ namespace Assets.Code._4.CORE
             SoldierTeam1 = 19,
             SoldierTeam2 = 20,
             SoldierDetectTeam1 = 21,
-            SoldierDetectTeam2 = 22
+            SoldierDetectTeam2 = 22,
+            HomeTeam1 = 23, 
+            HomeTeam2 = 24
         }
 
         public static Vector3 PositionShowEffectFix = new Vector3(0, 2f, 0);//Fix tọa độ trung tâm của tướng
@@ -33,7 +35,7 @@ namespace Assets.Code._4.CORE
         public static List<ChampModel> SoldierDefault;
 
         //Battle
-        public static readonly float[] BattleSpeed = new float[] { 1f, 1.5f, 2f };//Tốc độ trận đấu
+        public static readonly float[] BattleSpeed = new float[] { 1f, 1.5f, 2f, 3f };//Tốc độ trận đấu
         public static float SpeedFillImgWaitingHoldTap = 2f;//Thời gian nhấn giữ nhân vật để show popup
         public static float TimeMoveImgTempInBattle = 0f;
         public static float ObjectSizeScollViewTotalInBattle = 215f;

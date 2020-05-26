@@ -38,36 +38,41 @@ public class Champ2Atk : SkillController
     /// </summary>
     public override void OnTriggerEnter2D(Collider2D col)
     {
-        try
-        {
-            if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
-                || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2))
-                || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1))
-                )
-            {
-                if (!string.IsNullOrEmpty(NameEffectExtension1))
-                    CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
-                if (!string.IsNullOrEmpty(NameEffectExtension2))
-                    CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
-                if (!string.IsNullOrEmpty(NameEffectExtension3))
-                    CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
+        HitEffectCustomPos = this.transform.position;
+        base.OnTriggerEnter2D(col);
+        //try
+        //{
+        //    if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) 
+        //        || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
+        //        || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2))
+        //        || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1))
+        //        || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam2))
+        //        || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1))
+        //        )
+        //    {
+        //        if (!string.IsNullOrEmpty(NameEffectExtension1))
+        //            CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
+        //        if (!string.IsNullOrEmpty(NameEffectExtension2))
+        //            CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
+        //        if (!string.IsNullOrEmpty(NameEffectExtension3))
+        //            CheckExistAndCreateEffectExtension(this.transform.position, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
 
-                if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
-                {
-                    if (!FirstAtk)
-                    {
-                        Hide(gameObject);
-                        FirstAtk = true;
-                    }
-                    else
-                    {
-                        if (gameObject.activeSelf)
-                            StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
-                    }
-                }
-            }
-        }
-        catch { }
+        //        if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
+        //        {
+        //            if (!FirstAtk)
+        //            {
+        //                Hide(gameObject);
+        //                FirstAtk = true;
+        //            }
+        //            else
+        //            {
+        //                if (gameObject.activeSelf)
+        //                    StartCoroutine(HideParticle(this.gameObject, DelayTimeBeforeHidden)); //Ẩn object sau khi va chạm 
+        //            }
+        //        }
+        //    }
+        //}
+        //catch { }
     }
 
     //private void OnCollisionStay2D(Collision2D col)

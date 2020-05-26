@@ -30,7 +30,12 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public bool IsEnableColliderWhenStart, IsDisableColliderWhenTrigger;//Có disable va chạm khi chạm đối thủ hay ko
+    public bool IsEnableColliderWhenStart, IsDisableColliderWhenTrigger, IsCustomPositionEffectHit;//Có disable va chạm khi chạm đối thủ hay ko
+
+    [TitleGroup("Cài đặt Skill")]
+    [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
+    [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
+    public Vector3 HitEffectCustomPos;//Có disable va chạm khi chạm đối thủ hay ko
     //Tên các hiệu ứng mở rộng
 
     [Header("Draw Curve")]
@@ -99,6 +104,11 @@ public class SkillController : MonoBehaviour
             SetupEffectExtension2(NameEffectExtension2); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
         if (!string.IsNullOrEmpty(NameEffectExtension3))
             SetupEffectExtension3(NameEffectExtension3); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
+
+        IsCustomPositionEffectHit = true;//Mặc định = true thì sẽ hiển thị hiệu ứng trúng đòn +2f tọa độ Y lên đối phương
+
+        if (HitEffectCustomPos == null)
+            HitEffectCustomPos = this.transform.position;
     }
     // Start is called before the first frame update
     public virtual void Start()
@@ -285,17 +295,20 @@ public class SkillController : MonoBehaviour
     {
         try
         {
-            if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2)) || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
+            if ((this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2))
+                || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1))
                 || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2))
                 || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1))
+                || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam1ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam2))
+                || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1))
                 )
             {
                 if (!string.IsNullOrEmpty(NameEffectExtension1))
-                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                    CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 if (!string.IsNullOrEmpty(NameEffectExtension2))
-                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                    CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 if (!string.IsNullOrEmpty(NameEffectExtension3))
-                    CheckExistAndCreateEffectExtension(col.transform.position + GameSettings.PositionShowEffectFix, EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
+                    CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
 
                 if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
                 {

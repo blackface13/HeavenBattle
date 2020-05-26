@@ -33,6 +33,7 @@ public class Sol2Atk : SkillController
     /// </summary>
     public override void OnTriggerEnter2D(Collider2D col)
     {
+        HitEffectCustomPos = this.transform.position;
         base.OnTriggerEnter2D(col);
     }
     //private void OnCollisionStay2D(Collision2D col)

@@ -62,6 +62,8 @@ MonoBehaviour:
   NameEffectExtension3: 
   IsEnableColliderWhenStart: 1
   IsDisableColliderWhenTrigger: 1
+  IsCustomPositionEffectHit: 1
+  HitEffectCustomPos: {x: 0, y: 0, z: 0}
   moveCurve:
     serializedVersion: 2
     m_Curve: []

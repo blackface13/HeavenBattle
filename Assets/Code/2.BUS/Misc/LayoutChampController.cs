@@ -28,7 +28,7 @@ public class LayoutChampController : MonoBehaviour, IPointerDownHandler, IPointe
     private bool IsWaitingShowPopup;//Đang trong thời gian chờ đợi show popup 
     private int ThisSlot;//Slot của tướng
     public BattleSystemController BattleSystem;
-    private bool IsInLane;//Có đang dc chọn ra trận hay chưa
+    public bool IsInLane;//Có đang dc chọn ra trận hay chưa
     #endregion
 
     private void Awake()
@@ -66,7 +66,7 @@ public class LayoutChampController : MonoBehaviour, IPointerDownHandler, IPointe
                     }
                 }
                 IsWaitingShowPopup = false;
-                IsInLane = true;//Ra trận
+                //IsInLane = true;//Ra trận
             }
             else
             //Nếu đã ra trận => chuyển vị trí camera tới đó

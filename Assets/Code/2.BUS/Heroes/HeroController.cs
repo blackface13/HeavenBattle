@@ -554,7 +554,8 @@ public class HeroController : MonoBehaviour
         {
             //Phát hiện đối phương và thực hiện hành động
             if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft)
-                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1) && !ChampDetect.IsTeamLeft))
+                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1) && !ChampDetect.IsTeamLeft)
+                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1) && !ChampDetect.IsTeamLeft))
             {
                 IsInRangeDetect = true;
                 IsViewLeft = IsEnemyInLeft;
@@ -579,7 +580,8 @@ public class HeroController : MonoBehaviour
         {
             //Ngoài tầm đánh
             if ((other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HeroTeam1) && !ChampDetect.IsTeamLeft)
-                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1) && !ChampDetect.IsTeamLeft))
+                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.SoldierTeam1) && !ChampDetect.IsTeamLeft)
+                || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam2) && ChampDetect.IsTeamLeft) || (other.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1) && !ChampDetect.IsTeamLeft))
             {
                 IsInRangeDetect = false;
                 //if(CurentAction.Equals(ChampActions.Attacking))

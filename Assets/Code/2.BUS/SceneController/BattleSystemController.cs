@@ -432,6 +432,7 @@ public class BattleSystemController : MonoBehaviour
         LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].GetComponent<RectTransform>().sizeDelta = new Vector2(GameSettings.ObjectSizeScollViewLaneInBattle, GameSettings.ObjectSizeScollViewLaneInBattle);
         //StartCoroutine(WaitForAction(0));//Chờ move xong img temp
         LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(ObjectContent4Lane[SlotSelected + 1].transform, false);
+        LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].GetComponent<LayoutChampController>().IsInLane = true;
         UpdatePosChampInLaneUI();
     }
 
