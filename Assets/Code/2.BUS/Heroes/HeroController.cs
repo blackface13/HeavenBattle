@@ -27,6 +27,11 @@ public class HeroController : MonoBehaviour
     [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
     [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
     public Vector2 Atk1ShowPos, Atk2ShowPos, Atk3ShowPos, SkillShowPos, HPBarPos;//Tọa độ các hiệu ứng kỹ năng
+    
+    [TitleGroup("Cài đặt nhân vật")]
+    [HorizontalGroup("Cài đặt nhân vật/Split", Width = 1f)]
+    [TabGroup("Cài đặt nhân vật/Split/Tab1", "Cấu hình thông số")]
+    public Quaternion QuaterAtk1, QuaterAtk2, QuaterAtk3, QuaterSkill;//Tọa độ các hiệu ứng kỹ năng
 
     [TitleGroup("Object cần thiết")]
     public GameObject A;
@@ -147,28 +152,28 @@ public class HeroController : MonoBehaviour
         if (!string.IsNullOrEmpty(PrefabNameAtk1))
         {
             Atk1Object = new List<GameObject>();
-            Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk1Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk1), new Vector3(-1000, -1000, 0), QuaterAtk1));
             Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk1Object[0].SetActive(false);
         }
         if (!string.IsNullOrEmpty(PrefabNameAtk2))
         {
             Atk2Object = new List<GameObject>();
-            Atk2Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk2), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk2Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk2), new Vector3(-1000, -1000, 0), QuaterAtk2));
             Atk2Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk2Object[0].SetActive(false);
         }
         if (!string.IsNullOrEmpty(PrefabNameAtk3))
         {
             Atk3Object = new List<GameObject>();
-            Atk3Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk3), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            Atk3Object.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameAtk3), new Vector3(-1000, -1000, 0), QuaterAtk3));
             Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk3Object[0].SetActive(false);
         }
         if (!string.IsNullOrEmpty(PrefabNameSkill))
         {
             SkillObject = new List<GameObject>();
-            SkillObject.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameSkill), new Vector3(-1000, -1000, 0), Quaternion.identity));
+            SkillObject.Add((GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Skills/" + PrefabNameSkill), new Vector3(-1000, -1000, 0), QuaterSkill));
             SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             SkillObject[0].SetActive(false);
         }
@@ -479,16 +484,16 @@ public class HeroController : MonoBehaviour
         switch (type)
         {
             case 0://Skill
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -SkillShowPos.x : SkillShowPos.x), this.transform.position.y + SkillShowPos.y, 0), SkillObject, Quaternion.identity);
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -SkillShowPos.x : SkillShowPos.x), this.transform.position.y + SkillShowPos.y, 0), SkillObject, QuaterSkill);
                 break;
             case 1://Đánh thường 1
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, Quaternion.identity);
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk1ShowPos.x : Atk1ShowPos.x), this.transform.position.y + Atk1ShowPos.y, 0), Atk1Object, QuaterAtk1);
                 break;
             case 2:
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk2ShowPos.x : Atk2ShowPos.x), this.transform.position.y + Atk2ShowPos.y, 0), Atk2Object, Quaternion.identity);
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk2ShowPos.x : Atk2ShowPos.x), this.transform.position.y + Atk2ShowPos.y, 0), Atk2Object, QuaterAtk2);
                 break;
             case 3:
-                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk3ShowPos.x : Atk3ShowPos.x), this.transform.position.y + Atk3ShowPos.y, 0), Atk3Object, Quaternion.identity);
+                CheckExistAndCreateEffectExtension(new Vector3(this.transform.position.x + (IsViewLeft ? -Atk3ShowPos.x : Atk3ShowPos.x), this.transform.position.y + Atk3ShowPos.y, 0), Atk3Object, QuaterAtk3);
                 break;
         }
     }

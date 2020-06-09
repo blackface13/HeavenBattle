@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero1 : HeroController
+public class Hero4 : HeroController
 {
     /// <summary>
     /// Khởi tạo thông số cho nhân vật
