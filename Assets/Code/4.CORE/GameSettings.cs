@@ -97,7 +97,7 @@ namespace Assets.Code._4.CORE
                     vMagicResistPerLevel = 5,
                     vHealthRegenPerLevel = .5f,
                     vCooldownReductionPerLevel = 2,
-                    vMoveSpeed = 2,
+                    vMoveSpeed = 3,
                     Type = ChampModel.player_type.canchien,
                     HType = ChampModel.HeroType.near
                 });
@@ -197,7 +197,7 @@ namespace Assets.Code._4.CORE
                     vMagicResistPerLevel = 5,
                     vHealthRegenPerLevel = .5f,
                     vCooldownReductionPerLevel = 2,
-                    vMoveSpeed = 2,
+                    vMoveSpeed = 3,
                     Type = ChampModel.player_type.canchien,
                     HType = ChampModel.HeroType.near
                 });
