@@ -303,6 +303,7 @@ public class SkillController : MonoBehaviour
                 || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1))
                 )
             {
+                print(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix));
                 if (!string.IsNullOrEmpty(NameEffectExtension1))
                     CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 if (!string.IsNullOrEmpty(NameEffectExtension2))

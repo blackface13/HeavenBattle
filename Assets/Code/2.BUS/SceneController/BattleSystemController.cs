@@ -127,12 +127,12 @@ public class BattleSystemController : MonoBehaviour
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
             ChampTeam1[i].SetActive(false);
         }
-        for (int i = 7; i < 10; i++)
-        {
-            ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ4"), new Vector3(-1000, -2, 0), Quaternion.identity));
-            ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
-            ChampTeam1[i].SetActive(false);
-        }
+        //for (int i = 7; i < 10; i++)
+        //{
+        //    ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ4"), new Vector3(-1000, -2, 0), Quaternion.identity));
+        //    ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
+        //    ChampTeam1[i].SetActive(false);
+        //}
 
         //Khởi tạo các object UI
         LayoutChampTeam1 = new List<GameObject>();

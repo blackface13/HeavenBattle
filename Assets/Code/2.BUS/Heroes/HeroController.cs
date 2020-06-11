@@ -187,6 +187,7 @@ public class HeroController : MonoBehaviour
 
     public virtual void OnEnable()
     {
+        Anim.Rebind();
         IsAlive = true;
         IsDieing = false;
         ThisCollider.enabled = true;

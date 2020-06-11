@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 1.1479288
+  m_Length: 1.1479295
   m_ChildTransform: {fileID: 3853474666456252845}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474665240540960
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.32194534
+  m_Length: 0.32194546
   m_ChildTransform: {fileID: 3853474666391265262}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474665861851871
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.3460921
+  m_Length: 0.3460922
   m_ChildTransform: {fileID: 3853474666537774310}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474666269170875
@@ -1214,7 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.24877921
+  m_Length: 0.24877949
   m_ChildTransform: {fileID: 3853474666674037145}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474666406254000
@@ -1458,7 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.16337878
+  m_Length: 0.16337904
   m_ChildTransform: {fileID: 3853474665093523336}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474666674037144
@@ -1506,7 +1506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.79924417
+  m_Length: 0.79924464
   m_ChildTransform: {fileID: 3853474665749284279}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474666782743154
@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.69484895
+  m_Length: 0.6948491
   m_ChildTransform: {fileID: 3853474666353823572}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &3853474666808443060
@@ -1964,17 +1964,17 @@ MonoBehaviour:
   DetectRange: 6
   SafeRange: 6
   PrefabNameAtk1: Champ4Atk1
-  PrefabNameAtk2: Champ4Atk1
+  PrefabNameAtk2: Champ4Atk2
   PrefabNameAtk3: Champ4Atk3
   PrefabNameSkill: 
   IsMeleeChamp: 1
   Atk1ShowPos: {x: 1, y: 3}
-  Atk2ShowPos: {x: 1, y: 3}
+  Atk2ShowPos: {x: -2.07, y: 2.3}
   Atk3ShowPos: {x: 1, y: 3}
   SkillShowPos: {x: 0, y: 0}
   HPBarPos: {x: 0, y: 4}
   QuaterAtk1: {x: -0.5, y: 0.8660254, z: 0.000000021855694, w: -0.000000037855173}
-  QuaterAtk2: {x: 0.50000006, y: -0.8660254, z: -0.000000021855696, w: 0.000000037855173}
+  QuaterAtk2: {x: 0, y: 0, z: 0, w: 1}
   QuaterAtk3: {x: 0.9396031, y: -0.3422661, z: -0.000000041071356, w: 0.000000014960927}
   QuaterSkill: {x: 0, y: 0, z: 0, w: 0}
   A: {fileID: 0}

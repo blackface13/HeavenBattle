@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Code._4.CORE;
-public class Champ4Atk1 : SkillController
+public class Champ4Atk2 : SkillController
 {
     #region Initialize
     /// <summary>

@@ -115,6 +115,7 @@
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Atk.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Skill.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ4Atk1.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Champ4Atk2.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillController.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillTemplate.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Sol1Atk.cs" />
