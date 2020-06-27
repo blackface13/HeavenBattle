@@ -40,14 +40,14 @@ public class ChampModel
     public float vDamageReflect; //Phản hồi % sát thương. max = 5%
     public float vRewardPlus; //Tăng lượng vàng rơi ra vào cuối trận. max = 100%
     public float vSkillCooldown;//Thời gian hồi chiêu
-    public float vHealthPerLevel;
-    public float vAtkPerLevel;
-    public float vMagicPerLevel;
-    public float vArmorPerLevel;
-    public float vMagicResistPerLevel;
-    public float vHealthRegenPerLevel;
-    public float vCooldownReductionPerLevel;
-    public float vMoveSpeed;
+    public float vHealthPerLevel;//Máu cộng thêm mỗi cấp
+    public float vAtkPerLevel;//Atk vật lý cộng thêm mỗi cấp
+    public float vMagicPerLevel;//Atk phép cộng thêm mỗi cấp
+    public float vArmorPerLevel;//Giáp cộng thêm mỗi cấp
+    public float vMagicResistPerLevel;//Kháng phép cộng thêm mỗi cấp
+    public float vHealthRegenPerLevel;//Hồi máu cộng thêm mỗi cấp
+    public float vCooldownReductionPerLevel;//Giảm thời gian hồi chiêu cộng thêm mỗi cấp
+    public float vMoveSpeed;//Tốc độ di chuyển
     //public List<ItemModel> ItemsEquip;
     public enum HeroType
     {

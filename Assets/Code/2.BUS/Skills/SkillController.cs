@@ -105,7 +105,7 @@ public class SkillController : MonoBehaviour
         if (!string.IsNullOrEmpty(NameEffectExtension3))
             SetupEffectExtension3(NameEffectExtension3); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
 
-        IsCustomPositionEffectHit = true;//Mặc định = true thì sẽ hiển thị hiệu ứng trúng đòn +2f tọa độ Y lên đối phương
+       // IsCustomPositionEffectHit = true;//Mặc định = true thì sẽ hiển thị hiệu ứng trúng đòn +2f tọa độ Y lên đối phương
 
         if (HitEffectCustomPos == null)
             HitEffectCustomPos = this.transform.position;
@@ -303,7 +303,7 @@ public class SkillController : MonoBehaviour
                 || (this.gameObject.layer.Equals((int)GameSettings.LayerSettings.SkillTeam2ToVictim) && col.gameObject.layer.Equals((int)GameSettings.LayerSettings.HomeTeam1))
                 )
             {
-                print(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix));
+                //print(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix));
                 if (!string.IsNullOrEmpty(NameEffectExtension1))
                     CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 if (!string.IsNullOrEmpty(NameEffectExtension2))

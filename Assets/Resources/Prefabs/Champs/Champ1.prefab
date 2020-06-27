@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.17999996
+  m_Length: 0.17999998
   m_ChildTransform: {fileID: 6985326770979694618}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770167569856
@@ -333,19 +333,25 @@ MonoBehaviour:
   PrefabNameAtk1: Champ1Atk1
   PrefabNameAtk2: Champ1Atk2
   PrefabNameAtk3: Champ1Atk3
-  PrefabNameSkill: 
+  PrefabNameSkill: Champ1Skill
   IsMeleeChamp: 1
   Atk1ShowPos: {x: 0, y: 1.5}
   Atk2ShowPos: {x: 0, y: 0}
   Atk3ShowPos: {x: 3.5, y: 0}
-  SkillShowPos: {x: 0, y: 0}
+  SkillShowPos: {x: 2.5, y: 2.3}
   HPBarPos: {x: 0, y: 4}
+  QuaterAtk1: {x: 0, y: 0, z: 0, w: 0}
+  QuaterAtk2: {x: 0, y: 0, z: 0, w: 0}
+  QuaterAtk3: {x: 0, y: 0, z: 0, w: 0}
+  QuaterSkill: {x: 0, y: 0, z: 0.34202012, w: 0.9396926}
   A: {fileID: 0}
   IsEnemyInLeft: 0
   IsViewLeft: 0
   IsInRangeDetect: 0
   IsTeamLeft: 0
   BattleSystem: {fileID: 0}
+  ThisCollider: {fileID: 0}
+  ThisRigid: {fileID: 0}
   Atk1Object: []
   Atk2Object: []
   Atk3Object: []
@@ -396,6 +402,7 @@ MonoBehaviour:
     vMoveSpeed: 0
     HType: 0
     Type: 0
+  IsAlive: 0
   ChampState: 0
 --- !u!1 &6985326770229168407
 GameObject:
@@ -796,7 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.13467464
+  m_Length: 0.1346747
   m_ChildTransform: {fileID: 6985326771796594842}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770422513762
@@ -1258,7 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.14000042
+  m_Length: 0.14000037
   m_ChildTransform: {fileID: 6985326770063274118}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770588934394
@@ -1607,7 +1614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.3598897
+  m_Length: 0.3598899
   m_ChildTransform: {fileID: 6985326772015256260}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770761554996
@@ -1805,7 +1812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.17574799
+  m_Length: 0.17574796
   m_ChildTransform: {fileID: 6985326770393333810}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770833174473
@@ -2106,7 +2113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.11358078
+  m_Length: 0.11358082
   m_ChildTransform: {fileID: 6985326770833174472}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326770972041216
@@ -2406,7 +2413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.20734212
+  m_Length: 0.2073421
   m_ChildTransform: {fileID: 6985326770359334879}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326771220870792
@@ -2784,7 +2791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.69044626
+  m_Length: 0.6904461
   m_ChildTransform: {fileID: 6985326771220870795}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &6985326771458407842
@@ -3956,7 +3963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.49000007
+  m_Length: 0.4900002
   m_ChildTransform: {fileID: 6985326772066005876}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &9129975282408387951

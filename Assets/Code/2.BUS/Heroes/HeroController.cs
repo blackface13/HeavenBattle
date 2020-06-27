@@ -187,7 +187,6 @@ public class HeroController : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        Anim.Rebind();
         IsAlive = true;
         IsDieing = false;
         ThisCollider.enabled = true;
@@ -450,7 +449,10 @@ public class HeroController : MonoBehaviour
         if (!IsTeamLeft)
             StartCoroutine(Reboot(.5f));
         else
+        {
+        Anim.Rebind();
             gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -460,7 +462,7 @@ public class HeroController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
         //gameObject.SetActive(true);
-        gameObject.transform.position = new Vector3(IsTeamLeft ? -25 : 220, gameObject.transform.position.y, 0);
+        gameObject.transform.position = new Vector3(IsTeamLeft ? GameSettings.StartPositionXTeam1 : GameSettings.StartPositionXTeam2 , gameObject.transform.position.y, 0);
         IsAlive = true;
         IsDieing = false;
         ThisCollider.enabled = true;

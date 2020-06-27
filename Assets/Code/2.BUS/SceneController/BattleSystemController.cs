@@ -127,12 +127,12 @@ public class BattleSystemController : MonoBehaviour
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
             ChampTeam1[i].SetActive(false);
         }
-        //for (int i = 7; i < 10; i++)
-        //{
-        //    ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ4"), new Vector3(-1000, -2, 0), Quaternion.identity));
-        //    ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
-        //    ChampTeam1[i].SetActive(false);
-        //}
+        for (int i = 7; i < 10; i++)
+        {
+            ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ4"), new Vector3(-1000, -2, 0), Quaternion.identity));
+            ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
+            ChampTeam1[i].SetActive(false);
+        }
 
         //Khởi tạo các object UI
         LayoutChampTeam1 = new List<GameObject>();
@@ -149,13 +149,13 @@ public class BattleSystemController : MonoBehaviour
 
         //Khởi tạo team địch
         ChampTeam2 = new List<GameObject>();
-        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(190, -2, 0), Quaternion.identity));
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(120, -2, 0), Quaternion.identity));
         ChampTeam2[0].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(180, -2, 0), Quaternion.identity));
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(100, -2, 0), Quaternion.identity));
         ChampTeam2[1].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(200, 5, 0), Quaternion.identity));
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(115, 5, 0), Quaternion.identity));
         ChampTeam2[2].GetComponent<HeroController>().SetupChamp(false);
-        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(185, -10, 0), Quaternion.identity));
+        ChampTeam2.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(95, -10, 0), Quaternion.identity));
         ChampTeam2[3].GetComponent<HeroController>().SetupChamp(false);
     }
 
@@ -305,13 +305,13 @@ public class BattleSystemController : MonoBehaviour
             goto CreateMeleeSoldier;
         else
         {
-            CheckExistAndCreateSoldier(new Vector3(-20, 5, 0), SoldierTeam1Type1, true);
-            CheckExistAndCreateSoldier(new Vector3(-20, -2, 0), SoldierTeam1Type1, true);
-            CheckExistAndCreateSoldier(new Vector3(-20, -10, 0), SoldierTeam1Type1, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, 5, 0), SoldierTeam1Type1, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, -2, 0), SoldierTeam1Type1, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, -10, 0), SoldierTeam1Type1, true);
 
-            CheckExistAndCreateSoldier(new Vector3(220, 5, 0), SoldierTeam2Type1, false);
-            CheckExistAndCreateSoldier(new Vector3(220, -2, 0), SoldierTeam2Type1, false);
-            CheckExistAndCreateSoldier(new Vector3(220, -10, 0), SoldierTeam2Type1, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, 5, 0), SoldierTeam2Type1, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, -2, 0), SoldierTeam2Type1, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, -10, 0), SoldierTeam2Type1, false);
         }
 
         if (archerSoldier <= 0)
@@ -323,13 +323,13 @@ public class BattleSystemController : MonoBehaviour
             goto CreateArcherSoldier;
         else
         {
-            CheckExistAndCreateSoldier(new Vector3(-20, 5, 0), SoldierTeam1Type2, true);
-            CheckExistAndCreateSoldier(new Vector3(-20, -2, 0), SoldierTeam1Type2, true);
-            CheckExistAndCreateSoldier(new Vector3(-20, -10, 0), SoldierTeam1Type2, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, 5, 0), SoldierTeam1Type2, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, -2, 0), SoldierTeam1Type2, true);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam1, -10, 0), SoldierTeam1Type2, true);
 
-            CheckExistAndCreateSoldier(new Vector3(220, 5, 0), SoldierTeam2Type2, false);
-            CheckExistAndCreateSoldier(new Vector3(220, -2, 0), SoldierTeam2Type2, false);
-            CheckExistAndCreateSoldier(new Vector3(220, -10, 0), SoldierTeam2Type2, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, 5, 0), SoldierTeam2Type2, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, -2, 0), SoldierTeam2Type2, false);
+            CheckExistAndCreateSoldier(new Vector3(GameSettings.StartPositionXTeam2, -10, 0), SoldierTeam2Type2, false);
         }
         yield return new WaitForSeconds(DelayTimeBetween2GroupSoldier);//Chờ đợi sinh 
         count1 = 0;

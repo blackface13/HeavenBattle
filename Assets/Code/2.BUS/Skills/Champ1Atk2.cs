@@ -38,13 +38,13 @@ public class Champ1Atk2 : SkillController
     {
         base.OnTriggerEnter2D(col);
     }
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        try
-        {
+    //private void OnCollisionStay2D(Collision2D col)
+    //{
+    //    try
+    //    {
 
-        }
-        catch { }
-    }
+    //    }
+    //    catch { }
+    //}
     #endregion
 }

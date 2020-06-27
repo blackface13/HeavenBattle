@@ -54,12 +54,16 @@ MonoBehaviour:
   DelayTimeBeforeHidden: 0
   DelayTimeBeforeEnalbleCollider: 0
   DelayTimeBeforeDisableCollider: 0.4
-  CollisionType: 1
+  DelayTimeToHideAfterShow: 0
+  SkillType: 0
+  DamagePercent: 100
   NameEffectExtension1: Champ1AtkHitEffect
   NameEffectExtension2: 
   NameEffectExtension3: 
   IsEnableColliderWhenStart: 1
   IsDisableColliderWhenTrigger: 0
+  IsCustomPositionEffectHit: 0
+  HitEffectCustomPos: {x: 0, y: 0, z: 0}
   moveCurve:
     serializedVersion: 2
     m_Curve: []
@@ -70,8 +74,6 @@ MonoBehaviour:
   PercentHealthAtkEnable: 0
   PercentHealthCreated: 0
   TimeMove: 0
-  DamagePercent: 100
-  SkillType: 0
   TimeDelay: 0
   FirstAtk: 0
   TimeAction: 0
@@ -81,13 +83,58 @@ MonoBehaviour:
   RatioStatus: 0
   Status: 0
   ThisCollider: {fileID: 0}
+  DataValues:
+    ID: 0
+    Name: 
+    Description: 
+    Intrinsic: 
+    SkillDescription: 
+    Level: 0
+    EXP: 0
+    vHealth: 0
+    vHealthCurrent: 0
+    vAtk: 0
+    vMagic: 0
+    vArmor: 0
+    vMagicResist: 0
+    vHealthRegen: 0
+    vDamageEarth: 0
+    vDamageWater: 0
+    vDamageFire: 0
+    vDefenseEarth: 0
+    vDefenseWater: 0
+    vDefenseFire: 0
+    vAtkSpeed: 0
+    vLifeStealPhysic: 0
+    vLifeStealMagic: 0
+    vLethality: 0
+    vMagicPenetration: 0
+    vCritical: 0
+    vTenacity: 0
+    vCooldownReduction: 0
+    vDamageExcellent: 0
+    vDefenseExcellent: 0
+    vDoubleDamage: 0
+    vTripleDamage: 0
+    vDamageReflect: 0
+    vRewardPlus: 0
+    vSkillCooldown: 0
+    vHealthPerLevel: 0
+    vAtkPerLevel: 0
+    vMagicPerLevel: 0
+    vArmorPerLevel: 0
+    vMagicResistPerLevel: 0
+    vHealthRegenPerLevel: 0
+    vCooldownReductionPerLevel: 0
+    vMoveSpeed: 0
+    HType: 0
+    Type: 0
   Eff: 0
   EffectExtension: []
   EffectExtension2: []
   EffectExtension3: []
   SoundClip: []
   SoundClipHited: []
-  BattleSystem: {fileID: 0}
 --- !u!198 &94086927625374819
 ParticleSystem:
   m_ObjectHideFlags: 0

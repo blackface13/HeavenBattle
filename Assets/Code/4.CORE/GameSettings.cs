@@ -40,6 +40,8 @@ namespace Assets.Code._4.CORE
         public static float TimeMoveImgTempInBattle = 0f;
         public static float ObjectSizeScollViewTotalInBattle = 215f;
         public static float ObjectSizeScollViewLaneInBattle = 130f;
+        public static readonly float StartPositionXTeam1 = -20f;//Tọa độ X xuất phát của team 1
+        public static readonly float StartPositionXTeam2 = 120f;//Tọa độ X xuất phát của team 2
         #endregion
 
         #region Functions

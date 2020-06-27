@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Repel
   layers:
   - Default
   - TransparentFX
@@ -30,8 +31,8 @@ TagManager:
   - SoldierDetectTeam2
   - HomeTeam1
   - HomeTeam2
-  - 
-  - 
+  - SkillDetectEnemyTeam1
+  - SkillDetectEnemyTeam2
   - 
   - 
   - 
