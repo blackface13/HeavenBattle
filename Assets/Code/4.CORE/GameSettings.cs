@@ -159,6 +159,56 @@ namespace Assets.Code._4.CORE
                 });
                 #endregion
 
+                #region Champ3
+                ChampDefault.Add(new ChampModel
+                {
+                    ID = 2,
+                    Name = "ChampTest",
+                    Description = "",
+                    Intrinsic = "",
+                    SkillDescription = "",
+                    Level = 0,
+                    EXP = 0,
+                    vHealth = 4500,
+                    vAtk = 0,
+                    vMagic = 350,
+                    vArmor = 35,
+                    vMagicResist = 25,
+                    vHealthRegen = 0.5f,
+                    vDamageEarth = 0,
+                    vDamageWater = 0,
+                    vDamageFire = 0,
+                    vDefenseEarth = 0,
+                    vDefenseWater = 0,
+                    vDefenseFire = 0,
+                    vAtkSpeed = 1f,
+                    vLifeStealPhysic = 0,
+                    vLifeStealMagic = 0,
+                    vLethality = 0,
+                    vMagicPenetration = 0,
+                    vCritical = 0,
+                    vTenacity = 0,
+                    vCooldownReduction = 0,
+                    vDamageExcellent = 0,
+                    vDefenseExcellent = 0,
+                    vDoubleDamage = 0,
+                    vTripleDamage = 0,
+                    vDamageReflect = 0,
+                    vRewardPlus = 0,
+                    vSkillCooldown = 10,
+                    vHealthPerLevel = 35,
+                    vAtkPerLevel = 7,
+                    vMagicPerLevel = 0,
+                    vArmorPerLevel = 6,
+                    vMagicResistPerLevel = 5,
+                    vHealthRegenPerLevel = .5f,
+                    vCooldownReductionPerLevel = 2,
+                    vMoveSpeed = 3,
+                    Type = ChampModel.player_type.canchien,
+                    HType = ChampModel.HeroType.near
+                });
+                #endregion
+
                 #region Champ4
                 ChampDefault.Add(new ChampModel
                 {

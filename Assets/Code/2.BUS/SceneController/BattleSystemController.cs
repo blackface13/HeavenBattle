@@ -115,19 +115,25 @@ public class BattleSystemController : MonoBehaviour
     private void CreateTeam()
     {
         ChampTeam1 = new List<GameObject>();
-        for(int i = 0;i<4;i++)
+        for(int i = 0;i<2;i++)
         {
             ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -2, 0), Quaternion.identity));
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
             ChampTeam1[i].SetActive(false);
         }
-        for (int i = 4; i < 7; i++)
+        for (int i = 2; i < 4; i++)
         {
             ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ2"), new Vector3(-1000, -2, 0), Quaternion.identity));
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
             ChampTeam1[i].SetActive(false);
         }
-        for (int i = 7; i < 10; i++)
+        for (int i = 4; i < 6; i++)
+        {
+            ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ3"), new Vector3(-1000, -2, 0), Quaternion.identity));
+            ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
+            ChampTeam1[i].SetActive(false);
+        }
+        for (int i = 6; i < 8; i++)
         {
             ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ4"), new Vector3(-1000, -2, 0), Quaternion.identity));
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);

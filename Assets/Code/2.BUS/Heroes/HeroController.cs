@@ -170,6 +170,18 @@ public class HeroController : MonoBehaviour
 
     public virtual void Start()
     {
+        SetupAtk1();
+        SetupAtk2();
+        SetupAtk3();
+        SetupSkill();
+        StartCoroutine(RegenHealth());
+    }
+
+    /// <summary>
+    /// Khởi tạo atk 1
+    /// </summary>
+    public virtual void SetupAtk1()
+    {
         if (!string.IsNullOrEmpty(PrefabNameAtk1))
         {
             Atk1Object = new List<GameObject>();
@@ -177,6 +189,13 @@ public class HeroController : MonoBehaviour
             Atk1Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk1Object[0].SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Khởi tạo atk 2
+    /// </summary>
+    public virtual void SetupAtk2()
+    {
         if (!string.IsNullOrEmpty(PrefabNameAtk2))
         {
             Atk2Object = new List<GameObject>();
@@ -184,6 +203,13 @@ public class HeroController : MonoBehaviour
             Atk2Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk2Object[0].SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Khởi tạo atk 3
+    /// </summary>
+    public virtual void SetupAtk3()
+    {
         if (!string.IsNullOrEmpty(PrefabNameAtk3))
         {
             Atk3Object = new List<GameObject>();
@@ -191,6 +217,13 @@ public class HeroController : MonoBehaviour
             Atk3Object[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             Atk3Object[0].SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Khởi tạo skill
+    /// </summary>
+    public virtual void SetupSkill()
+    {
         if (!string.IsNullOrEmpty(PrefabNameSkill))
         {
             SkillObject = new List<GameObject>();
@@ -198,12 +231,6 @@ public class HeroController : MonoBehaviour
             SkillObject[0].GetComponent<SkillController>().SetupSkill(IsTeamLeft, DataValues);
             SkillObject[0].SetActive(false);
         }
-
-        StartCoroutine(RegenHealth());
-        //RaycastHit2D hit = Physics2D.Raycast(this.transform.position, transform.forward * -10, 3f);
-        //if (hit.collider != null)
-        //    print("fgfgf");
-
     }
 
     public virtual void OnEnable()
@@ -692,7 +719,7 @@ public class HeroController : MonoBehaviour
     /// <param name="obj">Skill object</param>
     /// <param name="vec">Tọa độ xuât hiện</param>
     /// <param name="quater">Độ nghiêng, xoay tròn</param>
-    public void ShowSkill(GameObject obj, Vector3 vec, Quaternion quater)
+    public virtual void ShowSkill(GameObject obj, Vector3 vec, Quaternion quater)
     {
         obj.GetComponent<SkillController>().IsViewLeft = IsViewLeft;
         obj.transform.position = vec;
@@ -739,7 +766,7 @@ public class HeroController : MonoBehaviour
     /// Check khởi tạo và hiển thị hiệu ứng trúng đòn lên đối phương
     /// </summary>
     /// <param name="col"></param>
-    public bool CheckExistAndCreateEffectExtension(Vector3 col, List<GameObject> gobject, Quaternion quater)
+    public virtual bool CheckExistAndCreateEffectExtension(Vector3 col, List<GameObject> gobject, Quaternion quater)
     {
         var a = GetObjectNonActive(gobject);
         if (a == null)

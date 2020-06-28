@@ -96,6 +96,7 @@
     <Compile Include="Assets\Code\2.BUS\FunctionsController\ParticlesHideControl.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\Hero1.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\Hero2.cs" />
+    <Compile Include="Assets\Code\2.BUS\Heroes\Hero3.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\Hero4.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroController.cs" />
     <Compile Include="Assets\Code\2.BUS\Heroes\HeroSafeDetect.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Assets\Code\2.BUS\Skills\Champ1Skill.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Atk.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ2Skill.cs" />
+    <Compile Include="Assets\Code\2.BUS\Skills\Champ3Atk1.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ4Atk1.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\Champ4Atk2.cs" />
     <Compile Include="Assets\Code\2.BUS\Skills\SkillController.cs" />
