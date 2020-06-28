@@ -30,7 +30,7 @@ public class SkillController : MonoBehaviour
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
-    public bool IsEnableColliderWhenStart, IsDisableColliderWhenTrigger, IsCustomPositionEffectHit;//Có disable va chạm khi chạm đối thủ hay ko
+    public bool IsEnableColliderWhenStart, IsDisableColliderWhenTrigger, IsCustomPositionEffectHit, IsOnlyChamp;//Có disable va chạm khi chạm đối thủ hay ko
 
     [TitleGroup("Cài đặt Skill")]
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
@@ -105,7 +105,7 @@ public class SkillController : MonoBehaviour
         if (!string.IsNullOrEmpty(NameEffectExtension3))
             SetupEffectExtension3(NameEffectExtension3); //Khởi tạo hiệu ứng effect riêng cho từng skill của hero (nếu có)
 
-       // IsCustomPositionEffectHit = true;//Mặc định = true thì sẽ hiển thị hiệu ứng trúng đòn +2f tọa độ Y lên đối phương
+        // IsCustomPositionEffectHit = true;//Mặc định = true thì sẽ hiển thị hiệu ứng trúng đòn +2f tọa độ Y lên đối phương
 
         if (HitEffectCustomPos == null)
             HitEffectCustomPos = this.transform.position;
@@ -166,7 +166,10 @@ public class SkillController : MonoBehaviour
     /// </summary>
     public virtual void SetupSkill(bool isTeamLeft, ChampModel dataValue)
     {
-        this.gameObject.layer = isTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
+        if (IsOnlyChamp)//Kiểu skill chỉ sát thương với tướng
+            this.gameObject.layer = isTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictimOnlyChamp : (int)GameSettings.LayerSettings.SkillTeam2ToVictimOnlyChamp;
+        else//Kiểu skill sát thương với cá lính và tướng
+            this.gameObject.layer = isTeamLeft ? (int)GameSettings.LayerSettings.SkillTeam1ToVictim : (int)GameSettings.LayerSettings.SkillTeam2ToVictim;
         DataValues = dataValue;
     }
     #endregion

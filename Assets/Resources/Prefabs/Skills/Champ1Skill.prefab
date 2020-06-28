@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 615242096324718301}
   - component: {fileID: 615242096324718300}
   - component: {fileID: 615242096324718302}
-  - component: {fileID: 615242096324718303}
-  m_Layer: 0
+  - component: {fileID: 615242096760121634}
+  m_Layer: 25
   m_Name: Champ1Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &615242096324718301
 Transform:
   m_ObjectHideFlags: 0
@@ -26,13 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615242096324718299}
-  m_LocalRotation: {x: 0, y: 0, z: 0.3420201, w: 0.9396927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 2.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 624834419728639478}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &615242096324718300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,17 +52,36 @@ MonoBehaviour:
   DelayTimeBeforeDisableCollider: 0
   DelayTimeToHideAfterShow: 0
   SkillType: 0
-  DamagePercent: 0
+  DamagePercent: 50
   NameEffectExtension1: 
   NameEffectExtension2: 
   NameEffectExtension3: 
   IsEnableColliderWhenStart: 1
   IsDisableColliderWhenTrigger: 1
   IsCustomPositionEffectHit: 0
+  IsOnlyChamp: 1
   HitEffectCustomPos: {x: 0, y: 0, z: 0}
   moveCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -130,6 +150,7 @@ MonoBehaviour:
   EffectExtension3: []
   SoundClip: []
   SoundClipHited: []
+  ImgSkillExtension: {fileID: 624834419728639479}
 --- !u!61 &615242096324718302
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -140,10 +161,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0008738041, y: -0.030076265}
+  m_Offset: {x: 0.19894445, y: -0.100815296}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.51358694, y: 0.5090498}
@@ -154,15 +175,57 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8167965, y: 2.106814}
+  m_Size: {x: 2.3544166, y: 1.6823759}
   m_EdgeRadius: 0
---- !u!212 &615242096324718303
-SpriteRenderer:
+--- !u!210 &615242096760121634
+SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615242096324718299}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 450
+--- !u!1 &624834419728639479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 624834419728639478}
+  - component: {fileID: 624834419728639473}
+  m_Layer: 0
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &624834419728639478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624834419728639479}
+  m_LocalRotation: {x: 0, y: 0, z: 0.3420201, w: 0.9396927}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 615242096324718301}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40}
+--- !u!212 &624834419728639473
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624834419728639479}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

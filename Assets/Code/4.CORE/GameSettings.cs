@@ -26,7 +26,11 @@ namespace Assets.Code._4.CORE
             SoldierDetectTeam1 = 21,
             SoldierDetectTeam2 = 22,
             HomeTeam1 = 23, 
-            HomeTeam2 = 24
+            HomeTeam2 = 24,
+            SkillDetectEnemyTeam1 = 25,
+            SkillDetectEnemyTeam2 = 26,
+            SkillTeam1ToVictimOnlyChamp = 27,
+            SkillTeam2ToVictimOnlyChamp = 28,
         }
 
         public static Vector3 PositionShowEffectFix = new Vector3(0, 2f, 0);//Fix tọa độ trung tâm của tướng

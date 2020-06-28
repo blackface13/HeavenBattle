@@ -33,8 +33,8 @@ TagManager:
   - HomeTeam2
   - SkillDetectEnemyTeam1
   - SkillDetectEnemyTeam2
-  - 
-  - 
+  - SkillTeam1ToVictimOnlyChamp
+  - SkillTeam2ToVictimOnlyChamp
   - 
   - 
   - 
