@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class HeroController : MonoBehaviour
@@ -74,7 +75,6 @@ public class HeroController : MonoBehaviour
     public States ChampState;
     public enum States
     {
-        Normal, //Bình thường
         Silent, //Câm lặng
         Stun, //Choáng
         Root, //Giữ chân
@@ -82,12 +82,18 @@ public class HeroController : MonoBehaviour
         Static, //Tĩnh, không thể bị chọn làm mục tiêu
         Blind, //Mù
         Slow, //Làm chậm
+        Fire,//Thiêu đốt
+        Poison,//Trúng độc
     }
+
+    public SortedList<States, bool> ChampStates;//Các hiệu ứng mà nhân vật đang mang
+    Coroutine[] RoutineState;//Danh sách các hiệu ứng đang nhận vào
     #endregion
 
     #region Initialize
     public virtual void Awake()
     {
+        CreateState();
         ThisCollider = GetComponent<Collider2D>();
         ThisRigid = GetComponent<Rigidbody2D>();
         BattleSystem = GameObject.Find("Controller").GetComponent<BattleSystemController>();
@@ -98,6 +104,7 @@ public class HeroController : MonoBehaviour
         SkillCooldownBarObject = HPBarParentObject.transform.GetChild(3).gameObject;
         Anim = this.GetComponent<Animator>();
         SkillIsReady = true;
+
         //Quét các collider con
         //0 = collider cha -> bỏ qua
         //1 = collider phát hiện đối phương trong tầm đánh
@@ -288,6 +295,27 @@ public class HeroController : MonoBehaviour
         ChangeView(IsViewLeft);
 
     }
+
+    /// <summary>
+    /// Khởi tạo mảng trạng thái
+    /// </summary>
+    private void CreateState()
+    {
+        //Khởi tạo danh sách hiệu ứng
+        ChampStates = new SortedList<States, bool>();
+        ChampStates.Add(States.Silent, false);
+        ChampStates.Add(States.Stun, false);
+        ChampStates.Add(States.Root, false);
+        ChampStates.Add(States.Ice, false);
+        ChampStates.Add(States.Static, false);
+        ChampStates.Add(States.Blind, false);
+        ChampStates.Add(States.Slow, false);
+        ChampStates.Add(States.Fire, false);
+        ChampStates.Add(States.Poison, false);
+
+        //Khởi tạo danh sách coroutine đang hoạt động
+        RoutineState = new Coroutine[ChampStates.Count];
+    }
     #endregion
 
     #region Functions
@@ -298,7 +326,7 @@ public class HeroController : MonoBehaviour
     private void Update()
     {
         ActionController();
-
+       // print(ChampStates[States.Stun]);
         //Die
         //if (IsAlive)
         {
@@ -307,6 +335,63 @@ public class HeroController : MonoBehaviour
             if (DataValues.vHealthCurrent <= 0)
                 DataValues.vHealthCurrent = 0;
         }
+    }
+
+    /// <summary>
+    /// Set trạng thái hiệu ứng cho nhân vật
+    /// </summary>
+    public void SetStateForChamp(States state, float activeTime)
+    {
+        if (ChampStates[state])
+        {
+            StopCoroutine(RoutineState[ChampStates.IndexOfKey(state)]);
+            RoutineState[ChampStates.IndexOfKey(state)] = StartCoroutine(SetState(state, activeTime));
+        }
+        else
+        {
+            RoutineState[ChampStates.IndexOfKey(state)] = StartCoroutine(SetState(state, activeTime));
+        }
+    }
+
+    /// <summary>
+    /// Set trạng thái hiệu ứng cho nhân vật
+    /// </summary>
+    private IEnumerator SetState(States state, float activeTime)
+    {
+        ChampStates[state] = true;
+        yield return new WaitForSeconds(activeTime);
+        ChampStates[state] = false;
+    }
+
+    /// <summary>
+    /// Check xem có đc di chuyển hay ko
+    /// </summary>
+    public bool CheckAllowMove()
+    {
+        if (!ChampStates[States.Root] && !ChampStates[States.Ice] && !ChampStates[States.Stun])
+            return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Check xem có được tung đòn đánh hay ko
+    /// </summary>
+    public bool CheckAllowAtk()
+    {
+        if (!ChampStates[States.Ice] && !ChampStates[States.Stun])
+            return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Check xem có được dùng skill hay ko
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckAllowSkill()
+    {
+        if (!ChampStates[States.Silent] && !ChampStates[States.Ice] && !ChampStates[States.Stun])
+            return true;
+        return false;
     }
 
     /// <summary>
@@ -364,7 +449,8 @@ public class HeroController : MonoBehaviour
         switch (CurentAction)
         {
             case ChampActions.Moving:
-                this.transform.Translate(IsViewLeft ? -DataValues.vMoveSpeed * Time.deltaTime : DataValues.vMoveSpeed * Time.deltaTime, 0, 0);
+                if (CheckAllowMove())
+                    this.transform.Translate(IsViewLeft ? -DataValues.vMoveSpeed * Time.deltaTime : DataValues.vMoveSpeed * Time.deltaTime, 0, 0);
                 break;
             default: break;
         }
@@ -376,28 +462,39 @@ public class HeroController : MonoBehaviour
     /// <param name="type"></param>
     private void AnimController(ChampActions input)
     {
-        CurentAction = input;
         switch (input)
         {
             case ChampActions.Attacking:
-                Anim.speed = DataValues.vAtkSpeed;
-                Anim.SetTrigger("Atk" + UnityEngine.Random.Range(1, 4).ToString());
+                if (CheckAllowAtk())
+                {
+                    Anim.speed = DataValues.vAtkSpeed;
+                    Anim.SetTrigger("Atk" + UnityEngine.Random.Range(1, 4).ToString());
+                    CurentAction = input;
+                }
                 break;
             case ChampActions.Moving:
-                Anim.speed = DataValues.vMoveSpeed;
-                Anim.SetTrigger("Move");
+                if (CheckAllowMove())
+                {
+                    Anim.speed = DataValues.vMoveSpeed;
+                    Anim.SetTrigger("Move");
+                    CurentAction = input;
+                }
                 break;
             case ChampActions.Standing:
                 Anim.speed = 1f;
                 Anim.SetTrigger("Stand");
                 break;
             case ChampActions.Skilling:
-                SkillCooldownBarObject.transform.localScale = new Vector3(0, 2, 2);
-                Anim.speed = 1f;
-                Anim.SetTrigger("Atk0");
-                SkillIsReady = false;
-                StartCoroutine(GameSystem.ScaleUI(false, SkillCooldownBarObject, new Vector3(2, 2, 2), DataValues.vSkillCooldown));
-                StartCoroutine(WaitForAction(1, DataValues.vSkillCooldown));
+                if (CheckAllowSkill())
+                {
+                    SkillCooldownBarObject.transform.localScale = new Vector3(0, 2, 2);
+                    Anim.speed = 1f;
+                    Anim.SetTrigger("Atk0");
+                    SkillIsReady = false;
+                    StartCoroutine(GameSystem.ScaleUI(false, SkillCooldownBarObject, new Vector3(2, 2, 2), DataValues.vSkillCooldown));
+                    StartCoroutine(WaitForAction(1, DataValues.vSkillCooldown));
+                    CurentAction = input;
+                }
                 break;
             case ChampActions.Dieing:
                 //Anim.Rebind();

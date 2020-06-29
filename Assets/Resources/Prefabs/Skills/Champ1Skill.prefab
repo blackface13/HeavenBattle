@@ -61,6 +61,18 @@ MonoBehaviour:
   IsCustomPositionEffectHit: 0
   IsOnlyChamp: 1
   HitEffectCustomPos: {x: 0, y: 0, z: 0}
+  IsSilent: 0
+  IsStun: 0
+  IsRoot: 0
+  IsIce: 0
+  IsStatic: 0
+  IsBlind: 0
+  IsSlow: 0
+  IsFire: 0
+  IsPoison: 0
+  StateTime: []
+  StateTimeLoop: []
+  StateDamage: []
   moveCurve:
     serializedVersion: 2
     m_Curve:
@@ -96,7 +108,6 @@ MonoBehaviour:
   TimeStatus: 0
   PercentDamageFireBurn: 30
   RatioStatus: 0
-  Status: 0
   ThisCollider: {fileID: 0}
   DataValues:
     ID: 0
@@ -144,7 +155,6 @@ MonoBehaviour:
     vMoveSpeed: 0
     HType: 0
     Type: 0
-  Eff: 0
   EffectExtension: []
   EffectExtension2: []
   EffectExtension3: []

@@ -36,6 +36,26 @@ public class SkillController : MonoBehaviour
     [HorizontalGroup("Cài đặt Skill/Split", Width = 1f)]
     [TabGroup("Cài đặt Skill/Split/Tab1", "Cấu hình thông số")]
     public Vector3 HitEffectCustomPos;//Có disable va chạm khi chạm đối thủ hay ko
+
+    [HorizontalGroup("Cấu hình hiệu ứng", 0.25f)]
+    [BoxGroup("Cấu hình hiệu ứng/Hiệu ứng")]
+    public bool IsSilent, //Câm lặng
+                IsStun, //Choáng
+                IsRoot, //Giữ chân
+                IsIce, //Đóng băng
+                IsStatic, //Tĩnh, không thể bị chọn làm mục tiêu
+                IsBlind, //Mù
+                IsSlow, //Làm chậm
+                IsFire,//Thiêu đốt
+                IsPoison;//Trúng độc
+
+    [BoxGroup("Cấu hình hiệu ứng/Thời gian hiệu lực")]
+    public float[] StateTime;
+    [BoxGroup("Cấu hình hiệu ứng/Sát thương mỗi ? giây")]
+    public float[] StateTimeLoop;
+    [BoxGroup("Cấu hình hiệu ứng/% Sát thương mỗi lần")]
+    public float[] StateDamage;
+
     //Tên các hiệu ứng mở rộng
 
     [Header("Draw Curve")]
@@ -57,27 +77,8 @@ public class SkillController : MonoBehaviour
     public float TimeStatus;//Thời gian của hiệu ứng, set trong hàm kế thừa
     public float PercentDamageFireBurn = 30;//Số % dame gây ra hiệu ứng thiêu đốt cho đối phương, mặc định 30%
     public float RatioStatus;//Tỉ lệ gây ra hiệu ứng, set trong hàm kế thừa
-    public status Status;
     public Collider2D ThisCollider;
     public ChampModel DataValues;
-    public enum status
-    {
-        Normal,//Bình thường
-        Silent,//Câm lặng
-        Stun,//Choáng
-        Root,//Giữ chân
-        Ice,//Đóng băng
-        Static,//Tĩnh, không thể bị chọn làm mục tiêu
-        Blind,//Mù
-        Slow,//Làm chậm
-    }
-    public Effect Eff;
-    public enum Effect
-    {
-        Normal,//Bình thường
-        Fire,//Thiêu đốt
-        Poison,//Trúng độc
-    }
     public List<GameObject> EffectExtension;
     public List<GameObject> EffectExtension2;
     public List<GameObject> EffectExtension3;
@@ -247,6 +248,18 @@ public class SkillController : MonoBehaviour
     {
         //BattleSystem.ShowDmg(UnityEngine.Random.Range(123, 4564), pos);
     }
+
+    /// <summary>
+    /// Điều khiển hiệu ứng khi va chạm vào đối phương
+    /// </summary>
+    public virtual void StateControl(Collider2D col)
+    {
+        //Hiệu ứng choáng
+        if(IsStun)
+        {
+            col.GetComponent<HeroController>().SetStateForChamp(HeroController.States.Stun, StateTime[1]);
+        }
+    }    
     #endregion
 
     #region Ẩn hoặc tự động ẩn skill 
@@ -313,7 +326,7 @@ public class SkillController : MonoBehaviour
                     CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension2); //Hiển thị hiệu ứng trúng đòn lên đối phương
                 if (!string.IsNullOrEmpty(NameEffectExtension3))
                     CheckExistAndCreateEffectExtension(IsCustomPositionEffectHit ? HitEffectCustomPos : (col.transform.position + GameSettings.PositionShowEffectFix), EffectExtension3); //Hiển thị hiệu ứng trúng đòn lên đối phương
-
+                StateControl(col);
                 if (IsDisableColliderWhenTrigger) //Nếu kiểu va chạm rồi ẩn
                 {
                     if (!FirstAtk)

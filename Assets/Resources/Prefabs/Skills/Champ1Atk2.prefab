@@ -110,7 +110,20 @@ MonoBehaviour:
   IsEnableColliderWhenStart: 0
   IsDisableColliderWhenTrigger: 0
   IsCustomPositionEffectHit: 0
+  IsOnlyChamp: 0
   HitEffectCustomPos: {x: 0, y: 0, z: 0}
+  Silent: 0
+  Stun: 0
+  Root: 0
+  Ice: 0
+  Static: 0
+  Blind: 0
+  Slow: 0
+  Fire: 0
+  Poison: 0
+  StateTime: []
+  StateTimeLoop: []
+  StateDamage: []
   moveCurve:
     serializedVersion: 2
     m_Curve: []

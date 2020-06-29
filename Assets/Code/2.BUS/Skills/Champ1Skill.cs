@@ -63,6 +63,7 @@ public class Champ1Skill : SkillController
         ImgSkillExtension.GetComponent<SpriteRenderer>().color = HideColor;//Set độ mờ của object về = 0 khi va chạm với đối phương
         Victim = col.GetComponent<HeroController>();
         Victim.CurentAction = HeroController.ChampActions.Standing;
+        StateControl(col);
 
         StartCoroutine(GameSystem.MoveObjectCurve(false, col.gameObject, col.gameObject.transform.position, new Vector3(PosXOrigin, col.gameObject.transform.position.y, col.gameObject.transform.position.z), .5f, moveCurve));//Kéo đối phương về lại gần
 

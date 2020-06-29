@@ -435,7 +435,7 @@ public class BattleSystemController : MonoBehaviour
         LayoutChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.SetParent(BoxControl.transform, false);
 
         ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].SetActive(false);
-        ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.position = new Vector3(-10, lane.Equals(0) ? 5 : lane.Equals(1) ? -2 : -10, 0);
+        ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].transform.position = new Vector3(GameSettings.StartPositionXTeam1, lane.Equals(0) ? 5 : lane.Equals(1) ? -2 : -10, 0);
         ChampTeam1[GlobalVariables.SlotChampSelectedInBattle].SetActive(true);
 
         //GlobalVariables.ObjectImgChampTempInBattle.SetActive(true);//Hình ảnh tạm của tướng
