@@ -62,7 +62,7 @@ MonoBehaviour:
   IsOnlyChamp: 1
   HitEffectCustomPos: {x: 0, y: 0, z: 0}
   IsSilent: 0
-  IsStun: 0
+  IsStun: 1
   IsRoot: 0
   IsIce: 0
   IsStatic: 0
@@ -70,7 +70,9 @@ MonoBehaviour:
   IsSlow: 0
   IsFire: 0
   IsPoison: 0
-  StateTime: []
+  StateTime:
+  - 0
+  - 3
   StateTimeLoop: []
   StateDamage: []
   moveCurve:

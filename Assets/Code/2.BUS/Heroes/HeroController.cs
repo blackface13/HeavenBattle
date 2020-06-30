@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -61,6 +62,7 @@ public class HeroController : MonoBehaviour
     public ChampModel DataValues;
     public bool IsAlive;
     private bool IsDieing;
+    public TextMeshPro StateText;//Text trạng thái nhận vào (Choáng, câm lặng...)
     public enum ChampActions
     {
         Standing,
@@ -102,6 +104,7 @@ public class HeroController : MonoBehaviour
         HPBarParentObject.transform.localPosition = new Vector3(HPBarPos.x, HPBarPos.y, 0);
         HPBarObject = HPBarParentObject.transform.GetChild(2).gameObject;
         SkillCooldownBarObject = HPBarParentObject.transform.GetChild(3).gameObject;
+        StateText = HPBarParentObject.transform.GetChild(4).GetComponent<TextMeshPro>();
         Anim = this.GetComponent<Animator>();
         SkillIsReady = true;
 
@@ -326,7 +329,7 @@ public class HeroController : MonoBehaviour
     private void Update()
     {
         ActionController();
-       // print(ChampStates[States.Stun]);
+        // print(ChampStates[States.Stun]);
         //Die
         //if (IsAlive)
         {
@@ -358,9 +361,62 @@ public class HeroController : MonoBehaviour
     /// </summary>
     private IEnumerator SetState(States state, float activeTime)
     {
+        StateText.gameObject.SetActive(true);
+        SetStateText(state);
         ChampStates[state] = true;
         yield return new WaitForSeconds(activeTime);
+        StateText.text = "";
         ChampStates[state] = false;
+        StateText.gameObject.SetActive(false);
+
+        if (IsInRangeDetect)
+        {
+            AnimController(ChampActions.Attacking);
+        }
+        else
+        {
+            ChangeView(!IsTeamLeft);//Set hướng nhìn cho nhân vật
+            AnimController(ChampActions.Moving);
+        }
+    }
+
+    /// <summary>
+    /// Set text cho trạng thái
+    /// </summary>
+    /// <param name="state"></param>
+    private void SetStateText(States state)
+    {
+        switch (state)
+        {
+            case States.Silent: //Câm lặng
+                StateText.text = "Câm lặng";
+                break;
+            case States.Stun: //Choáng
+                StateText.text = "Choáng";
+                break;
+            case States.Root: //Giữ chân
+                StateText.text = "Giữ chân";
+                break;
+            case States.Ice: //Đóng băng
+                StateText.text = "Đóng băng";
+                break;
+            //case States.Static: //Tĩnh, không thể bị chọn làm mục tiêu
+            //    StateText.text = "Choáng";
+            //    break;
+            case States.Blind: //Mù
+                StateText.text = "Mù";
+                break;
+            case States.Slow: //Làm chậm
+                StateText.text = "Làm chậm";
+                break;
+            case States.Fire://Thiêu đốt
+                StateText.text = "Thiêu đốt";
+                break;
+            case States.Poison://Trúng độc
+                StateText.text = "Trúng độc";
+                break;
+            default:break;
+        }
     }
 
     /// <summary>
@@ -390,6 +446,17 @@ public class HeroController : MonoBehaviour
     public bool CheckAllowSkill()
     {
         if (!ChampStates[States.Silent] && !ChampStates[States.Ice] && !ChampStates[States.Stun])
+            return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Trả về true nếu HP > 0
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckHP()
+    {
+        if (DataValues.vHealthCurrent > 0)
             return true;
         return false;
     }
@@ -445,14 +512,16 @@ public class HeroController : MonoBehaviour
         //{
 
         //}
-
-        switch (CurentAction)
+        if (CheckHP())
         {
-            case ChampActions.Moving:
-                if (CheckAllowMove())
-                    this.transform.Translate(IsViewLeft ? -DataValues.vMoveSpeed * Time.deltaTime : DataValues.vMoveSpeed * Time.deltaTime, 0, 0);
-                break;
-            default: break;
+            switch (CurentAction)
+            {
+                case ChampActions.Moving:
+                    if (CheckAllowMove())
+                        this.transform.Translate(IsViewLeft ? -DataValues.vMoveSpeed * Time.deltaTime : DataValues.vMoveSpeed * Time.deltaTime, 0, 0);
+                    break;
+                default: break;
+            }
         }
     }
 

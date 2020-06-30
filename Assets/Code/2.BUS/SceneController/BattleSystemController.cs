@@ -36,9 +36,9 @@ public class BattleSystemController : MonoBehaviour
     public GameObject[] ObjectButton3Lane, ObjectContent4Lane;
 
     [TitleGroup("Cài đặt hệ thống battle")]
-    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f)]
+    [HorizontalGroup("Cài đặt hệ thống battle/Split", Width = .5f, LabelWidth = 100)]
     [TabGroup("Cài đặt hệ thống battle/Split/Tab2", "Cấu hình thông số")]
-    public Text BattleSpeedText;
+    public Text BattleControlText, ChampSelectedText, TopLaneText, MidLaneText, BotLaneText, BattleSpeedText;
 
 
     public GameObject ObjectTest;
@@ -64,6 +64,11 @@ public class BattleSystemController : MonoBehaviour
     #endregion
 
     #region Initialize
+    private void Awake()
+    {
+        Languages.SetupLanguage(1);
+    }
+
     void Start()
     {
         GameSettings.CreateChampDefault();
@@ -75,6 +80,7 @@ public class BattleSystemController : MonoBehaviour
         StartCoroutine(AutoCreateSoldier(2, 2));
         SetupUI();
         AddEventHandle();
+        Time.timeScale = GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
     }
 
     /// <summary>
@@ -90,8 +96,12 @@ public class BattleSystemController : MonoBehaviour
         GlobalVariables.ImgWaitingHoldChamp = ObjectImgWatingHoldChamp.GetComponent<Image>();
 
         //Ngôn ngữ & text
-        BattleSpeedText.text = "Speed: X" + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
-        Time.timeScale = GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
+        BattleControlText.text = Languages.lang[28];
+        ChampSelectedText.text = Languages.lang[20];
+        TopLaneText.text = Languages.lang[21];
+        MidLaneText.text = Languages.lang[22];
+        BotLaneText.text = Languages.lang[23];
+        BattleSpeedText.text = Languages.lang[27] + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
     }
 
     /// <summary>
@@ -115,7 +125,7 @@ public class BattleSystemController : MonoBehaviour
     private void CreateTeam()
     {
         ChampTeam1 = new List<GameObject>();
-        for(int i = 0;i<2;i++)
+        for (int i = 0; i < 2; i++)
         {
             ChampTeam1.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Champs/Champ1"), new Vector3(-1000, -2, 0), Quaternion.identity));
             ChampTeam1[i].GetComponent<HeroController>().SetupChamp(true);
@@ -518,7 +528,7 @@ public class BattleSystemController : MonoBehaviour
             count++;
         }
     }
-    
+
     /// <summary>
     /// Thay đổi tốc độ trận đấu
     /// </summary>
@@ -528,7 +538,7 @@ public class BattleSystemController : MonoBehaviour
         if (GlobalVariables.SlotBattleSpeed >= GameSettings.BattleSpeed.Length)
             GlobalVariables.SlotBattleSpeed = 0;
         Time.timeScale = GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
-        BattleSpeedText.text = "Speed: X" + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
+        BattleSpeedText.text = Languages.lang[27] + GameSettings.BattleSpeed[GlobalVariables.SlotBattleSpeed];
     }
     #endregion
 }
